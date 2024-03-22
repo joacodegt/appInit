@@ -14,31 +14,33 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
 @Indexed
-public class Desperfecto extends PanacheEntity {
+public class TipoFiltroDeshidratador extends PanacheEntity {
 
     @FullTextField(analyzer = "nombre")
     @KeywordField(name = "nombre_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
     public String nombre;
 
-    @OneToMany(mappedBy = "desperfecto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "tipoFiltroDeshidratador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @IndexedEmbedded
-    public List<Revisado> revisados;
-
+    @JsonIgnore
+    public List<Equipo> equipos;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Area)) {
+        if (!(o instanceof TipoFiltroDeshidratador)) {
             return false;
         }
 
-        Area other = (Area) o;
+        TipoFiltroDeshidratador other = (TipoFiltroDeshidratador) o;
 
         return Objects.equals(id, other.id);
     }

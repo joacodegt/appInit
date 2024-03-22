@@ -6,6 +6,9 @@ import java.util.Objects;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -22,50 +25,130 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 @Entity
 @Indexed
 public class Equipo extends PanacheEntity {
-
-    @FullTextField(analyzer = "ingles")
-    @KeywordField(name = "equipoNombre_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
-    public String nombre;
-    @FullTextField(analyzer = "ingles")
-    @KeywordField(name = "marca_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
-    public String marca;
-    @FullTextField(analyzer = "ingles")
+    // modelo (string)
+    @FullTextField(analyzer = "nombre")
     @KeywordField(name = "modelo_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
     public String modelo;
-    @FullTextField(analyzer = "ingles")
+    // voldataje (string)
+    @FullTextField(analyzer = "nombre")
     @KeywordField(name = "voltaje_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
     public String voltaje;
-    @FullTextField(analyzer = "ingles")
-    @KeywordField(name = "capacidad_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
-    public String capacidad;
-    @FullTextField(analyzer = "ingles")
-    @KeywordField(name = "capacitor_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
-    public String capacitor;
-    @FullTextField(analyzer = "ingles")
-    @KeywordField(name = "numeroEquipo_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
-    public String numeroEquipo;
-    @FullTextField(analyzer = "ingles")
-    @KeywordField(name = "hp_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
-    public String hp;
-    @FullTextField(analyzer = "ingles")
+    // amperaje (string)
+    @FullTextField(analyzer = "nombre")
     @KeywordField(name = "amperaje_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
     public String amperaje;
+    // Flipon (string)
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "flipon_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String flipon;
+    // CableAlimentacion (string)
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "cableAlimentacion_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String cableAlimentacion;
+    // Tranformador (string)
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "tranformador_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String tranformador;
+    // Contactor (string)
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "contactor_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String contactor;
+    // Termostato (string)
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "termostato_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String termostato;
+    // TarjetaElectronica (string)
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "tarjetaElectronica_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String tarjetaElectronica;
+    // selector (string)
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "selector_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String selector;
+    // Retardor (string)
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "retardor_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String retardor;
 
+    
+    // Area
     @ManyToOne
-    @JsonIgnore
     public Area area;
-    
+    // estado
     @ManyToOne
-    @JsonIgnore
+    public Estado estado;
+    // TipoGas
+    @ManyToOne
+    public TipoGas tipoGas;
+    // CapacidadBTU
+    @ManyToOne
+    public CapacidadBTU capacidadBTU;
+    // TipoFiltroDeshidratador
+    @ManyToOne
+    public TipoFiltroDeshidratador tipoFiltroDeshidratador;
+    // RangoPresionAlta
+    @ManyToOne
+    public RangoPresion rangoPresionAlta;
+    // RangoPresionBaja
+    @ManyToOne
+    public RangoPresion rangoPresionBaja;
+    // Marca
+    @ManyToOne  
+    public Marca marca;
+    // PH
+    @ManyToOne
+    public PH pH;
+    // TipoEquipo
+    @ManyToOne
     public TipoEquipo tipoEquipo;
-    
+    // PresostatoAlta
     @ManyToOne
-    @JsonIgnore
-    public TipoMotor tipoMotor;
+    public Presostato presostatoAlta;
+    // PresostatoBajo
+    @ManyToOne
+    public Presostato presostatoBaja;
 
+
+    // list< TipoMotor >
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "equipo_tipo_motor", // Nombre de la tabla intermedia
+        joinColumns = @JoinColumn(name = "equipo_id"), // Columna de la tabla Equipo
+        inverseJoinColumns = @JoinColumn(name = "tipomotor_id") // Columna de la tabla TipoMotor
+    )
+    public List<TipoMotor> tiposMotor;
+
+    // list< Activiad >
     @OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @IndexedEmbedded
-    public List<Revisado> revisados;
+    @JsonIgnore
+    public List<Actividad> actividades;
+
+    // list< TipoCompresor >
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "equipo_tipo_compresor", 
+        joinColumns = @JoinColumn(name = "equipo_id"), 
+        inverseJoinColumns = @JoinColumn(name = "tipocompresor_id") 
+    )
+    public List<TipoCompresor> tiposCompresor;
+    // list< Baterias >
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "equipo_bateria", 
+        joinColumns = @JoinColumn(name = "equipo_id"), 
+        inverseJoinColumns = @JoinColumn(name = "bateria_id") 
+    )
+    public List<Bateria> baterias;
+    // list< tags >
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "equipo_tag", 
+        joinColumns = @JoinColumn(name = "equipo_id"), 
+        inverseJoinColumns = @JoinColumn(name = "tag_id") 
+    )
+    public List<Tag> tags;
+    
 
     @Override
     public boolean equals(Object o) {

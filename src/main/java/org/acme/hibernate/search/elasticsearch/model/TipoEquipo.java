@@ -14,6 +14,8 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
@@ -26,6 +28,7 @@ public class TipoEquipo extends PanacheEntity {
 
     @OneToMany(mappedBy = "tipoEquipo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @IndexedEmbedded
+    @JsonIgnore
     public List<Equipo> equipos;
 
     @Override
@@ -33,11 +36,11 @@ public class TipoEquipo extends PanacheEntity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Area)) {
+        if (!(o instanceof TipoEquipo)) {
             return false;
         }
 
-        Area other = (Area) o;
+        TipoEquipo other = (TipoEquipo) o;
 
         return Objects.equals(id, other.id);
     }

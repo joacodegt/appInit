@@ -1,13 +1,16 @@
 package org.acme.hibernate.search.elasticsearch.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
 
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,33 +19,28 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
 @Indexed
-public class Revisado extends PanacheEntity {
+public class TipoCompresor extends PanacheEntity {
 
-    @FullTextField(analyzer = "ingles")
-    public String duracion;
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "nombre_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String nombre;
 
-    @FullTextField(analyzer = "ingles")
-    @KeywordField(name = "ordenTrabajo_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
-    public String ordenTrabajo;
     
-    @ManyToOne
+    @ManyToMany(mappedBy = "tiposCompresor", fetch = FetchType.EAGER)
+    @IndexedEmbedded
     @JsonIgnore
-    public Desperfecto desperfecto;
-
-    @ManyToOne
-    @JsonIgnore
-    public Equipo equipo;
-
+    public List<Equipo> equipo;
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Equipo)) {
+        if (!(o instanceof TipoCompresor)) {
             return false;
         }
 
-        Equipo other = (Equipo) o;
+        TipoCompresor other = (TipoCompresor) o;
 
         return Objects.equals(id, other.id);
     }

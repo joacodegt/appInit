@@ -2,37 +2,42 @@ package org.acme.hibernate.search.elasticsearch.model;
 
 import java.util.Objects;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
 @Indexed
-public class Book extends PanacheEntity {
+public class Notificacion extends PanacheEntity {
 
-    @FullTextField(analyzer = "ingles")
-    public String title;
+    
 
+    //Tiponotificacion
     @ManyToOne
-    @JsonIgnore
-    public Author author;
+    public TipoNotificacion tipoNotificacion;
 
+    // Actividad
+    @ManyToOne
+    public Actividad actividad;
+
+    // estado
+    @ManyToOne
+    public Estado estado;
+   
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Book)) {
+        if (!(o instanceof Notificacion)) {
             return false;
         }
 
-        Book other = (Book) o;
+        Notificacion other = (Notificacion) o;
 
         return Objects.equals(id, other.id);
     }
