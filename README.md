@@ -1,12 +1,12 @@
 # Quarkus demo: Hibernate ORM, Hibernate Search + Elasticsearch and RESTEasy
-Control de MANTENIMIENTO
+Bitácora de Disponibilida
 
 Este es un servicio CRUD que expone un par de puntos finales sobre REST,
 con un front-end basado en Angular para que puedas jugar con él desde tu navegador.
 
 Si bien el código es sorprendentemente simple, en el fondo se utiliza:
   - RESTEasy de exponer los puntos finales REST
-  - Hibernar ORM para realizar las operaciones CRUD en la base de datos.
+  - Hibernate ORM para realizar las operaciones CRUD en la base de datos.
   - Hibernate Search + Elasticsearch para indexar las entidades en un índice de Elasticsearch
   - Una base de datos PostgreSQL; consulte a continuación para ejecutar uno a través de Docker
   - ArC, la herramienta de inyección de dependencia inspirada en CDI sin gastos generales
