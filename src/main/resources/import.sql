@@ -1,17 +1,5 @@
-INSERT INTO area(id, nombre) VALUES (1, 'ccm tachos bacht');
-INSERT INTO area(id, nombre) VALUES (2, 'ccm tachos 1ra cristal ');
-INSERT INTO area(id, nombre) VALUES (3, 'ccm continua 1ra crudo ');
-INSERT INTO area(id, nombre) VALUES (4, 'ccm continua 2da crudo');
-INSERT INTO area(id, nombre) VALUES (5, 'ccm clarificacion');
-INSERT INTO area(id, nombre) VALUES (6, 'ccm crudo lado A');
-INSERT INTO area(id, nombre) VALUES (7, 'ccm crudo lado B');
-INSERT INTO area(id, nombre) VALUES (8, 'ccm envasado del A');
-INSERT INTO area(id, nombre) VALUES (9, 'ccm continuas 2da crudo');
-INSERT INTO area(id, nombre) VALUES (10, 'ccm bba Cristal');
-INSERT INTO area(id, nombre) VALUES (11, 'ccm sala variadores cald#09');
-INSERT INTO area(id, nombre) VALUES (12, 'ccm sala variadores cald#10');
-INSERT INTO area(id, nombre) VALUES (13, 'ccm sala variadores cald#11');
-ALTER SEQUENCE area_seq RESTART WITH 14;
+INSERT INTO maquina(id, nombre) VALUES (1, 'ccm tachos bacht');
+ALTER SEQUENCE maquina_seq RESTART WITH 14;
 
 INSERT INTO bateria(id, nombre) VALUES (1, 'aaa');
 INSERT INTO bateria(id, nombre) VALUES (2, 'aa');

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hibernate Search + Elasticsearch quickstart - Quarkus</title>
+    <title>Control de Maquinaria</title>
     <!-- Semantic UI -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
     <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -47,7 +47,7 @@
             <div class="ui container">
                 <a class="header item" ng-click="ver('inicio','contenido','')">
                     <img class="logo" src="img/logo.png" alt="Quarkus logo" style="width:80px;">
-                    Control de Equipos
+                    Control de Maquinaria
                 </a>
                 <div class="right menu">
                     <div class="item" ng-click="ver('configuracion','contenido','')">
@@ -605,14 +605,11 @@
 
         <div id="contenidoInicio" class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
             <div class="ui cards">
-                <div class="card" ng-repeat="item in lista">
-                    <div class="content">
-                        <div class="header">{{ item.nombre }}</div>
-                        <div class="meta">
-                            cantidad elementos: {{item.cantidad}}
-                        </div>
-                        <button class="ui bottom attached button" ng-click="ver(item,'contenido','')">
-                            <i class="eye icon"></i> Ver</button>
+                <div class="card" style="width: 100%; height: 70vh; overflow-y: auto;">
+                    <div class="content" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                        <button class="ui bottom attached button" style="flex: 1 1 auto; margin: 5px;" ng-repeat="item in lista" ng-click="ver(item,'contenido','')">
+                            <i class="{{ item.icon }} icon"></i> <div class="header">{{ item.nombre }}</div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1561,7 +1558,6 @@
                         <tbody>
                             <tr ng-repeat="area in areas">
                                 <td>
-
                                     <div class="content">{{area.nombre}}
                                     </div>
                                 </td>

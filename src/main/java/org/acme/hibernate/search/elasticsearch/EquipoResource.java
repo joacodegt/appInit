@@ -14,7 +14,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
-import org.acme.hibernate.search.elasticsearch.model.Area;
+import org.acme.hibernate.search.elasticsearch.model.Maquina;
 import org.acme.hibernate.search.elasticsearch.model.Bateria;
 import org.acme.hibernate.search.elasticsearch.model.CapacidadBTU;
 import org.acme.hibernate.search.elasticsearch.model.Equipo;
@@ -53,49 +53,49 @@ public class EquipoResource {
     // private static final Logger LOG = Logger.getLogger(EquipoResource.class);
 
     // AREA
-    @PUT
-    @Path("area")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void agregarArea(@RestForm String nombre) {
-        if(nombre.length() > 0 ){
-            Area area = new Area();
-            area.nombre = nombre;
-            area.persist();
-        }
-    }
+    // @PUT
+    // @Path("area")
+    // @Transactional
+    // @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    // public void agregarArea(@RestForm String nombre) {
+    //     if(nombre.length() > 0 ){
+    //         Area area = new Area();
+    //         area.nombre = nombre;
+    //         area.persist();
+    //     }
+    // }
 
-    @POST
-    @Path("area/{id}")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void actualizarArea(Long id, @RestForm String nombre) {
-        Area area = Area.findById(id);
-        if (area == null) {
-            return;
-        }
-        area.nombre = nombre;
-        area.persist();
-    }
+    // @POST
+    // @Path("area/{id}")
+    // @Transactional
+    // @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    // public void actualizarArea(Long id, @RestForm String nombre) {
+    //     Area area = Area.findById(id);
+    //     if (area == null) {
+    //         return;
+    //     }
+    //     area.nombre = nombre;
+    //     area.persist();
+    // }
 
-    @DELETE
-    @Path("area/{id}")
-    @Transactional
-    public void eliminarArea(Long id) {
-        Area area = Area.findById(id);
-        if (area != null) {
-            if (identity.hasRole("admin")) {
-                area.delete();
-            }
-        }
-    }
+    // @DELETE
+    // @Path("area/{id}")
+    // @Transactional
+    // public void eliminarArea(Long id) {
+    //     Area area = Area.findById(id);
+    //     if (area != null) {
+    //         if (identity.hasRole("admin")) {
+    //             area.delete();
+    //         }
+    //     }
+    // }
 
     @GET
-    @Path("area/buscar")
+    @Path("maquina/buscar")
     @Transactional
-    public List<Area> buscarAreas(@RestQuery String pattern,
+    public List<Maquina> buscarMaquinas(@RestQuery String pattern,
             @RestQuery Optional<Integer> size) {
-        return searchSession.search(Area.class)
+        return searchSession.search(Maquina.class)
                 .where(f -> pattern == null || pattern.trim().isEmpty() ? f.matchAll()
                         : f.simpleQueryString()
                                 .fields("nombre").matching(pattern))
@@ -886,173 +886,173 @@ public class EquipoResource {
                 .fetchHits(size.orElse(20));
     }
 
-    @PUT
-    @Path("agregar")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void agregarEquipo(
-            @RestForm Long area_id,
-            @RestForm Long tipoGas_id,
-            @RestForm Long capacidadBTU_id,
-            @RestForm Long tipoFiltroDeshidratador_id,
-            @RestForm Long rangoPresionAlta_id,
-            @RestForm Long rangoPresionBaja_id,
-            @RestForm Long marca_id,
-            @RestForm Long pH_id,
-            @RestForm Long tipoEquipo_id,
-            @RestForm Long presostatoAlta_id,
-            @RestForm Long presostatoBaja_id,
-            @RestForm String modelo,
-            @RestForm String voltaje,
-            @RestForm String amperaje,
-            @RestForm String flipon,
-            @RestForm String cableAlimentacion,
-            @RestForm String tranformador,
-            @RestForm String contactor,
-            @RestForm String termostato,
-            @RestForm String tarjetaElectronica,
-            @RestForm String selector,
-            @RestForm String retardor
-            ) {
-        Equipo equipo = new Equipo();
+    // @PUT
+    // @Path("agregar")
+    // @Transactional
+    // @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    // public void agregarEquipo(
+    //         @RestForm Long area_id,
+    //         @RestForm Long tipoGas_id,
+    //         @RestForm Long capacidadBTU_id,
+    //         @RestForm Long tipoFiltroDeshidratador_id,
+    //         @RestForm Long rangoPresionAlta_id,
+    //         @RestForm Long rangoPresionBaja_id,
+    //         @RestForm Long marca_id,
+    //         @RestForm Long pH_id,
+    //         @RestForm Long tipoEquipo_id,
+    //         @RestForm Long presostatoAlta_id,
+    //         @RestForm Long presostatoBaja_id,
+    //         @RestForm String modelo,
+    //         @RestForm String voltaje,
+    //         @RestForm String amperaje,
+    //         @RestForm String flipon,
+    //         @RestForm String cableAlimentacion,
+    //         @RestForm String tranformador,
+    //         @RestForm String contactor,
+    //         @RestForm String termostato,
+    //         @RestForm String tarjetaElectronica,
+    //         @RestForm String selector,
+    //         @RestForm String retardor
+    //         ) {
+    //     Equipo equipo = new Equipo();
 
-        Area area= Area.findById(area_id);
-        TipoGas tipoGas= TipoGas.findById(tipoGas_id);
-        CapacidadBTU capacidadBTU= CapacidadBTU.findById(capacidadBTU_id);
-        TipoFiltroDeshidratador tipoFiltroDeshidratador = TipoFiltroDeshidratador.findById(tipoFiltroDeshidratador_id);
-        RangoPresion rangoPresionAlta= RangoPresion.findById(rangoPresionAlta_id);
-        RangoPresion rangoPresionBaja= RangoPresion.findById(rangoPresionBaja_id);
-        Marca marca= Marca.findById(marca_id);
-        PH pH= PH.findById(pH_id);
-        TipoEquipo tipoEquipo= TipoEquipo.findById(tipoEquipo_id);
-        Presostato presostatoAlta = Presostato.findById(presostatoAlta_id);
-        Presostato presostatoBaja = Presostato.findById(presostatoBaja_id);
+    //     Area area= Area.findById(area_id);
+    //     TipoGas tipoGas= TipoGas.findById(tipoGas_id);
+    //     CapacidadBTU capacidadBTU= CapacidadBTU.findById(capacidadBTU_id);
+    //     TipoFiltroDeshidratador tipoFiltroDeshidratador = TipoFiltroDeshidratador.findById(tipoFiltroDeshidratador_id);
+    //     RangoPresion rangoPresionAlta= RangoPresion.findById(rangoPresionAlta_id);
+    //     RangoPresion rangoPresionBaja= RangoPresion.findById(rangoPresionBaja_id);
+    //     Marca marca= Marca.findById(marca_id);
+    //     PH pH= PH.findById(pH_id);
+    //     TipoEquipo tipoEquipo= TipoEquipo.findById(tipoEquipo_id);
+    //     Presostato presostatoAlta = Presostato.findById(presostatoAlta_id);
+    //     Presostato presostatoBaja = Presostato.findById(presostatoBaja_id);
 
-        if(presostatoAlta.equals(null)){
-            presostatoAlta.persist();
-        }
-        if(presostatoBaja.equals(null)){
-            presostatoBaja.persist();
-        }
+    //     if(presostatoAlta.equals(null)){
+    //         presostatoAlta.persist();
+    //     }
+    //     if(presostatoBaja.equals(null)){
+    //         presostatoBaja.persist();
+    //     }
 
-        if(
-        !area.equals(null)&
-        !tipoGas.equals(null)&
-        !capacidadBTU.equals(null)&
-        !tipoFiltroDeshidratador.equals(null)&
-        !rangoPresionAlta.equals(null)&
-        !rangoPresionBaja.equals(null)&
-        !marca.equals(null)&
-        !pH.equals(null)&
-        !tipoEquipo.equals(null)
-        ){
-            equipo.area = area;
-            equipo.tipoGas = tipoGas;
-            equipo.capacidadBTU = capacidadBTU;
-            equipo.tipoFiltroDeshidratador = tipoFiltroDeshidratador;
-            equipo.rangoPresionAlta = rangoPresionAlta;
-            equipo.rangoPresionBaja = rangoPresionBaja;
-            equipo.marca = marca;
-            equipo.pH = pH;
-            equipo.tipoEquipo = tipoEquipo;
-            equipo.presostatoAlta = presostatoAlta;
-            equipo.presostatoBaja = presostatoBaja;
-            equipo.modelo = modelo;
-            equipo.voltaje = voltaje;
-            equipo.amperaje = amperaje;
-            equipo.flipon = flipon;
-            equipo.cableAlimentacion = cableAlimentacion;
-            equipo.tranformador = tranformador;
-            equipo.contactor = contactor;
-            equipo.termostato = termostato;
-            equipo.tarjetaElectronica = tarjetaElectronica;
-            equipo.selector = selector;
-            equipo.retardor = retardor;
-            equipo.estado = Estado.findById(6);
-            equipo.persist();
-        }
+    //     if(
+    //     !area.equals(null)&
+    //     !tipoGas.equals(null)&
+    //     !capacidadBTU.equals(null)&
+    //     !tipoFiltroDeshidratador.equals(null)&
+    //     !rangoPresionAlta.equals(null)&
+    //     !rangoPresionBaja.equals(null)&
+    //     !marca.equals(null)&
+    //     !pH.equals(null)&
+    //     !tipoEquipo.equals(null)
+    //     ){
+    //         equipo.area = area;
+    //         equipo.tipoGas = tipoGas;
+    //         equipo.capacidadBTU = capacidadBTU;
+    //         equipo.tipoFiltroDeshidratador = tipoFiltroDeshidratador;
+    //         equipo.rangoPresionAlta = rangoPresionAlta;
+    //         equipo.rangoPresionBaja = rangoPresionBaja;
+    //         equipo.marca = marca;
+    //         equipo.pH = pH;
+    //         equipo.tipoEquipo = tipoEquipo;
+    //         equipo.presostatoAlta = presostatoAlta;
+    //         equipo.presostatoBaja = presostatoBaja;
+    //         equipo.modelo = modelo;
+    //         equipo.voltaje = voltaje;
+    //         equipo.amperaje = amperaje;
+    //         equipo.flipon = flipon;
+    //         equipo.cableAlimentacion = cableAlimentacion;
+    //         equipo.tranformador = tranformador;
+    //         equipo.contactor = contactor;
+    //         equipo.termostato = termostato;
+    //         equipo.tarjetaElectronica = tarjetaElectronica;
+    //         equipo.selector = selector;
+    //         equipo.retardor = retardor;
+    //         equipo.estado = Estado.findById(6);
+    //         equipo.persist();
+    //     }
         
-    }
+    // }
 
-    @POST
-    @Path("actualizar/{id}")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void actualizarEquipo(
-            Long id,
-            @RestForm String modelo,
-            @RestForm String voltaje,
-            @RestForm String amperaje,
-            @RestForm String flipon,
-            @RestForm String cableAlimentacion,
-            @RestForm String tranformador,
-            @RestForm String contactor,
-            @RestForm String termostato,
-            @RestForm String tarjetaElectronica,
-            @RestForm String selector,
-            @RestForm String retardor,
-            @RestForm Long area_id,
-            @RestForm Long tipoGas_id,
-            @RestForm Long capacidadBTU_id,
-            @RestForm Long tipoFiltroDeshidratador_id,
-            @RestForm Long rangoPresionAlta_id,
-            @RestForm Long rangoPresionBaja_id,
-            @RestForm Long marca_id,
-            @RestForm Long pH_id,
-            @RestForm Long tipoEquipo_id,
-            @RestForm Long presostatoAlta_id,
-            @RestForm Long presostatoBaja_id) {
+    // @POST
+    // @Path("actualizar/{id}")
+    // @Transactional
+    // @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    // public void actualizarEquipo(
+    //         Long id,
+    //         @RestForm String modelo,
+    //         @RestForm String voltaje,
+    //         @RestForm String amperaje,
+    //         @RestForm String flipon,
+    //         @RestForm String cableAlimentacion,
+    //         @RestForm String tranformador,
+    //         @RestForm String contactor,
+    //         @RestForm String termostato,
+    //         @RestForm String tarjetaElectronica,
+    //         @RestForm String selector,
+    //         @RestForm String retardor,
+    //         @RestForm Long area_id,
+    //         @RestForm Long tipoGas_id,
+    //         @RestForm Long capacidadBTU_id,
+    //         @RestForm Long tipoFiltroDeshidratador_id,
+    //         @RestForm Long rangoPresionAlta_id,
+    //         @RestForm Long rangoPresionBaja_id,
+    //         @RestForm Long marca_id,
+    //         @RestForm Long pH_id,
+    //         @RestForm Long tipoEquipo_id,
+    //         @RestForm Long presostatoAlta_id,
+    //         @RestForm Long presostatoBaja_id) {
                 
-        Equipo equipo = Equipo.findById(id);
-        Area area = Area.findById(area_id);
-        TipoGas tipoGas = TipoGas.findById(tipoGas_id);
-        CapacidadBTU capacidadBTU = CapacidadBTU.findById(capacidadBTU_id);
-        TipoFiltroDeshidratador tipoFiltroDeshidratador = TipoFiltroDeshidratador.findById(tipoFiltroDeshidratador_id);
-        RangoPresion rangoPresionAlta = RangoPresion.findById(rangoPresionAlta_id);
-        RangoPresion rangoPresionBaja = RangoPresion.findById(rangoPresionBaja_id);
-        Marca marca = Marca.findById(marca_id);
-        PH pH = PH.findById(pH_id);
-        TipoEquipo tipoEquipo = TipoEquipo.findById(tipoEquipo_id);
-        Presostato presostatoAlta = Presostato.findById(presostatoAlta_id);
-        Presostato presostatoBaja = Presostato.findById(presostatoBaja_id);
-        if (!equipo.equals(null)) {
-            equipo.modelo = modelo;
-            equipo.voltaje = voltaje;
-            equipo.amperaje = amperaje;
-            equipo.flipon = flipon;
-            equipo.cableAlimentacion = cableAlimentacion;
-            equipo.tranformador = tranformador;
-            equipo.contactor = contactor;
-            equipo.termostato = termostato;
-            equipo.tarjetaElectronica = tarjetaElectronica;
-            equipo.selector = selector;
-            equipo.retardor = retardor;
-            equipo.area = area;
-            equipo.tipoGas = tipoGas;
-            equipo.capacidadBTU = capacidadBTU;
-            equipo.tipoFiltroDeshidratador = tipoFiltroDeshidratador;
-            equipo.rangoPresionAlta = rangoPresionAlta;
-            equipo.rangoPresionBaja = rangoPresionBaja;
-            equipo.marca = marca;
-            equipo.pH = pH;
-            equipo.tipoEquipo = tipoEquipo;
-            equipo.presostatoAlta = presostatoAlta;
-            equipo.presostatoBaja = presostatoBaja;
-            equipo.persist();
-        }
-    }
-    @DELETE
-    @Path("eliminar/{id}")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void eliminarEquipo(
-            Long id) {
-        Equipo equipo = Equipo.findById(id);
-        if (!equipo.equals(null)) {
-            equipo.estado = Estado.findById(10);
-            equipo.persist();
-        }
-    }
+    //     Equipo equipo = Equipo.findById(id);
+    //     Area area = Area.findById(area_id);
+    //     TipoGas tipoGas = TipoGas.findById(tipoGas_id);
+    //     CapacidadBTU capacidadBTU = CapacidadBTU.findById(capacidadBTU_id);
+    //     TipoFiltroDeshidratador tipoFiltroDeshidratador = TipoFiltroDeshidratador.findById(tipoFiltroDeshidratador_id);
+    //     RangoPresion rangoPresionAlta = RangoPresion.findById(rangoPresionAlta_id);
+    //     RangoPresion rangoPresionBaja = RangoPresion.findById(rangoPresionBaja_id);
+    //     Marca marca = Marca.findById(marca_id);
+    //     PH pH = PH.findById(pH_id);
+    //     TipoEquipo tipoEquipo = TipoEquipo.findById(tipoEquipo_id);
+    //     Presostato presostatoAlta = Presostato.findById(presostatoAlta_id);
+    //     Presostato presostatoBaja = Presostato.findById(presostatoBaja_id);
+    //     if (!equipo.equals(null)) {
+    //         equipo.modelo = modelo;
+    //         equipo.voltaje = voltaje;
+    //         equipo.amperaje = amperaje;
+    //         equipo.flipon = flipon;
+    //         equipo.cableAlimentacion = cableAlimentacion;
+    //         equipo.tranformador = tranformador;
+    //         equipo.contactor = contactor;
+    //         equipo.termostato = termostato;
+    //         equipo.tarjetaElectronica = tarjetaElectronica;
+    //         equipo.selector = selector;
+    //         equipo.retardor = retardor;
+    //         equipo.area = area;
+    //         equipo.tipoGas = tipoGas;
+    //         equipo.capacidadBTU = capacidadBTU;
+    //         equipo.tipoFiltroDeshidratador = tipoFiltroDeshidratador;
+    //         equipo.rangoPresionAlta = rangoPresionAlta;
+    //         equipo.rangoPresionBaja = rangoPresionBaja;
+    //         equipo.marca = marca;
+    //         equipo.pH = pH;
+    //         equipo.tipoEquipo = tipoEquipo;
+    //         equipo.presostatoAlta = presostatoAlta;
+    //         equipo.presostatoBaja = presostatoBaja;
+    //         equipo.persist();
+    //     }
+    // }
+    // @DELETE
+    // @Path("eliminar/{id}")
+    // @Transactional
+    // @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    // public void eliminarEquipo(
+    //         Long id) {
+    //     Equipo equipo = Equipo.findById(id);
+    //     if (!equipo.equals(null)) {
+    //         equipo.estado = Estado.findById(10);
+    //         equipo.persist();
+    //     }
+    // }
 
     @POST
     @Path("actualizar/{id}/tiposmotores")

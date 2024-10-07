@@ -39,10 +39,10 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
 
     iniciar()
 
-    function getArea() {
+    function getMaquina() {
         $http({
             method: 'GET',
-            url: '/equipo/area/buscar?pattern=' + $scope.pattern
+            url: '/equipo/maquina/buscar?pattern=' + $scope.pattern
         }).then(function successCallback(response) {
             $scope.areas = response.data;
         }, function errorCallback(response) {
@@ -266,7 +266,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         getMateriales();
         getTiposLimpieza();
         getTiposMantenimiento();
-        getArea();
+        getMaquina();
         getEstado();
         getTipoGas();
         getCapacidadBTU();
