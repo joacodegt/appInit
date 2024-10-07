@@ -7,7 +7,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         { "nombre": "catalogos", "cantidad": 0 },
         { "nombre": "reportes", "cantidad": 0 }
     ];
-    $scope.areas = [];
+    $scope.maquinas = [];
     $scope.estados = [];
     $scope.tiposGas = [];
     $scope.capacidadesBTU = [];
@@ -44,7 +44,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             method: 'GET',
             url: '/equipo/maquina/buscar?pattern=' + $scope.pattern
         }).then(function successCallback(response) {
-            $scope.areas = response.data;
+            $scope.maquinas = response.data;
         }, function errorCallback(response) {
             alert(response.statusText);
         });
@@ -290,7 +290,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         $('#contenidoReportes').hide();
         $('#materiales').hide();
         $("#baterias").hide();
-        $("#areas").hide();
+        $("#maquinas").hide();
         $("#capacidadBtu").hide();
         $("#estado").hide()
         $("#marca").hide()

@@ -41,29 +41,30 @@
 </head>
 
 <body ng-app="InventarioManagement" ng-controller="InventarioManagementController">
-    <div class="ui center aligned segment" style="height: 100vh;">
+
+    <div class="ui center aligned segment">
         {! MENU !}
         <div class="ui large top menu">
             <div class="ui container">
                 <a class="header item" ng-click="ver('inicio','contenido','')">
-                    <img class="logo" src="img/logo.png" alt="Quarkus logo" style="width:80px;">
+                    <img class="logo" src="img/logo.png" alt="Quarkus logo">
                     Control de Maquinaria
                 </a>
                 <div class="right menu">
                     <div class="item" ng-click="ver('configuracion','contenido','')">
                         <i class="user circle icon"></i>
                     </div>
-                    <div class="item" ng-click="ver('notificaciones','contenido','')">
+                    <!-- <div class="item" ng-click="ver('notificaciones','contenido','')">
                         <i class=" red bell icon">
                             <div class="floating ui red label">22</div>
                         </i>
 
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
 
-        <div id="contenidoNotificacion" class="ui modal">
+        <!-- <div id="contenidoNotificacion" class="ui modal">
             <div class="header">Notificaciones</div>
             <div class="scrolling content">
                 <div class="comment">
@@ -601,19 +602,22 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div id="contenidoInicio" class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
             <div class="ui cards">
                 <div class="card" style="width: 100%; height: 70vh; overflow-y: auto;">
                     <div class="content" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-                        <button class="ui bottom attached button" style="flex: 1 1 auto; margin: 5px;" ng-repeat="item in lista" ng-click="ver(item,'contenido','')">
-                            <i class="{{ item.icon }} icon"></i> <div class="header">{{ item.nombre }}</div>
+                        <button class="ui bottom attached button" style="flex: 1 1 auto; margin: 5px;"
+                            ng-repeat="item in lista" ng-click="ver(item,'contenido','')">
+                            <i class="{{ item.icon }} icon"></i>
+                            <div class="header">{{ item.nombre }}</div>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+
         {! configuraciones !}
         <div class="ui modal" id="contenidoConfiguracion">
             <i class="close icon"></i>
@@ -646,6 +650,7 @@
             <div class="actions">
             </div>
         </div>
+
         {! ACTIVIDADES !}
         <div id="contenidoActividades" class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
             <h2 class="ui left floated header">Historial de Mantenimiento</h2>
@@ -850,6 +855,7 @@
                 </div>
             </div>
         </div>
+
         {! EQUIPOS !}
         <div id="contenidoEquipos" class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
             <h2 class="ui left floated header">Equipos</h2>
@@ -1499,55 +1505,26 @@
 
         {! CATALOGOS !}
         <div id="contenidoCatalogos">
-            <div class="ui segment" style="width: 100%; height: 80vh; overflow-y: auto;">
-                <div class="ui vertical  menu left floated segment"
-                    style="width: 25vh; height: 75vh; overflow-y: auto;">
+            <div class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
+                <div class="ui vertical  menu left floated segment">
                     <div class="item">
-                        <div class="header">Equipo</div>
+                        <h1 class="ui header">catalogos</h1>
+
                         <div class="menu">
-                            <a id="itemTag" class="item" ng-click="ver('','tag','ver')">Tag</a>
-                            <a id="itemArea" class="item" ng-click="ver('','area','ver')">Area</a>
-                            <a id="itemMaterial" class="item" ng-click="ver('','material','ver')">Material</a>
-                            <a id="itemBateria" class="item" ng-click="ver('','bateria','ver')">Bateria</a>
-                            <a id="itemCapacidadBtu" class="item" ng-click="ver('','capacidadbtu','ver')">Capacidad
-                                Btu</a>
-                            <a id="itemEstado" class="item" ng-click="ver('','estado','ver')">Estado</a>
-                            <a id="itemMarca" class="item" ng-click="ver('','marca','ver')">Marca</a>
-                            <a id="itemPh" class="item" ng-click="ver('','ph','ver')">PH</a>
-                            <a id="itemPresostato" class="item" ng-click="ver('','presostato','ver')">Presostato</a>
-                            <a id="itemRangoPresion" class="item" ng-click="ver('','rangopresion','ver')">Rango
-                                Presion</a>
-                            <a id="itemTipoCompresor" class="item" ng-click="ver('','tipocompresor','ver')">Tipo
-                                Compresor</a>
-                            <a id="itemTipoEquipo" class="item" ng-click="ver('','tipoequipo','ver')">Tipo Equipo</a>
-                            <a id="itemTipoFiltroDeshidratador" class="item"
-                                ng-click="ver('','tipofiltrodeshidratador','ver')">Tipo Filtro Deshidratador</a>
-                            <a id="itemTipoGas" class="item" ng-click="ver('','tipogas','ver')">Tipo Gas</a>
-                            <a id="itemTipoMotor" class="item" ng-click="ver('','tipomotor','ver')">Tipo Motor</a>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="header">Actividad</div>
-                        <div class="menu">
-                            <a id="itemTipoLimpieza" class="item" ng-click="ver('','tipolimpieza','ver')">Tipo
-                                Limpieza</a>
-                            <a id="itemTipoMantenimiento" class="item" ng-click="ver('','tipomantenimiento','ver')">Tipo
-                                Mantenimiento</a>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="header">Alerta</div>
-                        <div class="menu">
-                            <a id="itemTipoNotificacion" class="item" ng-click="ver('','tiponotificacion','ver')">Tipo
-                                Notificacion</a>
+                            <a id="itemFrente" class="item" ng-click="ver('','frente','ver')">Frente</a>
+                            <a id="itemArea" class="item" ng-click="ver('','area','ver')">Maquina</a>
+                            <a id="itemOperador" class="item" ng-click="ver('','operador','ver')">Operador</a>
                         </div>
                     </div>
                 </div>
+
+
                 <button class="ui right floated  segment labeled icon button"
                     ng-click="ver('agregar',catalogoSeleccionado,'agregar')"><i class="plus square icon"></i> Agrear
                 </button>
                 <h1 class="ui header">{{catalogoSeleccionado}}</h1>
-                <div id="areas" class="ui right floated segment" style="width: 70%;  height: 60vh">
+
+                <div id="areas" class="ui left floated segment">
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
@@ -1556,15 +1533,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="area in areas">
+                            <tr ng-repeat="area in maquinas">
                                 <td>
-                                    <div class="content">{{area.nombre}}
-                                    </div>
+                                    <div class="content">{{area.nombre}}</div>
                                 </td>
                                 <td>
                                     <button class="ui small basic green button" ng-click="ver(area,'area','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
+                                            class="pencil alternate icon"></i> Editar</button>
                                     <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
                                         ng-click="eliminar('area', area)"><i class="trash alternate outline icon"></i>
                                         Eliminar</button>
@@ -1573,506 +1548,10 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="materiales" class="ui right floated segment"
-                    style="width: 157vh; height: 60vh; overflow: auto;">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>CodigoSap</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody style="overflow-y: scroll; max-height: 50vh;">
-                            <tr ng-repeat="material in materiales">
-                                <td>
-                                    <div class="content">{{material.nombre}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{material.codigoSap}}</div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(material,'material','editar')">
-                                        <i class="pencil alternate icon"></i> Editar
-                                    </button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('material', material)">
-                                        <i class="trash alternate outline icon"></i> Eliminar
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-
-
-                <div id="baterias" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="bateria in baterias">
-                                <td>
-
-                                    <div class="content">{{bateria.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(bateria,'bateria','editar')"><i class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('bateria', bateria)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="capacidadBtu" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="capacidadBTU in capacidadesBTU">
-                                <td>
-
-                                    <div class="content">{{capacidadBTU.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(capacidadBTU,'capacidadbtu','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('capacidadbtu', capacidadBTU)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="estado" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="estado in estados">
-                                <td>
-
-                                    <div class="content">{{estado.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(estado,'estado','editar')"><i class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('estado', estado)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="marca" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="marca in marcas">
-                                <td>
-
-                                    <div class="content">{{marca.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(marca,'marca','editar')"><i class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('marca', marca)"><i class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="ph" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="pH in pHs">
-                                <td>
-
-                                    <div class="content">{{pH.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button" ng-click="ver(pH,'ph','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('ph', pH)"><i class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="presostato" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="presostato in presostatos">
-                                <td>
-
-                                    <div class="content">{{presostato.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(presostato,'presostato','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('presostato', presostato)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="rangoPresion" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Minimo</th>
-                                <th>Maximo</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="rangoPresion in rangosPresion">
-                                <td>
-                                    <div class="content">{{rangoPresion.minimo}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="content">{{rangoPresion.maximo}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(rangoPresion,'rangopresion','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('rangopresion', rangoPresion)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="tipoCompresor" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tipoCompresor in tiposCompresor">
-                                <td>
-
-                                    <div class="content">{{tipoCompresor.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(tipoCompresor,'tipocompresor','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('tipocompresor', tipoCompresor)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="tipoEquipo" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tipoEquipo in tiposEquipo">
-                                <td>
-
-                                    <div class="content">{{tipoEquipo.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(tipoEquipo,'tipoequipo','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('tipoequipo', tipoEquipo)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="tipoFiltroDeshidratador" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tipoFiltroDeshidratador in tiposFiltroDeshidratador">
-                                <td>
-
-                                    <div class="content">{{tipoFiltroDeshidratador.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(tipoFiltroDeshidratador,'tipofiltrodeshidratador','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('tipofiltrodeshidratador', tipoFiltroDeshidratador)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="tipoGas" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tipoGas in tiposGas">
-                                <td>
-
-                                    <div class="content">{{tipoGas.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(tipoGas,'tipogas','editar')"><i class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('tipogas', tipoGas)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="tipoMotor" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Capacidad</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tipoMotor in tiposMotor">
-                                <td>
-                                    <div class="content">{{tipoMotor.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="content">{{tipoMotor.capacidad}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(tipoMotor,'tipomotor','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('tipomotor', tipoMotor)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="tipoLimpieza" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tipoLimpieza in tiposLimpieza">
-                                <td>
-
-                                    <div class="content">{{tipoLimpieza.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(tipoLimpieza,'tipolimpieza','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('tipolimpieza', tipoLimpieza)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="tipoMantenimiento" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tipoMantenimiento in tiposMantenimiento">
-                                <td>
-
-                                    <div class="content">{{tipoMantenimiento.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(tipoMantenimiento,'tipomantenimiento','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('tipomantenimiento', tipoMantenimiento)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="tipoNotificacion" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tipoNotificacion in tiposNotificacion">
-                                <td>
-
-                                    <div class="content">{{tipoNotificacion.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(tipoNotificacion,'tiponotificacion','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('tiponotificacion', tipoNotificacion)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="tag" class="ui right floated segment" style="width: 70%;  height: 60vh">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tag in tags">
-                                <td>
-
-                                    <div class="content">{{tag.nombre}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button" ng-click="ver(tag,'tag','editar')"><i
-                                            class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('tag', tag)"><i class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                
             </div>
         </div>
+
         <div class="ui modal" id="editar_agregar_area">
             <h4 id="tituloModal_editar_agregar_area" class="ui horizontal divider header"><i class="bar chart icon"></i>
             </h4>
@@ -2093,442 +1572,6 @@
                     <i class="checkmark icon"></i>
                     Guardar
                 </button>
-            </div>
-        </div>
-        <div class="ui modal" id="editar_agregar_bateria">
-            <h4 id="tituloModal_editar_agregar_bateria" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i>
-            </h4>
-            <form class="ui form" id="bateria-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Bateria :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.bateria.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('bateria',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_capacidadBtu">
-            <h4 id="tituloModal_editar_agregar_capacidadBtu" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i></h4>
-            <form class="ui form" id="capacidadBtu-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Capacida BTU :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.capacidadBtu.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('capacidadbtu',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_estado">
-            <h4 id="tituloModal_editar_agregar_estado" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i>
-            </h4>
-            <form class="ui form" id="estado-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Estado :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.estado.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('estado',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_marca">
-            <h4 id="tituloModal_editar_agregar_marca" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i>
-            </h4>
-            <form class="ui form" id="marca-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Marca :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.marca.nombre"
-                                    required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('marca',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_ph">
-            <h4 id="tituloModal_editar_agregar_ph" class="ui horizontal divider header"><i class="bar chart icon"></i>
-            </h4>
-            <form class="ui form" id="ph-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>PH :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.ph.nombre"
-                                    required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('ph',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_presostato">
-            <h4 id="tituloModal_editar_agregar_presostato" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i></h4>
-            <form class="ui form" id="presostato-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Presostato :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.presostato.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('presostato',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_rangoPresion">
-            <h4 id="tituloModal_editar_agregar_rangoPresion" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i></h4>
-            <form class="ui form" id="rangoPresion-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Minimo :</b></td>
-                            <td><input type="text" name="minimo" placeholder="minimo"
-                                    ng-model="formulario.rangoPresion.minimo" required></td>
-                        </tr>
-                        <tr>
-                            <td class="four wide column"><b>Maximo :</b></td>
-                            <td><input type="text" name="maximo" placeholder="maximo"
-                                    ng-model="formulario.rangoPresion.maximo" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('rangopresion',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_tipocompresor">
-            <h4 id="tituloModal_editar_agregar_tipocompresor" class="ui horizontal divider header">
-                <i class="bar chart icon"></i>
-            </h4>
-            <form class="ui form" id="tipocompresor-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Tipo Compresor :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.tipoCompresor.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('tipocompresor',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_tiponotificacion">
-            <h4 id="tituloModal_editar_agregar_tiponotificacion" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i></h4>
-            <form class="ui form" id="tiponotificacion-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Tipo Notificacion :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.tipoNotificacion.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('tiponotificacion',formulario)"><i class="checkmark icon"></i>Guardar</button>
-            </div>
-        </div>
-        <div class="ui modal" id="editar_agregar_tipoequipo">
-            <h4 id="tituloModal_editar_agregar_tipoequipo" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i></h4>
-            <form class="ui form" id="tipoequipo-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Tipo Equipo :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.tipoEquipo.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('tipoequipo',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_tipofiltrodeshidratador">
-            <h4 id="tituloModal_editar_agregar_tipofiltrodeshidratador" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i></h4>
-            <form class="ui form" id="tipofiltrodeshidratador-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Tipo Filtro Deshidratador :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.tipoFiltroDeshidratador.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('tipofiltrodeshidratador',formulario)"><i
-                        class="checkmark icon"></i>Guardar</button>
-            </div>
-        </div>
-        <div class="ui modal" id="editar_agregar_tipogas">
-            <h4 id="tituloModal_editar_agregar_tipogas" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i>
-            </h4>
-            <form class="ui form" id="tipogas-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Tipo Gas :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.tipoGas.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('tipogas',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_tipomotor">
-            <h4 id="tituloModal_editar_agregar_tipomotor" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i></h4>
-            <form class="ui form" id="tipomotor-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Tipo Motor :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.tipoMotor.nombre" required></td>
-                            <td><input type="text" name="capacidad" placeholder="capacidad"
-                                    ng-model="formulario.tipoMotor.capacidad" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('tipomotor',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_material">
-            <h4 id="tituloModal_editar_agregar_material" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i>
-            </h4>
-            <form class="ui form" id="material-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Material :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.material.nombre" required></td>
-                            <td><input type="text" name="codigoSap" placeholder="codigoSap"
-                                    ng-model="formulario.material.codigoSap" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('material',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_tipolimpieza">
-            <h4 id="tituloModal_editar_agregar_tipolimpieza" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i></h4>
-            <form class="ui form" id="tipolimpieza-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Tipo Limpieza :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.tipoLimpieza.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('tipolimpieza',formulario)"><i class="checkmark icon"></i>Guardar</button></div>
-        </div>
-        <div class="ui modal" id="editar_agregar_tipomantenimiento">
-            <h4 id="tituloModal_editar_agregar_tipomantenimiento" class="ui horizontal divider header"><i
-                    class="bar chart icon"></i></h4>
-            <form class="ui form" id="tipomantenimiento-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Tipo Mantenimiento :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.tipoMantenimiento.nombre" required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('tipomantenimiento',formulario)"><i class="checkmark icon"></i>Guardar</button>
-            </div>
-        </div>
-        <div class="ui modal" id="editar_agregar_tag">
-            <h4 id="tituloModal_editar_agregar_tag" class="ui horizontal divider header"><i class="bar chart icon"></i>
-            </h4>
-            <form class="ui form" id="tag-formulario-ver">
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="four wide column"><b>Tag :</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.tag.nombre"
-                                    required></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <div class="actions"><button type="submit" class="ui positive right labeled icon button" form="author-form"
-                    ng-click="guardar('tag',formulario)"><i class="checkmark icon"></i>Guardar</button>
-            </div>
-        </div>
-        <div class="ui modal" id="modal-tipoMotor">
-            <i class="close icon" ng-click="ver(formulario, 'equipo', metodo)"></i>
-            <div class="content">
-                <div class="description">
-                    <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> Nuevo Tipo de Motor </h4>
-                    <div id="contenidoTiposMotor" class="ui container contenido">
-                        <div class="content">
-                            <table class="ui celled table">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Capacidad</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="tipoMotor in tiposMotor">
-                                        <td>{{tipoMotor.nombre}}</td>
-                                        <td>{{tipoMotor.capacidad}}</td>
-                                        <td>
-                                            <button ng-if="existe('tipomotor',tipoMotor)" class="ui basic green button"
-                                                ng-click="seleccionar('tipomotor',tipoMotor)"><i
-                                                    class="pencil alternate icon"></i>
-                                                Seleccionar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ui modal" id="modal-tipoCompresor">
-            <i class="close icon" ng-click="ver(formulario, 'equipo', metodo)"></i>
-            <div class="content">
-                <div class="description">
-                    <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> Nuevo Tipo de Compresor
-                    </h4>
-                    <div id="contenidoTiposCompresor" class="ui container contenido">
-                        <div class="content">
-                            <table class="ui celled table">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="tipoCompresor in tiposCompresor">
-                                        <td>{{tipoCompresor.nombre}}</td>
-                                        <td>
-                                            <button ng-if="existe('tipocompresor',tipoCompresor)"
-                                                class="ui basic green button"
-                                                ng-click="seleccionar('tipocompresor',tipoCompresor)"><i
-                                                    class="pencil alternate icon"></i>
-                                                Seleccionar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ui modal" id="modal-bateria">
-            <i class="close icon" ng-click="ver(formulario, 'equipo', metodo)"></i>
-            <div class="content">
-                <div class="description">
-                    <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> agrear Bateria </h4>
-                    <div id="contenidoBaterias" class="ui container contenido">
-                        <div class="content">
-                            <table class="ui celled table">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="bateria in baterias">
-                                        <td>{{bateria.nombre}}</td>
-                                        <td>
-                                            <button ng-if="existe('bateria',bateria)" class="ui basic green button"
-                                                ng-click="seleccionar('bateria',bateria)"><i
-                                                    class="pencil alternate icon"></i>
-                                                Seleccionar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ui modal" id="modal-tag">
-            <i class="close icon" ng-click="ver(formulario, 'equipo', metodo)"></i>
-            <div class="content">
-                <div class="description">
-                    <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> agrear Tag </h4>
-                    <div id="contenidoTags" class="ui container contenido">
-                        <div class="content">
-                            <table class="ui celled table">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="tag in tags">
-                                        <td>{{tag.nombre}}</td>
-                                        <td>
-                                            <button ng-if="existe('tag',tag)" class="ui basic green button"
-                                                ng-click="seleccionar('tag',tag)"><i class="pencil alternate icon"></i>
-                                                Seleccionar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
