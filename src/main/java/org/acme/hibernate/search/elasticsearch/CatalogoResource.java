@@ -15,18 +15,22 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import org.acme.hibernate.search.elasticsearch.model.Maquina;
+import org.acme.hibernate.search.elasticsearch.model.Operador;
+import org.acme.hibernate.search.elasticsearch.model.Frente;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestQuery;
 
-import io.quarkus.logging.Log;
+import org.jboss.logging.Logger;
 import io.quarkus.security.Authenticated;
 import io.quarkus.security.identity.SecurityIdentity;
+
 
 
 @Path("/catalogo")
 @Authenticated
 public class CatalogoResource {
+    private static final Logger LOG = Logger.getLogger(CatalogoResource.class);
 
     @Inject
     SecurityIdentity identity;
@@ -45,6 +49,31 @@ public class CatalogoResource {
             maquina.nombre = nombre;
             maquina.tipo = tipo;
             maquina.persist();
+        }
+    }
+    @PUT
+    @Path("frente")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void agregarFrente(@RestForm String nombre) {
+        if(nombre.length() > 0){
+            Frente frente = new Frente();
+            frente.nombre = nombre;            
+            frente.persist();
+        }
+    }
+    @PUT
+    @Path("operador")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void agregarOperdor(@RestForm String nombre,@RestForm String codigoEmpleado) {
+        LOG.info("codigoEmpleado"+codigoEmpleado);
+        LOG.info("nombre"+nombre);
+        if(nombre.length() > 0 && codigoEmpleado.length() > 0){
+            Operador operador = new Operador();
+            operador.nombre = nombre;            
+            operador.codigoEmpleado = codigoEmpleado;            
+            operador.persist();
         }
     }
 
@@ -79,6 +108,30 @@ public class CatalogoResource {
     public List<Maquina> buscarMaquinas(@RestQuery String pattern,
             @RestQuery Optional<Integer> size) {
         return searchSession.search(Maquina.class)
+                .where(f -> pattern == null || pattern.trim().isEmpty() ? f.matchAll()
+                        : f.simpleQueryString()
+                                .fields("nombre").matching(pattern))
+                .sort(f -> f.field("nombre_ordenado"))
+                .fetchHits(size.orElse(20));
+    }
+    @GET
+    @Path("frente/buscar")
+    @Transactional
+    public List<Frente> buscarFrente(@RestQuery String pattern,
+            @RestQuery Optional<Integer> size) {
+        return searchSession.search(Frente.class)
+                .where(f -> pattern == null || pattern.trim().isEmpty() ? f.matchAll()
+                        : f.simpleQueryString()
+                                .fields("nombre").matching(pattern))
+                .sort(f -> f.field("nombre_ordenado"))
+                .fetchHits(size.orElse(20));
+    }
+    @GET
+    @Path("operador/buscar")
+    @Transactional
+    public List<Operador> buscarOperador(@RestQuery String pattern,
+            @RestQuery Optional<Integer> size) {
+        return searchSession.search(Operador.class)
                 .where(f -> pattern == null || pattern.trim().isEmpty() ? f.matchAll()
                         : f.simpleQueryString()
                                 .fields("nombre").matching(pattern))

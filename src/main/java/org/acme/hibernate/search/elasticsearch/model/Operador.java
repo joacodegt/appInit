@@ -1,46 +1,51 @@
 package org.acme.hibernate.search.elasticsearch.model;
 
-import java.util.List;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
 @Indexed
-public class TipoCompresor extends PanacheEntity {
+public class Operador extends PanacheEntity {
 
     @FullTextField(analyzer = "nombre")
     @KeywordField(name = "nombre_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
     public String nombre;
+    @FullTextField(analyzer = "nombre")
+    @KeywordField(name = "codigo_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
+    public String codigoEmpleado;
 
-    
-    @ManyToMany(mappedBy = "tiposCompresor", fetch = FetchType.EAGER)
-    @IndexedEmbedded
-    @JsonIgnore
-    public List<Equipo> equipo;
-    
+    @Temporal(TemporalType.DATE)
+    public Date fechaCreacion;
+
+
+    @PrePersist
+    protected void onCreate() {
+        fechaCreacion = Date.valueOf(LocalDateTime.now().toLocalDate());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof TipoCompresor)) {
+        if (!(o instanceof Maquina)) {
             return false;
         }
 
-        TipoCompresor other = (TipoCompresor) o;
+        Maquina other = (Maquina) o;
 
         return Objects.equals(id, other.id);
     }

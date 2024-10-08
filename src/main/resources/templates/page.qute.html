@@ -1012,7 +1012,58 @@
                         </tbody>
                     </table>
                 </div>
-                
+                <div id="frentes" class="ui left floated segment">
+                    <table class="ui very basic collapsing celled table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="frente in frentes">
+                                <td>
+                                    <div class="content">{{frente.nombre}}</div>
+                                </td>
+                                <td>
+                                    <button class="ui small basic green button" ng-click="ver(frente,'frente','editar')"><i
+                                            class="pencil alternate icon"></i> Editar</button>
+                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
+                                        ng-click="eliminar('frente', frente)"><i class="trash alternate outline icon"></i>
+                                        Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <div id="operadores" class="ui left floated segment">
+                    <table class="ui very basic collapsing celled table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Codigo Empleado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="operador in operadores">
+                                <td>
+                                    <div class="content">{{operador.nombre}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{operador.codigoEmpleado}}</div>
+                                </td>
+                                <td>
+                                    <button class="ui small basic green button" ng-click="ver(operador,'operador','editar')"><i
+                                            class="pencil alternate icon"></i> Editar</button>
+                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
+                                        ng-click="eliminar('operador', operador)"><i class="trash alternate outline icon"></i>
+                                        Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -1044,6 +1095,55 @@
             <div class="actions">
                 <button type="submit" class="ui positive right labeled icon button" form="author-form"
                     ng-click="guardar('maquina',formulario)">
+                    <i class="checkmark icon"></i>
+                    Guardar
+                </button>
+            </div>
+        </div>
+        <div class="ui modal" id="editar_agregar_frente">
+            <h4 id="tituloModal_editar_agregar_frente" class="ui horizontal divider header"><i class="bar chart icon"></i>
+            </h4>
+            <form class="ui form" id="frente-formulario-ver">
+                <table class="ui definition table">
+                    <tbody>
+                        <tr>
+                            <td class="four wide column"><b>Frente:</b></td>
+                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.frente.nombre"
+                                    required></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div class="actions">
+                <button type="submit" class="ui positive right labeled icon button" form="author-form"
+                    ng-click="guardar('frente',formulario)">
+                    <i class="checkmark icon"></i>
+                    Guardar
+                </button>
+            </div>
+        </div>
+        <div class="ui modal" id="editar_agregar_operador">
+            <h4 id="tituloModal_editar_agregar_operador" class="ui horizontal divider header"><i class="bar chart icon"></i>
+            </h4>
+            <form class="ui form" id="operador-formulario-ver">
+                <table class="ui definition table">
+                    <tbody>
+                        <tr>
+                            <td class="four wide column"><b>Operador:</b></td>
+                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.operador.nombre"
+                                    required></td>
+                        </tr>
+                        <tr>
+                            <td class="four wide column"><b>Codigo Empleado:</b></td>
+                            <td><input type="text" name="codigoEmpleado" placeholder="Codigo Empleado" ng-model="formulario.operador.codigoEmpleado"
+                                    required></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div class="actions">
+                <button type="submit" class="ui positive right labeled icon button" form="author-form"
+                    ng-click="guardar('operador',formulario)">
                     <i class="checkmark icon"></i>
                     Guardar
                 </button>
