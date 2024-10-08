@@ -13,6 +13,9 @@ public class AnalysisConfigurer implements ElasticsearchAnalysisConfigurer {
         context.analyzer("nombre").custom()
                 .tokenizer("standard")
                 .tokenFilters("asciifolding", "lowercase");
+        // context.analyzer("fechaCreacion").custom()
+        //         .tokenizer("standard")
+        //         .tokenFilters( "lowercase");
                 
         context.analyzer("ingles").custom()
                 .tokenizer("standard")
@@ -20,5 +23,8 @@ public class AnalysisConfigurer implements ElasticsearchAnalysisConfigurer {
 
         context.normalizer("ordenar").custom()
                 .tokenFilters("asciifolding", "lowercase");
+        // context.normalizer("fecha").custom()
+        //         .tokenFilters( "lowercase");
+        
     }
 }

@@ -20,10 +20,10 @@ public class TokenDebugger implements SecurityIdentityAugmentor {
         if (securityIdentity.getPrincipal() instanceof JsonWebToken) {
             JsonWebToken principal = (JsonWebToken) securityIdentity.getPrincipal();
 
-            System.out.println("Received token:");
+            // System.out.println("Received token:");
             for (String part : principal.getRawToken().split("\\.")) {
                 String decoded = new String(Base64.decode(part));
-                System.out.println("decode:"+toPrettyJson(decoded));
+                // System.out.println("decode:"+toPrettyJson(decoded));
             }
         }
         return Uni.createFrom().item(securityIdentity);
