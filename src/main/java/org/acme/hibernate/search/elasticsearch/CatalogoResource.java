@@ -8,9 +8,7 @@ import java.util.Optional;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
@@ -107,6 +105,18 @@ public class CatalogoResource {
     @Transactional
     public List<Maquina> buscarMaquinas(@RestQuery String pattern,
             @RestQuery Optional<Integer> size) {
+        
+        LOG.info("Buscando");
+
+        List<Maquina> maquinas = searchSession.search(Maquina.class)
+        .where(f -> pattern == null || pattern.trim().isEmpty() ? f.matchAll()
+                : f.simpleQueryString()
+                        .fields("nombre").matching(pattern))
+        .sort(f -> f.field("nombre_ordenado"))
+        .fetchHits(size.orElse(20));
+        
+        LOG.info("maquinas"+maquinas);
+
         return searchSession.search(Maquina.class)
                 .where(f -> pattern == null || pattern.trim().isEmpty() ? f.matchAll()
                         : f.simpleQueryString()
@@ -131,6 +141,7 @@ public class CatalogoResource {
     @Transactional
     public List<Operador> buscarOperador(@RestQuery String pattern,
             @RestQuery Optional<Integer> size) {
+                
         return searchSession.search(Operador.class)
                 .where(f -> pattern == null || pattern.trim().isEmpty() ? f.matchAll()
                         : f.simpleQueryString()

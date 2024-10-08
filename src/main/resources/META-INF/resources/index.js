@@ -25,6 +25,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             method: 'GET',
             url: '/catalogo/maquina/buscar?pattern=' + $scope.pattern
         }).then(function successCallback(response) {
+            alert(response.data)
             $scope.maquinas = response.data;
         }, function errorCallback(response) {
             alert(response.statusText);
