@@ -3,7 +3,6 @@ package org.acme.hibernate.search.elasticsearch.model;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Temporal;

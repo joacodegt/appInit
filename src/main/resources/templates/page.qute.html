@@ -54,12 +54,6 @@
                     <div class="item" ng-click="ver('configuracion','contenido','')">
                         <i class="user circle icon"></i>
                     </div>
-                    <!-- <div class="item" ng-click="ver('notificaciones','contenido','')">
-                        <i class=" red bell icon">
-                            <div class="floating ui red label">22</div>
-                        </i>
-
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -70,7 +64,7 @@
                     <div class="content" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                         <button class="ui bottom attached button" style="flex: 1 1 auto; margin: 5px;"
                             ng-repeat="item in lista" ng-click="ver(item,'contenido','')">
-                            <i class="{{ item.icon }} icon"></i>
+                            <i class="{{ item.icon }} icon" style="font-size: 5vh; color: #4183c4;"></i>
                             <div class="header">{{ item.nombre }}</div>
                         </button>
                     </div>
@@ -139,14 +133,15 @@
         {! CATALOGOS !}
         <div id="contenidoCatalogos">
             <div class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
-                <div class="ui vertical  menu left floated segment">
-                    <div class="item">
-                        <h1 class="ui header">catalogos</h1>
+                
+                <div class="ui vertical menu left floated segment">
+                    <i class="book icon" style="font-size: 2vh; color: #4183c4;"></i>
 
+                    <div class="item">
+                        <h1 class="ui header">
+                            catalogos</h1>
                         <div class="menu">
-                            <a id="itemFrente" class="item" ng-click="ver('','frente','ver')">Frente</a>
-                            <a id="itemMaquina" class="item" ng-click="ver('','maquina','ver')">Maquina</a>
-                            <a id="itemOperador" class="item" ng-click="ver('','operador','ver')">Operador</a>
+                            <a ng-repeat="catalogo in menu" id="item{{catalogo}}" class="item" ng-click="ver('',catalogo.toLowerCase(),'ver')">{{catalogo}}</a>
                         </div>
                     </div>
                 </div>
@@ -155,6 +150,7 @@
                 <button class="ui right floated  segment labeled icon button"
                     ng-click="ver('agregar',catalogoSeleccionado,'agregar')"><i class="plus square icon"></i> Agrear
                 </button>
+                
                 <h1 class="ui header">{{catalogoSeleccionado}}</h1>
 
                 <div id="maquinas" class="ui left floated segment">
@@ -167,7 +163,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="maquina in maquinas">
+                            <tr ng-repeat="maquina in maquina">
                                 <td>
                                     <div class="content">{{maquina.nombre}}</div>
                                 </td>
@@ -194,7 +190,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="frente in frentes">
+                            <tr ng-repeat="frente in frente">
                                 <td>
                                     <div class="content">{{frente.nombre}}</div>
                                 </td>
@@ -219,7 +215,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="operador in operadores">
+                            <tr ng-repeat="operador in operador">
                                 <td>
                                     <div class="content">{{operador.nombre}}</div>
                                 </td>
@@ -237,6 +233,8 @@
                         </tbody>
                     </table>
                 </div>
+
+                
             </div>
         </div>
         
@@ -322,6 +320,7 @@
                 </button>
             </div>
         </div>
+        
     </div>
 </body>
 

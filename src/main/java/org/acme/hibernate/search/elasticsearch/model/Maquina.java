@@ -1,7 +1,12 @@
 package org.acme.hibernate.search.elasticsearch.model;
 
+import java.time.LocalDateTime;
+import java.sql.Date;
 import java.util.Objects;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
