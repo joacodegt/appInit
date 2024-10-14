@@ -3,6 +3,7 @@ package org.acme.hibernate.search.elasticsearch;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -20,14 +21,13 @@ import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestQuery;
 
 import org.jboss.logging.Logger;
-import io.quarkus.security.Authenticated;
 import io.quarkus.security.identity.SecurityIdentity;
 import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import io.quarkus.runtime.StartupEvent;
 
 @Path("/catalogo")
-@Authenticated
 public class CatalogoResource {
     private static final Logger LOG = Logger.getLogger(CatalogoResource.class);
 
@@ -37,6 +37,15 @@ public class CatalogoResource {
     @Inject
     SearchSession searchSession;
 
+    @Transactional
+    void onStart(@Observes StartupEvent ev) throws InterruptedException {
+        // only reindex if we imported some content
+        if (Maquina.count() > 0) {
+            searchSession.massIndexer()
+                    .startAndWait();
+        }
+    }
+
     private boolean isValidString(String str) {
         return str != null && !str.trim().isEmpty();
     }
@@ -44,12 +53,14 @@ public class CatalogoResource {
     private boolean isEmptyPattern(String pattern) {
         return pattern == null || pattern.trim().isEmpty();
     }
-
+    
     private <T> List<T> buscarEntidad(Class<T> entityClass, String pattern, Optional<Integer> size) {
-        return searchSession.search(entityClass)
-                .where(f -> isEmptyPattern(pattern) ? f.matchAll() : f.simpleQueryString().fields("nombre").matching(pattern))
-                .sort(f -> f.field("nombre_ordenado"))
-                .fetchHits(size.orElse(20));
+        List<T> lista = (searchSession.search(entityClass)
+        .where(f -> isEmptyPattern(pattern) ? f.matchAll() : f.simpleQueryString().fields("nombre").matching(pattern))
+        .sort(f -> f.field("nombre_ordenado"))
+        .fetchHits(size.orElse(20)));
+        LOG.info(lista.size());
+        return lista;
     }
 
     @POST

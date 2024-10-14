@@ -8,12 +8,14 @@ import io.quarkus.security.identity.SecurityIdentityAugmentor;
 import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jose4j.base64url.Base64;
-
+import org.jboss.logging.Logger;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class TokenDebugger implements SecurityIdentityAugmentor {
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final Logger LOG = Logger.getLogger(TokenDebugger.class);
+
 
     @Override
     public Uni<SecurityIdentity> augment(SecurityIdentity securityIdentity, AuthenticationRequestContext authenticationRequestContext) {
@@ -23,7 +25,7 @@ public class TokenDebugger implements SecurityIdentityAugmentor {
             // System.out.println("Received token:");
             for (String part : principal.getRawToken().split("\\.")) {
                 String decoded = new String(Base64.decode(part));
-                // System.out.println("decode:"+toPrettyJson(decoded));
+                LOG.info("decoded: "+toPrettyJson(decoded));
             }
         }
         return Uni.createFrom().item(securityIdentity);

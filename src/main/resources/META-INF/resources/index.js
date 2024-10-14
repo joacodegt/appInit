@@ -636,7 +636,6 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 break;
         }
     }
-
     $scope.guardar = function (tipo, formulario) {
         data = {};
         validacion = ($scope.formulario[tipo].id == -1 || $scope.formulario[tipo].id === undefined)

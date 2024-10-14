@@ -27,14 +27,14 @@ public class Maquina extends PanacheEntity {
     @KeywordField(name = "tipo_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
     public String tipo;
     
-    // @Temporal(TemporalType.DATE)
-    // public Date fechaCreacion;
+    @Temporal(TemporalType.DATE)
+    public Date fechaCreacion;
 
 
-    // @PrePersist
-    // protected void onCreate() {
-    //     fechaCreacion = Date.valueOf(LocalDateTime.now().toLocalDate());
-    // }
+    @PrePersist
+    protected void onCreate() {
+        fechaCreacion = Date.valueOf(LocalDateTime.now().toLocalDate());
+    }
 
     @Override
     public boolean equals(Object o) {
