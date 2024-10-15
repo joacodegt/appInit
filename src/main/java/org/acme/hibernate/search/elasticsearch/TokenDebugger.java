@@ -34,8 +34,8 @@ public class TokenDebugger implements SecurityIdentityAugmentor {
             // System.out.println("Received token:");
             for (String part : principal.getRawToken().split("\\.")) {
                 String decoded = new String(Base64.decode(part));
-                parts.add(decoded);
                 LOG.info("decoded: "+toPrettyJson(decoded));
+                parts.add(toPrettyJson(decoded));
             }
         }
         return Uni.createFrom().item(securityIdentity);
