@@ -3,6 +3,8 @@ package org.acme.hibernate.search.elasticsearch.model;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
@@ -35,6 +37,7 @@ public class Bitacora extends PanacheEntity {
     public Long galones;
 
     
+    @Column(length = 4000)
     public String supervisor;
 
     @Temporal(TemporalType.DATE)

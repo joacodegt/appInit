@@ -554,6 +554,11 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             url: '/catalogo/'+tipo+'/buscar?pattern=' + $scope.pattern
         }).then(function successCallback(response) {
             $scope[tipo] = response.data;
+            if (tipo == 'bitacora') {
+                $scope[tipo].forEach(function(item) {
+                    item.supervisor = JSON.parse(item.supervisor);
+                }); 
+            }
         }, function errorCallback(response) {
             alert(response.statusText);
         });

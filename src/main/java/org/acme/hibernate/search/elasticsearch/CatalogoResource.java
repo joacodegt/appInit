@@ -85,7 +85,7 @@ public class CatalogoResource {
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
         bitacora.galones   = Long.parseLong(galones);
         TokenDebugger tokenDebugger = new TokenDebugger();
-        bitacora.supervisor = tokenDebugger.getDecoded();
+        bitacora.supervisor = tokenDebugger.decoded;
         bitacora.persist();
         
     }
