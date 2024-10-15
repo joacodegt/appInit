@@ -16,6 +16,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.acme.hibernate.search.elasticsearch.model.Maquina;
 import org.acme.hibernate.search.elasticsearch.model.Operador;
 import org.acme.hibernate.search.elasticsearch.model.Frente;
+import org.acme.hibernate.search.elasticsearch.model.Finca;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestQuery;
@@ -76,7 +77,6 @@ public class CatalogoResource {
         maquina.tipo = tipo;
         maquina.persist();
     }
-
     @DELETE
     @Path("maquina/{id}")
     @Transactional
@@ -86,6 +86,41 @@ public class CatalogoResource {
             if (identity.hasRole("admin")) {
                 maquina.delete();
             }
+        }
+    }
+    @PUT
+    @Path("maquina")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void agregarMaquina(@RestForm String nombre, @RestForm String tipo) {
+        if (isValidString(nombre) && isValidString(tipo)) {
+            Maquina maquina = new Maquina();
+            maquina.nombre = nombre;
+            maquina.tipo = tipo;
+            maquina.persist();
+        }
+    }
+
+    @DELETE
+    @Path("finca/{id}")
+    @Transactional
+    public void eliminarFinca(Long id) {
+        Finca finca = Finca.findById(id);
+        if (finca != null) {
+            if (identity.hasRole("admin")) {
+                finca.delete();
+            }
+        }
+    }
+    @PUT
+    @Path("finca")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void agregarFinca(@RestForm String nombre) {
+        if (isValidString(nombre)) {
+            Finca finca = new Finca();
+            finca.nombre = nombre;
+            finca.persist();
         }
     }
 
@@ -101,7 +136,6 @@ public class CatalogoResource {
         frente.nombre = nombre;
         frente.persist();
     }
-
     @DELETE
     @Path("frente/{id}")
     @Transactional
@@ -113,20 +147,6 @@ public class CatalogoResource {
             }
         }
     }
-
-    @PUT
-    @Path("maquina")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void agregarMaquina(@RestForm String nombre, @RestForm String tipo) {
-        if (isValidString(nombre) && isValidString(tipo)) {
-            Maquina maquina = new Maquina();
-            maquina.nombre = nombre;
-            maquina.tipo = tipo;
-            maquina.persist();
-        }
-    }
-
     @PUT
     @Path("frente")
     @Transactional
@@ -151,7 +171,6 @@ public class CatalogoResource {
             operador.persist();
         }
     }
-
     @POST
     @Path("operador/{id}")
     @Transactional
@@ -165,7 +184,6 @@ public class CatalogoResource {
         operador.codigoEmpleado = codigoEmpleado;
         operador.persist();
     }
-
     @DELETE
     @Path("operador/{id}")
     @Transactional
@@ -195,7 +213,6 @@ public class CatalogoResource {
             return List.of();
         }
     }
-
     @GET
     @Path("maquina/buscar")
     @Transactional
@@ -208,6 +225,12 @@ public class CatalogoResource {
     @Transactional
     public List<Frente> buscarFrente(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
         return buscarEntidad(Frente.class, pattern, size);
+    }
+    @GET
+    @Path("finca/buscar")
+    @Transactional
+    public List<Finca> buscarFinca(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
+        return buscarEntidad(Finca.class, pattern, size);
     }
 
     @GET

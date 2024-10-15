@@ -37,11 +37,11 @@ public class Frente extends PanacheEntity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Maquina)) {
+        if (!(o instanceof Frente)) {
             return false;
         }
 
-        Maquina other = (Maquina) o;
+        Frente other = (Frente) o;
 
         return Objects.equals(id, other.id);
     }

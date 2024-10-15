@@ -114,3 +114,16 @@ INSERT INTO Operador(id, nombre, codigoEmpleado, fechaCreacion) values (19, 'OSC
 INSERT INTO Operador(id, nombre, codigoEmpleado, fechaCreacion) values (20, 'LESLY ESTEFANY BARILLAS LEMUS', '95494', CURRENT_TIMESTAMP); 
 INSERT INTO Operador(id, nombre, codigoEmpleado, fechaCreacion) values (21, 'DORCAS AZUCENA RIVAS MONTEPEQUE', '75033', CURRENT_TIMESTAMP); 
 ALTER SEQUENCE Operador_seq RESTART WITH 22;
+
+
+INSERT INTO Finca(id, nombre, fechaCreacion) values (1, 'Finca El Paraiso', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (2, 'Finca La Esperanza', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (3, 'Finca San Miguel', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (4, 'Finca Los Pinos', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (5, 'Finca Santa Maria', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (6, 'Finca El Roble', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (7, 'Finca La Fortuna', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (8, 'Finca Las Flores', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (9, 'Finca El Eden', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (10, 'Finca San Jose', CURRENT_TIMESTAMP);
+ALTER SEQUENCE Finca_seq RESTART WITH 11;

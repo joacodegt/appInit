@@ -1,9 +1,8 @@
 var app = angular.module("InventarioManagement", []);
 app.controller("InventarioManagementController", ['$scope', '$http', '$httpParamSerializerJQLike', function ($scope, $http, $httpParamSerializerJQLike) {
-
     $scope.lista = [
-        { "nombre": "Nueva Bitacora", "icon": "edit" },
-        { "nombre": "Ver / Editar Bitacora", "icon": "file alternate outline" },
+        // { "nombre": "Nueva Bitacora", "icon": "edit" },
+        // { "nombre": "Ver / Editar Bitacora", "icon": "file alternate outline" },
         { "nombre": "catalogos", "icon": "book" },
         { "nombre": "reportes", "icon": "chart bar" }
     ];
@@ -11,33 +10,22 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
     $scope.maquina = [];
     $scope.frente = [];
     $scope.operador = [];
-
-
     $scope.pattern = '';
     $scope.nuevoTipo = '';
     $scope.formulario = {};
     $scope.metodo = '';
     $scope.catalogoSeleccionado = '';
-
     iniciar()
-
-    function getLista(tipo) {
-        $http({
-            method: 'GET',
-            url: '/catalogo/'+tipo+'/buscar?pattern=' + $scope.pattern
-        }).then(function successCallback(response) {
-            $scope[tipo] = response.data;
-        }, function errorCallback(response) {
-            alert(response.statusText);
-        });
-    }
-
     function iniciar() {
+        $scope.lista.forEach(function(listaItem) {
+            listaItemNombreMayus = listaItem.nombre.charAt(0).toUpperCase() + listaItem.nombre.slice(1).toLowerCase();
+            $('#contenido'+listaItemNombreMayus).hide();
+        });
+        desaparecer();
         getLista('menu');
         $scope.menu.forEach(function(item) {
             getLista(item.nombre.toLowerCase());
         });
-
         Highcharts.chart('grafica', {
 
             title: {
@@ -109,7 +97,6 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 }]
             }
         });
-
         Highcharts.chart('graficaEquiposEnMantenimiento', {
             chart: {
                 type: 'column'
@@ -423,7 +410,6 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 ]
             }
         });
-
         Highcharts.chart('graficaInidiceMantenimientoArea', {
             chart: {
                 type: 'pie',
@@ -465,49 +451,36 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 ]
             }]
         });
-
     }
-    function httpMetodo(method, url, data, tipo) {
-        $http({
-            method: method,
-            url: url,
-            data: $httpParamSerializerJQLike(data),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(function (response) {
-            $scope._correcto(response, tipo);
-        }, $scope._error);
-    }
-
     $scope.ver = function (item, tipo, metodo) {
         switch (tipo) {
             case "contenido":
                 switch (item.nombre) {
-                    case "catalogos":
-                        $('#contenidoEquipos').hide();
-                        $('#contenidoInicio').hide();
-                        $('#contenidoCatalogos').show();
-                        $('#contenidoActividades').hide();
-                        $('#contenidoReportes').hide();
-                        $("#maquinas").hide();
-                        $("#frentes").hide();
-                        break;
                     case "reportes":
+                    case "catalogos":
+                        itemNombreMayus = item.nombre.charAt(0).toUpperCase() + item.nombre.slice(1).toLowerCase();
+                        $scope.lista.forEach(function(listaItem) {
+                            listaItemNombreMayus = listaItem.nombre.charAt(0).toUpperCase() + listaItem.nombre.slice(1).toLowerCase();                        
+                            if (listaItemNombreMayus !== itemNombreMayus) {
+                                $('#contenido'+listaItemNombreMayus).hide();
+                            }else{
+                                $('#contenido'+itemNombreMayus).show();
+                            }
+                        });
                         $('#contenidoInicio').hide();
-                        $('#contenidoCatalogos').hide();
-                        $('#contenidoActividades').hide();
-                        $('#contenidoReportes').show();
+                        desaparecer();
                         break;
                     default:
                         break;
                 }
                 switch (item) {
                     case "inicio":
-                        $('#contenidoInicio').show();
-                        $('#contenidoCatalogos').hide();
-                        $('#contenidoActividades').hide();
-                        $('#contenidoReportes').hide();
+                        $('#contenidoInicio').show();   
+                        $scope.lista.forEach(function(listaItem) {
+                            listaItemNombreMayus = listaItem.nombre.charAt(0).toUpperCase() + listaItem.nombre.slice(1).toLowerCase();
+                            $('#contenido'+listaItemNombreMayus).hide();
+                        });
+                        desaparecer();
                         break;
                     case "configuracion":
                         $('#contenidoConfiguracion').modal('show');
@@ -516,84 +489,26 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                         $('#contenidoNotificacion').modal('show');
                         break;
                 }
-
-                break;
-            case "maquina":
-                getLista('maquina');
-                switch (metodo) {
-                    case "ver":
-                        $("#maquinas").show();
-                        $("#frentes").hide();
-                        $("#operadores").hide();
-
-                        $scope.catalogoSeleccionado = 'maquina'
-                        $('#itemFrente').removeClass('active');
-                        $('#itemMaquina').addClass('active');
-                        $('#itemOperador').removeClass('active');
-                        break;
-                    case "agregar":
-                        $scope.metodo = metodo
-                        if (item === 'agregar') {
-                            $scope.formulario = {}
-                        } else {
-                            $scope.formulario = item
-                        }
-                        $("#tituloModal_editar_agregar_maquina").text("Agregar Maquina");
-                        $('#editar_agregar_maquina').modal('show');
-                        break;
-                    case "editar":
-                        $scope.formulario.maquina = item
-                        $("#tituloModal_editar_agregar_maquina").text("Editar Maquina");
-                        $('#editar_agregar_maquina').modal('show');
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "frente":
-                getLista('frente');
-                switch (metodo) {
-                    case "ver":
-                        $("#frentes").show();
-                        $("#maquinas").hide();
-                        $("#operadores").hide();
-
-                        $scope.catalogoSeleccionado = 'frente'
-                        $('#itemMaquina').removeClass('active');
-                        $('#itemFrente').addClass('active');
-                        $('#itemOperador').removeClass('active');
-                        break;
-                    case "agregar":
-                        $scope.metodo = metodo
-                        if (item === 'agregar') {
-                            $scope.formulario = {}
-                        } else {
-                            $scope.formulario = item
-                        }
-                        $("#tituloModal_editar_agregar_frente").text("Agregar Frente");
-                        $('#editar_agregar_frente').modal('show');
-                        break;
-                    case "editar":
-                        $scope.formulario.frente = item
-                        $("#tituloModal_editar_agregar_frente").text("Editar Frente");
-                        $('#editar_agregar_frente').modal('show');
-                        break;
-                    default:
-                        break;
-                }
                 break;
             case "operador":
-                getLista('operador');
+            case "frente":
+            case "finca":
+            case "maquina":
+                getLista(tipo);
+                tipoMayus = tipo.charAt(0).toUpperCase() + tipo.slice(1).toLowerCase();
                 switch (metodo) {
                     case "ver":
-                        $("#operadores").show();
-                        $("#frentes").hide();
-                        $("#maquinas").hide();
-
-                        $scope.catalogoSeleccionado = 'operador'
-                        $('#itemMaquina').removeClass('active');
-                        $('#itemFrente').removeClass('active');
-                        $('#itemOperador').addClass('active');
+                        $scope.menu.forEach(function(menuItem) {
+                            var menuItemLower = menuItem.toLowerCase();
+                            if (menuItemLower !== tipo) {
+                                $("#" + menuItemLower).hide();
+                                $('#item' + menuItem).removeClass('active');
+                            } else {
+                                $scope.catalogoSeleccionado = tipo;
+                                $("#" + tipo).show();
+                                $('#item' + menuItem).addClass('active');
+                            }
+                        });
                         break;
                     case "agregar":
                         $scope.metodo = metodo
@@ -602,13 +517,13 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                         } else {
                             $scope.formulario = item
                         }
-                        $("#tituloModal_editar_agregar_operador").text("Agregar Operador");
-                        $('#editar_agregar_operador').modal('show');
+                        $("#tituloModal_editar_agregar_"+tipo).text("Agregar " + tipoMayus);
+                        $('#editar_agregar_'+tipo).modal('show');
                         break;
                     case "editar":
-                        $scope.formulario.operador = item
-                        $("#tituloModal_editar_agregar_operador").text("Editar Operador");
-                        $('#editar_agregar_operador').modal('show');
+                        $scope.formulario[tipo] = item
+                        $("#tituloModal_editar_agregar_"+tipo).text("Editar " + tipoMayus);
+                        $('#editar_agregar_'+tipo).modal('show');
                         break;
                     default:
                         break;
@@ -619,10 +534,24 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         }
     }
 
-
-
-
-
+    function desaparecer(){
+        $scope.menu.forEach(function(menuItem) {
+            var menuItemLower = menuItem.toLowerCase();
+            $scope.catalogoSeleccionado = '';
+            $("#" + menuItemLower).hide();
+            $('#item' + menuItem).removeClass('active');
+        });
+    }
+    function getLista(tipo) {
+        $http({
+            method: 'GET',
+            url: '/catalogo/'+tipo+'/buscar?pattern=' + $scope.pattern
+        }).then(function successCallback(response) {
+            $scope[tipo] = response.data;
+        }, function errorCallback(response) {
+            alert(response.statusText);
+        });
+    }
     $scope.buscar = function (tipo) {
         switch (tipo) {
             case 'equipo':
@@ -635,6 +564,18 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             default:
                 break;
         }
+    }
+    function httpMetodo(method, url, data, tipo) {
+        $http({
+            method: method,
+            url: url,
+            data: $httpParamSerializerJQLike(data),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (response) {
+            $scope._correcto(response, tipo);
+        }, $scope._error);
     }
     $scope.guardar = function (tipo, formulario) {
         data = {};
@@ -658,5 +599,4 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         alert(JSON.stringify(response));
         getLista(tipo);
     }
-
 }]);

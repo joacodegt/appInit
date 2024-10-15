@@ -41,7 +41,6 @@
 </head>
 
 <body ng-app="InventarioManagement" ng-controller="InventarioManagementController">
-
     <div class="ui center aligned segment">
         {! MENU !}
         <div class="ui large top menu">
@@ -57,7 +56,6 @@
                 </div>
             </div>
         </div>
-
         <div id="contenidoInicio" class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
             <div class="ui cards">
                 <div class="card" style="width: 100%; height: 70vh; overflow-y: auto;">
@@ -71,7 +69,6 @@
                 </div>
             </div>
         </div>
-
         {! configuraciones !}
         <div class="ui modal" id="contenidoConfiguracion">
             <i class="close icon"></i>
@@ -104,7 +101,6 @@
             <div class="actions">
             </div>
         </div>
-
         {! REPORTES !}
         <div id="contenidoReportes">
             <div class="ui segment" style="width: 100%; height: 80vh; overflow-y: auto;">
@@ -129,11 +125,9 @@
                 </figure>
             </div>
         </div>
-
         {! CATALOGOS !}
         <div id="contenidoCatalogos">
             <div class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
-                
                 <div class="ui vertical menu left floated segment">
                     <i class="book icon" style="font-size: 2vh; color: #4183c4;"></i>
 
@@ -141,19 +135,16 @@
                         <h1 class="ui header">
                             catalogos</h1>
                         <div class="menu">
-                            <a ng-repeat="catalogo in menu" id="item{{catalogo}}" class="item" ng-click="ver('',catalogo.toLowerCase(),'ver')">{{catalogo}}</a>
+                            <a ng-repeat="catalogo in menu" id="item{{catalogo}}" class="item"
+                                ng-click="ver('',catalogo.toLowerCase(),'ver')">{{catalogo}}</a>
                         </div>
                     </div>
                 </div>
-
-
                 <button class="ui right floated  segment labeled icon button"
                     ng-click="ver('agregar',catalogoSeleccionado,'agregar')"><i class="plus square icon"></i> Agrear
                 </button>
-                
                 <h1 class="ui header">{{catalogoSeleccionado}}</h1>
-
-                <div id="maquinas" class="ui left floated segment">
+                <div id="maquina" class="ui left floated segment">
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
@@ -171,17 +162,19 @@
                                     <div class="content">{{maquina.tipo}}</div>
                                 </td>
                                 <td>
-                                    <button class="ui small basic green button" ng-click="ver(maquina,'maquina','editar')"><i
-                                            class="pencil alternate icon"></i> Editar</button>
+                                    <button class="ui small basic green button"
+                                        ng-click="ver(maquina,'maquina','editar')"><i class="pencil alternate icon"></i>
+                                        Editar</button>
                                     <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('maquina', maquina)"><i class="trash alternate outline icon"></i>
+                                        ng-click="eliminar('maquina', maquina)"><i
+                                            class="trash alternate outline icon"></i>
                                         Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div id="frentes" class="ui left floated segment">
+                <div id="frente" class="ui left floated segment">
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
@@ -195,17 +188,19 @@
                                     <div class="content">{{frente.nombre}}</div>
                                 </td>
                                 <td>
-                                    <button class="ui small basic green button" ng-click="ver(frente,'frente','editar')"><i
-                                            class="pencil alternate icon"></i> Editar</button>
+                                    <button class="ui small basic green button"
+                                        ng-click="ver(frente,'frente','editar')"><i class="pencil alternate icon"></i>
+                                        Editar</button>
                                     <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('frente', frente)"><i class="trash alternate outline icon"></i>
+                                        ng-click="eliminar('frente', frente)"><i
+                                            class="trash alternate outline icon"></i>
                                         Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                 <div id="operadores" class="ui left floated segment">
+                <div id="operador" class="ui left floated segment">
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
@@ -223,36 +218,62 @@
                                     <div class="content">{{operador.codigoEmpleado}}</div>
                                 </td>
                                 <td>
-                                    <button class="ui small basic green button" ng-click="ver(operador,'operador','editar')"><i
+                                    <button class="ui small basic green button"
+                                        ng-click="ver(operador,'operador','editar')"><i
                                             class="pencil alternate icon"></i> Editar</button>
                                     <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('operador', operador)"><i class="trash alternate outline icon"></i>
+                                        ng-click="eliminar('operador', operador)"><i
+                                            class="trash alternate outline icon"></i>
                                         Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
-                
+                <div id="finca" class="ui left floated segment">
+                    <table class="ui very basic collapsing celled table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="finca in finca">
+                                <td>
+                                    <div class="content">{{finca.nombre}}</div>
+                                </td>
+                                <td>
+                                    <button class="ui small basic green button"
+                                        ng-click="ver(finca,'finca','editar')"><i
+                                            class="pencil alternate icon"></i> Editar</button>
+                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
+                                        ng-click="eliminar('finca', finca)"><i
+                                            class="trash alternate outline icon"></i>
+                                        Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        
         <div class="ui modal" id="editar_agregar_maquina">
-            <h4 id="tituloModal_editar_agregar_maquina" class="ui horizontal divider header"><i class="bar chart icon"></i>
+            <h4 id="tituloModal_editar_agregar_maquina" class="ui horizontal divider header"><i
+                    class="bar chart icon"></i>
             </h4>
             <form class="ui form" id="maquina-formulario-ver">
                 <table class="ui definition table">
                     <tbody>
                         <tr>
                             <td class="four wide column"><b>Maquina:</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.maquina.nombre"
-                                    required></td>
+                            <td><input type="text" name="nombre" placeholder="nombre"
+                                    ng-model="formulario.maquina.nombre" required></td>
                         </tr>
                         <tr>
                             <td class="four wide column"><b>Tipo:</b></td>
                             <td>
-                                <select class="ui dropdown" name="tipo"  ng-model="formulario.maquina.tipo" required>
+                                <select class="ui dropdown" name="tipo" ng-model="formulario.maquina.tipo" required>
                                     <option value="" disabled selected>Selecciona un tipo</option>
                                     <option value="Tractores">Tractores</option>
                                     <option value="Alzadoras">Alzadoras</option>
@@ -272,15 +293,16 @@
             </div>
         </div>
         <div class="ui modal" id="editar_agregar_frente">
-            <h4 id="tituloModal_editar_agregar_frente" class="ui horizontal divider header"><i class="bar chart icon"></i>
+            <h4 id="tituloModal_editar_agregar_frente" class="ui horizontal divider header"><i
+                    class="bar chart icon"></i>
             </h4>
             <form class="ui form" id="frente-formulario-ver">
                 <table class="ui definition table">
                     <tbody>
                         <tr>
                             <td class="four wide column"><b>Frente:</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.frente.nombre"
-                                    required></td>
+                            <td><input type="text" name="nombre" placeholder="nombre"
+                                    ng-model="formulario.frente.nombre" required></td>
                         </tr>
                     </tbody>
                 </table>
@@ -294,20 +316,21 @@
             </div>
         </div>
         <div class="ui modal" id="editar_agregar_operador">
-            <h4 id="tituloModal_editar_agregar_operador" class="ui horizontal divider header"><i class="bar chart icon"></i>
+            <h4 id="tituloModal_editar_agregar_operador" class="ui horizontal divider header"><i
+                    class="bar chart icon"></i>
             </h4>
             <form class="ui form" id="operador-formulario-ver">
                 <table class="ui definition table">
                     <tbody>
                         <tr>
                             <td class="four wide column"><b>Operador:</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.operador.nombre"
-                                    required></td>
+                            <td><input type="text" name="nombre" placeholder="nombre"
+                                    ng-model="formulario.operador.nombre" required></td>
                         </tr>
                         <tr>
                             <td class="four wide column"><b>Codigo Empleado:</b></td>
-                            <td><input type="text" name="codigoEmpleado" placeholder="Codigo Empleado" ng-model="formulario.operador.codigoEmpleado"
-                                    required></td>
+                            <td><input type="text" name="codigoEmpleado" placeholder="Codigo Empleado"
+                                    ng-model="formulario.operador.codigoEmpleado" required></td>
                         </tr>
                     </tbody>
                 </table>
@@ -320,7 +343,29 @@
                 </button>
             </div>
         </div>
-        
+        <div class="ui modal" id="editar_agregar_finca">
+            <h4 id="tituloModal_editar_agregar_finca" class="ui horizontal divider header"><i
+                    class="bar chart icon"></i>
+            </h4>
+            <form class="ui form" id="finca-formulario-ver">
+                <table class="ui definition table">
+                    <tbody>
+                        <tr>
+                            <td class="four wide column"><b>Finca:</b></td>
+                            <td><input type="text" name="nombre" placeholder="nombre"
+                                    ng-model="formulario.finca.nombre" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div class="actions">
+                <button type="submit" class="ui positive right labeled icon button" form="author-form"
+                    ng-click="guardar('finca',formulario)">
+                    <i class="checkmark icon"></i>
+                    Guardar
+                </button>
+            </div>
+        </div>
     </div>
 </body>
 
