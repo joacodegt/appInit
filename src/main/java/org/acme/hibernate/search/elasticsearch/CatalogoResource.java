@@ -125,6 +125,19 @@ public class CatalogoResource {
     }
 
     @POST
+    @Path("finca/{id}")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void actualizarFinca(Long id, @RestForm String nombre) {
+        Finca finca = Finca.findById(id);
+        if (finca == null) {
+            return;
+        }
+        finca.nombre = nombre;
+        finca.persist();
+    }
+
+    @POST
     @Path("frente/{id}")
     @Transactional
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
