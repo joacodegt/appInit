@@ -256,6 +256,60 @@
                         </tbody>
                     </table>
                 </div>
+                <div id="bitacora" class="ui left floated segment">
+                    <table class="ui very basic collapsing celled table">
+                        <thead>
+                            <tr>
+                                <th>Fecha Creacion</th>
+                                <th>Operador</th>
+                                <th>Frente</th>
+                                <th>Maquina</th>
+                                <th>Finca</th>
+                                <th>Horometro Inicio</th>
+                                <th>Galones</th>
+                                <th>Supervisor</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="bitacora in bitacora">
+                                <td>
+                                    <div class="content">{{bitacora.fechaCreacion}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{bitacora.operador.nombre}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{bitacora.frente.nombre}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{bitacora.maquina.nombre}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{bitacora.finca.nombre}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{bitacora.horometroInicio}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{bitacora.galones}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{bitacora.supervisor}}</div>
+                                </td>
+                                <td>
+                                    <button class="ui small basic green button"
+                                        ng-click="ver(bitacora,'bitacora','editar')"><i
+                                            class="pencil alternate icon"></i> Editar</button>
+                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
+                                        ng-click="eliminar('bitacora', bitacora)"><i
+                                            class="trash alternate outline icon"></i>
+                                        Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="ui modal" id="editar_agregar_maquina">
@@ -361,6 +415,70 @@
             <div class="actions">
                 <button type="submit" class="ui positive right labeled icon button" form="author-form"
                     ng-click="guardar('finca',formulario)">
+                    <i class="checkmark icon"></i>
+                    Guardar
+                </button>
+            </div>
+        </div>
+        <div class="ui modal" id="editar_agregar_bitacora">
+            <h4 id="tituloModal_editar_agregar_bitacora" class="ui horizontal divider header"><i
+                    class="bar chart icon"></i>
+            </h4>
+            <form class="ui form" id="bitacora-formulario-ver">
+                <table class="ui definition table">
+                    <tbody>
+                        <tr>
+                            <td class="four wide column"><b>Operador:</b></td>
+                            <td>
+                                <select class="ui dropdown" ng-model="formulario.bitacora.operador"
+                                    ng-options="operador as operador.nombre for operador in operador  track by operador.id">
+                                    <option value="" selected>Selecciona un operador</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="four wide column"><b>Frente:</b></td>
+                            <td>
+                                <select class="ui dropdown" ng-model="formulario.bitacora.frente"
+                                    ng-options="frente as frente.nombre for frente in frente  track by frente.id">
+                                    <option value="" selected>Selecciona un frente</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="four wide column"><b>Finca:</b></td>
+                            <td>
+                                <select class="ui dropdown" ng-model="formulario.bitacora.finca"
+                                    ng-options="finca as finca.nombre for finca in finca  track by finca.id">
+                                    <option value="" selected>Selecciona un finca</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="four wide column"><b>Maquina:</b></td>
+                            <td>
+                                <select class="ui dropdown" ng-model="formulario.bitacora.maquina"
+                                    ng-options="maquina as maquina.nombre for maquina in maquina  track by maquina.id">
+                                    <option value="" selected>Selecciona un maquina</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="four wide column"><b>Horometro Inicio:</b></td>
+                            <td><input type="text" name="horometroInicio" placeholder="Horometro"
+                                    ng-model="formulario.bitacora.horometroInicio" required></td>
+                        </tr>
+                        <tr>
+                            <td class="four wide column"><b>galones:</b></td>
+                            <td><input type="text" name="galones" placeholder="galones"
+                                    ng-model="formulario.bitacora.galones" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div class="actions">
+                <button type="submit" class="ui positive right labeled icon button" form="author-form"
+                    ng-click="guardar('bitacora',formulario)">
                     <i class="checkmark icon"></i>
                     Guardar
                 </button>

@@ -9,10 +9,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
-import org.hibernate.search.engine.backend.types.Sortable;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
@@ -35,12 +32,18 @@ public class Bitacora extends PanacheEntity {
     
     
     public Long horometroInicio;
-    public Long galonesInicio;
+    public Long galones;
 
-    public Long horometroFin;
-    public Long galonesFin;
     
     public String supervisor;
+
+    @Temporal(TemporalType.DATE)
+    public Date fechaCreacion;
+
+    @PrePersist
+    protected void onCreate() {
+        fechaCreacion = Date.valueOf(LocalDateTime.now().toLocalDate());
+    }
 
     @Override
     public boolean equals(Object o) {

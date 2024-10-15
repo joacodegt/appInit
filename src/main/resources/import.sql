@@ -127,3 +127,16 @@ INSERT INTO Finca(id, nombre, fechaCreacion) values (8, 'Finca Las Flores', CURR
 INSERT INTO Finca(id, nombre, fechaCreacion) values (9, 'Finca El Eden', CURRENT_TIMESTAMP);
 INSERT INTO Finca(id, nombre, fechaCreacion) values (10, 'Finca San Jose', CURRENT_TIMESTAMP);
 ALTER SEQUENCE Finca_seq RESTART WITH 11;
+
+INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
+VALUES (1, 1, 1, 2, 1, 100, 50, 'Supervisor1', '2024-10-13');
+INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
+VALUES (2, 1, 1, 2, 1, 200, 50, 'Supervisor1', CURRENT_DATE);
+
+INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
+VALUES (3, 2, 3, 3, 2, 200, 60, 'Supervisor2', CURRENT_DATE);
+
+INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
+VALUES (4, 3, 6, 4, 3, 300, 70, 'Supervisor3', CURRENT_DATE);
+
+ALTER SEQUENCE Bitacora_seq RESTART WITH 5;

@@ -17,6 +17,7 @@ import org.acme.hibernate.search.elasticsearch.model.Maquina;
 import org.acme.hibernate.search.elasticsearch.model.Operador;
 import org.acme.hibernate.search.elasticsearch.model.Frente;
 import org.acme.hibernate.search.elasticsearch.model.Finca;
+import org.acme.hibernate.search.elasticsearch.model.Bitacora;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestQuery;
@@ -62,6 +63,31 @@ public class CatalogoResource {
         .fetchHits(size.orElse(20)));
         LOG.info(lista.size());
         return lista;
+    }
+    @PUT
+    @Path("bitacora")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void agregarBitacora( 
+        @RestForm String operador,
+        @RestForm String frente,
+        @RestForm String maquina,
+        @RestForm String finca,
+        @RestForm String horometroInicio,
+        @RestForm String galones
+    ) {
+        Bitacora bitacora = new Bitacora();
+        LOG.info("nombre: "+operador);
+        bitacora.operador = Operador.findById(Long.parseLong(operador));
+        bitacora.frente= Frente.findById(Long.parseLong(frente));
+        bitacora.maquina= Maquina.findById(Long.parseLong(maquina));
+        bitacora.finca= Finca.findById(Long.parseLong(finca));
+        bitacora.horometroInicio = Long.parseLong(horometroInicio);
+        bitacora.galones   = Long.parseLong(galones);
+        TokenDebugger tokenDebugger = new TokenDebugger();
+        bitacora.supervisor = tokenDebugger.getDecoded();
+        bitacora.persist();
+        
     }
 
     @POST
@@ -244,6 +270,14 @@ public class CatalogoResource {
     @Transactional
     public List<Finca> buscarFinca(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
         return buscarEntidad(Finca.class, pattern, size);
+    }
+    @GET
+    @Path("bitacora/buscar")
+    @Transactional
+    public List<Bitacora> buscarBitacora(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
+        return (searchSession.search(Bitacora.class)
+        .where(f -> isEmptyPattern(pattern) ? f.matchAll() : f.simpleQueryString().fields("id").matching(pattern))
+        .fetchHits(size.orElse(20)));
     }
 
     @GET

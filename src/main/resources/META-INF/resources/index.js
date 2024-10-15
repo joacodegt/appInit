@@ -9,6 +9,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
     $scope.menu = [];
     $scope.maquina = [];
     $scope.frente = [];
+    $scope.bitacora = [];
     $scope.operador = [];
     $scope.pattern = '';
     $scope.nuevoTipo = '';
@@ -493,6 +494,11 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             case "operador":
             case "frente":
             case "finca":
+            case "bitacora":
+                getLista("operador");
+                getLista("frente");
+                getLista("maquina");
+                getLista("finca");
             case "maquina":
                 getLista(tipo);
                 tipoMayus = tipo.charAt(0).toUpperCase() + tipo.slice(1).toLowerCase();
@@ -583,6 +589,16 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         method = validacion ? 'PUT' : 'POST';
         url = validacion ? '/catalogo/' + tipo : '/catalogo/' + tipo + '/' + formulario[tipo].id;
         data = ($scope.formulario[tipo]);
+        if (tipo == 'bitacora') {
+            data = {
+                "operador": $scope.formulario[tipo].operador.id,
+                "maquina": $scope.formulario[tipo].maquina.id,
+                "frente": $scope.formulario[tipo].frente.id,
+                "finca": $scope.formulario[tipo].finca.id,
+                "horometroInicio": $scope.formulario[tipo].horometroInicio,
+                "galones": $scope.formulario[tipo].galones
+            }
+        }
         httpMetodo(method, url, data, tipo)
     }
     $scope.eliminar = function (tipo, formulario) {
