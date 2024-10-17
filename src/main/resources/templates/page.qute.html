@@ -112,7 +112,9 @@
                     ng-click="ver('agregar',catalogoSeleccionado,'agregar')"><i class="plus square icon"></i> Agrear
                 </button>
 
-                <h1 class="ui header">{{catalogoSeleccionado}}</h1>
+                <h1 class="ui header">
+                    {{catalogoSeleccionado}}
+                </h1>
                 
                 <div id="maquina" class="ui left floated segment tablaApp">
                     <table class="ui very basic collapsing celled table">
@@ -127,7 +129,7 @@
                         <tbody>
                             <tr ng-repeat="maquina in maquina track by $index">
                                 <td>
-                                    <div class="content">{{$index + 1}}</div>
+                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
                                 </td>
                                 <td>
                                     <div class="content">{{maquina.nombre}}</div>
@@ -160,7 +162,7 @@
                         <tbody>
                             <tr ng-repeat="frente in frente track by $index">
                                 <td>
-                                    <div class="content">{{$index + 1}}</div>
+                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
                                 </td>
                                 <td>
                                     <div class="content">{{frente.nombre}}</div>
@@ -191,7 +193,7 @@
                         <tbody>
                             <tr ng-repeat="operador in operador track by $index">
                                 <td>
-                                    <div class="content">{{$index + 1}}</div>
+                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
                                 </td>
                                 <td>
                                     <div class="content">{{operador.nombre}}</div>
@@ -224,7 +226,7 @@
                         <tbody>
                             <tr ng-repeat="finca in finca track by $index">
                                 <td>
-                                    <div class="content">{{$index + 1}}</div>
+                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
                                 </td>
                                 <td>
                                     <div class="content">{{finca.nombre}}</div>
@@ -261,7 +263,7 @@
                         <tbody>
                             <tr ng-repeat="bitacora in bitacora track by $index">
                                 <td>
-                                    <div class="content">{{$index + 1}}</div>
+                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
                                 </td>
                                 <td>
                                     <div class="content">{{bitacora.fechaCreacion}}</div>
@@ -285,9 +287,6 @@
                                     <div class="content">{{bitacora.galones}}</div>
                                 </td>
                                 <td>
-
-                                    
-
                                     <div ng-if="{identity.roles.contains('admin')}" data-tooltip="{{bitacora.supervisor }}" data-position="top center" class="content">{{bitacora.supervisor.name}}</div>
                                     <div ng-if="!{identity.roles.contains('admin')}" class="content">{{bitacora.supervisor.name}}</div>
                                 </td>
@@ -303,6 +302,11 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+
+                <div class="ui pagination menu" >
+                    <a class="item" ng-click="ver('', catalogoSeleccionado, 'ver',pagina)" ng-repeat="pagina in paginas">{{pagina}}</a>
                 </div>
             </div>
         </div>

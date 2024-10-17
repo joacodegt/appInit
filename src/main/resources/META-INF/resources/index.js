@@ -12,6 +12,8 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         { "nombre": "reportes", "icon": "chart bar" }
     ];
     $scope.menu = [];
+    $scope.paginas = 0;
+    $scope.pagina = 1;
     $scope.maquina = [];
     $scope.frente = [];
     $scope.bitacora = [];
@@ -469,7 +471,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         }
         document.getElementById('token-debugger').innerHTML = html;
     }
-    $scope.ver = function (item, tipo, metodo) {
+    $scope.ver = function (item, tipo, metodo,page) {
         switch (tipo) {
             case "contenido":
                 switch (item.nombre) {
@@ -511,12 +513,9 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             case "frente":
             case "finca":
             case "bitacora":
-                getLista("operador");
-                getLista("frente");
-                getLista("maquina");
-                getLista("finca");
             case "maquina":
-                getLista(tipo);
+                getPaginacion(tipo);
+                getLista(tipo,page);
                 tipoMayus = tipo.charAt(0).toUpperCase() + tipo.slice(1).toLowerCase();
                 switch (metodo) {
                     case "ver":
@@ -533,6 +532,12 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                         });
                         break;
                     case "agregar":
+                        if (tipo == 'bitacora') {
+                            getLista("operador");
+                            getLista("frente");
+                            getLista("maquina");
+                            getLista("finca");
+                        }
                         $scope.metodo = metodo
                         if (item === 'agregar') {
                             $scope.formulario = {}
@@ -568,17 +573,36 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             $('#item' + menuItem).removeClass('active');
         });
     }
-    function getLista(tipo) {
+    function getLista(tipo,page) {
+        var url = '/catalogo/' + tipo + '/buscar?pattern=' + $scope.pattern + '&size=' + 25;
+        if (page !== null && page !== undefined) {
+            url += '&page=' + page;
+            $scope.pagina = page;
+        }else{
+            $scope.pagina = 1;
+        }
         $http({
             method: 'GET',
-            url: '/catalogo/'+tipo+'/buscar?pattern=' + $scope.pattern
+            url: url
         }).then(function successCallback(response) {
             $scope[tipo] = response.data;
             if (tipo == 'bitacora') {
                 $scope[tipo].forEach(function(item) {
-                    item.supervisor = JSON.parse(item.supervisor);
-                }); 
+                item.supervisor = JSON.parse(item.supervisor);
+            }); 
             }
+        }, function errorCallback(response) {
+            alert(response.statusText);
+        });
+    }
+    function getPaginacion(tipo) {
+        var url = '/catalogo/paginacion?modelo=' + tipo;
+        $http({
+            method: 'GET',
+            url: url
+        }).then(function successCallback(response) {
+            var cantidadElementos = Array.from({ length: response.data }, (_, i) => i + 1);
+            $scope.paginas = cantidadElementos;
         }, function errorCallback(response) {
             alert(response.statusText);
         });

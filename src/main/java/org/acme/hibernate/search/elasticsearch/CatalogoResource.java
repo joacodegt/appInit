@@ -56,12 +56,14 @@ public class CatalogoResource {
         return pattern == null || pattern.trim().isEmpty();
     }
 
-    private <T> List<T> buscarEntidad(Class<T> entityClass, String pattern, Optional<Integer> size) {
+    private <T> List<T> buscarEntidad(Class<T> entityClass, String pattern, Optional<Integer> size, Optional<Integer> page) {
+        int pageSize = size.orElse(20);
+        int pageNumber = page.orElse(0);
         List<T> lista = (searchSession.search(entityClass)
                 .where(f -> isEmptyPattern(pattern) ? f.matchAll()
                         : f.simpleQueryString().fields("nombre").matching(pattern))
                 .sort(f -> f.field("nombre_ordenado"))
-                .fetchHits(size.orElse(20)));
+                .fetchHits(pageNumber * pageSize, pageSize));
         LOG.info(lista.size());
         return lista;
     }
@@ -252,38 +254,75 @@ public class CatalogoResource {
     @GET
     @Path("bitacora/buscar")
     @Transactional
-    public List<Bitacora> buscarBitacora(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
-        return (searchSession.search(Bitacora.class)
-                .where(f -> isEmptyPattern(pattern) ? f.matchAll()
-                        : f.simpleQueryString().fields("id").matching(pattern))
-                .fetchHits(size.orElse(20)));
+    public List<Bitacora> buscarBitacora(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+        int pageSize = size.orElse(25);
+        int pageNumber = page.orElse(0);
+        LOG.info("pageSize : "+ pageSize);
+        LOG.info("pageNumber*pageSize : "+ pageNumber*pageSize);
+        
+        var resultado = (searchSession.search(Bitacora.class)
+        .where(f -> isEmptyPattern(pattern) ? f.matchAll()
+                : f.simpleQueryString().fields("id").matching(pattern))
+        .fetchHits(pageNumber*pageSize, pageSize));
+        
+        LOG.info("lista : "+ resultado.size());
+        return resultado;
     }
 
     @GET
     @Path("maquina/buscar")
     @Transactional
-    public List<Maquina> buscarMaquinas(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
-        return buscarEntidad(Maquina.class, pattern, size);
+    public List<Maquina> buscarMaquinas(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+        return buscarEntidad(Maquina.class, pattern, size, page);
     }
 
     @GET
     @Path("frente/buscar")
     @Transactional
-    public List<Frente> buscarFrente(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
-        return buscarEntidad(Frente.class, pattern, size);
+    public List<Frente> buscarFrente(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+        return buscarEntidad(Frente.class, pattern, size, page);
     }
 
     @GET
     @Path("finca/buscar")
     @Transactional
-    public List<Finca> buscarFinca(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
-        return buscarEntidad(Finca.class, pattern, size);
+    public List<Finca> buscarFinca(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+        return buscarEntidad(Finca.class, pattern, size, page);
     }
 
     @GET
     @Path("operador/buscar")
     @Transactional
-    public List<Operador> buscarOperador(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
-        return buscarEntidad(Operador.class, pattern, size);
+    public List<Operador> buscarOperador(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+        return buscarEntidad(Operador.class, pattern, size, page);
+    }
+
+    @GET
+    @Path("paginacion")
+    @Transactional
+    public long cantidadPaginas(@RestQuery String modelo) {
+        long total = 0;
+        if ("operador".equalsIgnoreCase(modelo)) {
+            total = searchSession.search(Operador.class)
+                .where(f -> f.matchAll())
+                .fetchTotalHitCount();
+        } else if ("maquina".equalsIgnoreCase(modelo)) {
+            total = searchSession.search(Maquina.class)
+                .where(f -> f.matchAll())
+                .fetchTotalHitCount();
+        }else if ("frente".equalsIgnoreCase(modelo)) {
+            total = searchSession.search(Frente.class)
+                .where(f -> f.matchAll())
+                .fetchTotalHitCount();
+        }else if ("finca".equalsIgnoreCase(modelo)) {
+            total = searchSession.search(Finca.class)
+                .where(f -> f.matchAll())
+                .fetchTotalHitCount();
+        }else if ("bitacora".equalsIgnoreCase(modelo)) {
+            total = searchSession.search(Bitacora.class)
+                .where(f -> f.matchAll())
+                .fetchTotalHitCount();
+        }
+        return total/25;
     }
 }
