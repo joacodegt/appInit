@@ -55,39 +55,47 @@ public class CatalogoResource {
     private boolean isEmptyPattern(String pattern) {
         return pattern == null || pattern.trim().isEmpty();
     }
-    
+
     private <T> List<T> buscarEntidad(Class<T> entityClass, String pattern, Optional<Integer> size) {
         List<T> lista = (searchSession.search(entityClass)
-        .where(f -> isEmptyPattern(pattern) ? f.matchAll() : f.simpleQueryString().fields("nombre").matching(pattern))
-        .sort(f -> f.field("nombre_ordenado"))
-        .fetchHits(size.orElse(20)));
+                .where(f -> isEmptyPattern(pattern) ? f.matchAll()
+                        : f.simpleQueryString().fields("nombre").matching(pattern))
+                .sort(f -> f.field("nombre_ordenado"))
+                .fetchHits(size.orElse(20)));
         LOG.info(lista.size());
         return lista;
     }
+
+    private <T> void eliminarEntidad(Class<T> entityClass, Long id) {
+        T entity = searchSession.toEntityManager().find(entityClass, id);
+        if (entity != null && identity.hasRole("admin")) {
+            searchSession.toEntityManager().remove(entity);
+        }
+    }
+
     @PUT
     @Path("bitacora")
     @Transactional
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void agregarBitacora( 
-        @RestForm String operador,
-        @RestForm String frente,
-        @RestForm String maquina,
-        @RestForm String finca,
-        @RestForm String horometroInicio,
-        @RestForm String galones
-    ) {
+    public void agregarBitacora(
+            @RestForm String operador,
+            @RestForm String frente,
+            @RestForm String maquina,
+            @RestForm String finca,
+            @RestForm String horometroInicio,
+            @RestForm String galones) {
         Bitacora bitacora = new Bitacora();
-        LOG.info("nombre: "+operador);
+        LOG.info("nombre: " + operador);
         bitacora.operador = Operador.findById(Long.parseLong(operador));
-        bitacora.frente= Frente.findById(Long.parseLong(frente));
-        bitacora.maquina= Maquina.findById(Long.parseLong(maquina));
-        bitacora.finca= Finca.findById(Long.parseLong(finca));
+        bitacora.frente = Frente.findById(Long.parseLong(frente));
+        bitacora.maquina = Maquina.findById(Long.parseLong(maquina));
+        bitacora.finca = Finca.findById(Long.parseLong(finca));
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
-        bitacora.galones   = Long.parseLong(galones);
+        bitacora.galones = Long.parseLong(galones);
         TokenDebugger tokenDebugger = new TokenDebugger();
         bitacora.supervisor = tokenDebugger.decoded;
         bitacora.persist();
-        
+
     }
 
     @POST
@@ -103,17 +111,8 @@ public class CatalogoResource {
         maquina.tipo = tipo;
         maquina.persist();
     }
-    @DELETE
-    @Path("maquina/{id}")
-    @Transactional
-    public void eliminarMaquina(Long id) {
-        Maquina maquina = Maquina.findById(id);
-        if (maquina != null) {
-            if (identity.hasRole("admin")) {
-                maquina.delete();
-            }
-        }
-    }
+
+
     @PUT
     @Path("maquina")
     @Transactional
@@ -127,17 +126,6 @@ public class CatalogoResource {
         }
     }
 
-    @DELETE
-    @Path("finca/{id}")
-    @Transactional
-    public void eliminarFinca(Long id) {
-        Finca finca = Finca.findById(id);
-        if (finca != null) {
-            if (identity.hasRole("admin")) {
-                finca.delete();
-            }
-        }
-    }
     @PUT
     @Path("finca")
     @Transactional
@@ -147,6 +135,31 @@ public class CatalogoResource {
             Finca finca = new Finca();
             finca.nombre = nombre;
             finca.persist();
+        }
+    }
+
+    @PUT
+    @Path("frente")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void agregarFrente(@RestForm String nombre) {
+        if (isValidString(nombre)) {
+            Frente frente = new Frente();
+            frente.nombre = nombre;
+            frente.persist();
+        }
+    }
+
+    @PUT
+    @Path("operador")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void agregarOperador(@RestForm String nombre, @RestForm String codigoEmpleado) {
+        if (isValidString(nombre) && isValidString(codigoEmpleado)) {
+            Operador operador = new Operador();
+            operador.nombre = nombre;
+            operador.codigoEmpleado = codigoEmpleado;
+            operador.persist();
         }
     }
 
@@ -175,41 +188,7 @@ public class CatalogoResource {
         frente.nombre = nombre;
         frente.persist();
     }
-    @DELETE
-    @Path("frente/{id}")
-    @Transactional
-    public void eliminarFrente(Long id) {
-        Frente frente = Frente.findById(id);
-        if (frente != null) {
-            if (identity.hasRole("admin")) {
-                frente.delete();
-            }
-        }
-    }
-    @PUT
-    @Path("frente")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void agregarFrente(@RestForm String nombre) {
-        if (isValidString(nombre)) {
-            Frente frente = new Frente();
-            frente.nombre = nombre;
-            frente.persist();
-        }
-    }
 
-    @PUT
-    @Path("operador")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void agregarOperador(@RestForm String nombre, @RestForm String codigoEmpleado) {
-        if (isValidString(nombre) && isValidString(codigoEmpleado)) {
-            Operador operador = new Operador();
-            operador.nombre = nombre;
-            operador.codigoEmpleado = codigoEmpleado;
-            operador.persist();
-        }
-    }
     @POST
     @Path("operador/{id}")
     @Transactional
@@ -223,16 +202,33 @@ public class CatalogoResource {
         operador.codigoEmpleado = codigoEmpleado;
         operador.persist();
     }
+
+    @DELETE
+    @Path("maquina/{id}")
+    @Transactional
+    public void eliminarMaquina(Long id) {
+        eliminarEntidad(Maquina.class, id);
+    }
+
+    @DELETE
+    @Path("finca/{id}")
+    @Transactional
+    public void eliminarFinca(Long id) {
+        eliminarEntidad(Finca.class, id);
+    }
+
+    @DELETE
+    @Path("frente/{id}")
+    @Transactional
+    public void eliminarFrente(Long id) {
+        eliminarEntidad(Frente.class, id);
+    }
+
     @DELETE
     @Path("operador/{id}")
     @Transactional
     public void eliminarOperador(Long id) {
-        Operador operador = Operador.findById(id);
-        if (operador != null) {
-            if (identity.hasRole("admin")) {
-                operador.delete();
-            }
-        }
+        eliminarEntidad(Operador.class, id);
     }
 
     @GET
@@ -252,6 +248,17 @@ public class CatalogoResource {
             return List.of();
         }
     }
+
+    @GET
+    @Path("bitacora/buscar")
+    @Transactional
+    public List<Bitacora> buscarBitacora(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
+        return (searchSession.search(Bitacora.class)
+                .where(f -> isEmptyPattern(pattern) ? f.matchAll()
+                        : f.simpleQueryString().fields("id").matching(pattern))
+                .fetchHits(size.orElse(20)));
+    }
+
     @GET
     @Path("maquina/buscar")
     @Transactional
@@ -265,19 +272,12 @@ public class CatalogoResource {
     public List<Frente> buscarFrente(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
         return buscarEntidad(Frente.class, pattern, size);
     }
+
     @GET
     @Path("finca/buscar")
     @Transactional
     public List<Finca> buscarFinca(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
         return buscarEntidad(Finca.class, pattern, size);
-    }
-    @GET
-    @Path("bitacora/buscar")
-    @Transactional
-    public List<Bitacora> buscarBitacora(@RestQuery String pattern, @RestQuery Optional<Integer> size) {
-        return (searchSession.search(Bitacora.class)
-        .where(f -> isEmptyPattern(pattern) ? f.matchAll() : f.simpleQueryString().fields("id").matching(pattern))
-        .fetchHits(size.orElse(20)));
     }
 
     @GET

@@ -1,4 +1,9 @@
 var app = angular.module("InventarioManagement", []);
+$(document).ready(function() {
+$('#menuToggle').on('click', function() {
+    $('.ui.sidebar').sidebar('toggle');
+});
+});
 app.controller("InventarioManagementController", ['$scope', '$http', '$httpParamSerializerJQLike', function ($scope, $http, $httpParamSerializerJQLike) {
     $scope.lista = [
         // { "nombre": "Nueva Bitacora", "icon": "edit" },
@@ -452,6 +457,17 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 ]
             }]
         });
+        var tokenDebugger = document.getElementById('token-debugger').innerText;
+        var json = JSON.parse(tokenDebugger)
+
+        var html = '';
+        var keysToShow = ['name', 'email', 'unique_name'];
+        for (var key in json) {
+            if (json.hasOwnProperty(key) && keysToShow.includes(key)) {
+                html += '<div><strong>' + key + ':</strong> ' + json[key] + '</div>';
+            }
+        }
+        document.getElementById('token-debugger').innerHTML = html;
     }
     $scope.ver = function (item, tipo, metodo) {
         switch (tipo) {
@@ -538,6 +554,10 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             default:
                 break;
         }
+    }
+
+    $scope.logout = function (){
+        window.location.href = '/logout';
     }
 
     function desaparecer(){

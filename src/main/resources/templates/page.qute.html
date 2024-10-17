@@ -8,28 +8,6 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
     <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-    <style type="text/css">
-        .ui.menu .item {
-            font-size: 20px;
-        }
-
-        .contenido {
-            margin-top: 5em;
-            border-bottom: 1px solid #CCC;
-            border-top: 1px solid #CCC;
-            padding-top: 1em;
-            padding-bottom: 1em;
-        }
-
-        .buscar {
-            margin-top: 2em;
-        }
-
-        .contenido .meta {
-            margin-top: 5px;
-            margin-bottom: 15px;
-        }
-    </style>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -37,14 +15,18 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <!-- Load AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
 </head>
 
 <body ng-app="InventarioManagement" ng-controller="InventarioManagementController">
     <div class="ui center aligned segment">
         {! MENU !}
-        <div class="ui large top menu">
+        <div class="ui top menu">
             <div class="ui container">
+                <button class="ui icon button" id="menuToggle">
+                    <i class="bars icon"></i>
+                </button>
                 <a class="header item" ng-click="ver('inicio','contenido','')">
                     <img class="logo" src="img/logo.png" alt="Quarkus logo">
                     Control de Maquinaria
@@ -56,18 +38,11 @@
                 </div>
             </div>
         </div>
-        <div id="contenidoInicio" class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
-            <div class="ui cards">
-                <div class="card" style="width: 100%; height: 70vh; overflow-y: auto;">
-                    <div class="content" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-                        <button class="ui bottom attached button" style="flex: 1 1 auto; margin: 5px;"
-                            ng-repeat="item in lista" ng-click="ver(item,'contenido','')">
-                            <i class="{{ item.icon }} icon" style="font-size: 5vh; color: #4183c4;"></i>
-                            <div class="header">{{ item.nombre }}</div>
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div class="ui sidebar vertical menu" style="background-color: white;">
+            <a class="item" ng-repeat="item in lista" ng-click="ver(item,'contenido','')">
+                <i class="{{ item.icon }} icon" style="font-size: 5vh; color: #4183c4;"></i>
+                <div class="header">{{ item.nombre }}</div>
+            </a>
         </div>
         {! configuraciones !}
         <div class="ui modal" id="contenidoConfiguracion">
@@ -84,26 +59,20 @@
                 {/for}
                 <br>
                 <a class="ui teal image label"> Credenciales: </a>
-                {#for item in identity.credentials}
-                {item}
+                <div id="token-debugger">{TokenDebugger}</div>
                 <br>
-                {/for}
                 <br>
-                <a class="ui teal image label"> Atributos: </a>
-                {#for item in identity.getAttributes}
-
-                {item}
-                <br>
-                {/for}
-                <br>
-
             </div>
             <div class="actions">
-            </div>
+                <button class="ui negative button" ng-click="logout()">
+                    <i class="sign-out icon"></i>
+                    Salir
+                </button>
+                </div>
         </div>
         {! REPORTES !}
         <div id="contenidoReportes">
-            <div class="ui segment" style="width: 100%; height: 80vh; overflow-y: auto;">
+            <div class="ui segment contenedorApp">
                 <h2>Graficas:</h2>
                 <figure class="highcharts-figure">
                     <div id="grafica"></div>
@@ -127,34 +96,39 @@
         </div>
         {! CATALOGOS !}
         <div id="contenidoCatalogos">
-            <div class="ui segment" style="width: 100%; height: 85vh; overflow-y: auto;">
+            <div class="ui segment contenedorApp">
                 <div class="ui vertical menu left floated segment">
-                    <i class="book icon" style="font-size: 2vh; color: #4183c4;"></i>
-
                     <div class="item">
                         <h1 class="ui header">
-                            catalogos</h1>
+                            <i class="book icon" style="font-size: 3vh; color: #4183c4;"></i>catalogos</h1>
                         <div class="menu">
                             <a ng-repeat="catalogo in menu" id="item{{catalogo}}" class="item"
                                 ng-click="ver('',catalogo.toLowerCase(),'ver')">{{catalogo}}</a>
                         </div>
                     </div>
                 </div>
+
                 <button class="ui right floated  segment labeled icon button"
                     ng-click="ver('agregar',catalogoSeleccionado,'agregar')"><i class="plus square icon"></i> Agrear
                 </button>
+
                 <h1 class="ui header">{{catalogoSeleccionado}}</h1>
-                <div id="maquina" class="ui left floated segment">
+                
+                <div id="maquina" class="ui left floated segment tablaApp">
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Nombre</th>
                                 <th>Tipo</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="maquina in maquina">
+                            <tr ng-repeat="maquina in maquina track by $index">
+                                <td>
+                                    <div class="content">{{$index + 1}}</div>
+                                </td>
                                 <td>
                                     <div class="content">{{maquina.nombre}}</div>
                                 </td>
@@ -174,16 +148,20 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="frente" class="ui left floated segment">
+                <div id="frente" class="ui left floated segment tablaApp">
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Nombre</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="frente in frente">
+                            <tr ng-repeat="frente in frente track by $index">
+                                <td>
+                                    <div class="content">{{$index + 1}}</div>
+                                </td>
                                 <td>
                                     <div class="content">{{frente.nombre}}</div>
                                 </td>
@@ -200,17 +178,21 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="operador" class="ui left floated segment">
+                <div id="operador" class="ui left floated segment tablaApp">
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Nombre</th>
                                 <th>Codigo Empleado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="operador in operador">
+                            <tr ng-repeat="operador in operador track by $index">
+                                <td>
+                                    <div class="content">{{$index + 1}}</div>
+                                </td>
                                 <td>
                                     <div class="content">{{operador.nombre}}</div>
                                 </td>
@@ -230,16 +212,20 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="finca" class="ui left floated segment">
+                <div id="finca" class="ui left floated segment tablaApp">
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Nombre</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="finca in finca">
+                            <tr ng-repeat="finca in finca track by $index">
+                                <td>
+                                    <div class="content">{{$index + 1}}</div>
+                                </td>
                                 <td>
                                     <div class="content">{{finca.nombre}}</div>
                                 </td>
@@ -256,10 +242,11 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="bitacora" class="ui left floated segment">
+                <div id="bitacora" class="ui left floated segment tablaApp">
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Fecha Creacion</th>
                                 <th>Operador</th>
                                 <th>Frente</th>
@@ -272,7 +259,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="bitacora in bitacora">
+                            <tr ng-repeat="bitacora in bitacora track by $index">
+                                <td>
+                                    <div class="content">{{$index + 1}}</div>
+                                </td>
                                 <td>
                                     <div class="content">{{bitacora.fechaCreacion}}</div>
                                 </td>
@@ -295,7 +285,11 @@
                                     <div class="content">{{bitacora.galones}}</div>
                                 </td>
                                 <td>
-                                    <div class="content">{{bitacora.supervisor.name}}</div>
+
+                                    
+
+                                    <div ng-if="{identity.roles.contains('admin')}" data-tooltip="{{bitacora.supervisor }}" data-position="top center" class="content">{{bitacora.supervisor.name}}</div>
+                                    <div ng-if="!{identity.roles.contains('admin')}" class="content">{{bitacora.supervisor.name}}</div>
                                 </td>
                                 <td>
                                     <button class="ui small basic green button"
@@ -484,7 +478,7 @@
                 </button>
             </div>
         </div>
-    </div>
+    </div>  
 </body>
 
 </html>

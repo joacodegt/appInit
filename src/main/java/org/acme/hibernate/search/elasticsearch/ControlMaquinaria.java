@@ -31,7 +31,7 @@ public class ControlMaquinaria {
     @Produces(MediaType.TEXT_HTML)
     public String get() {
         if (identity.hasRole("admin")||identity.hasRole("user")) {
-            return page.data("identity", identity).render();
+            return page.data("identity", identity,"TokenDebugger",TokenDebugger.decoded).render();
         } 
         else {
             return forbidden.data("identity", identity).render();
