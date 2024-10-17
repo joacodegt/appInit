@@ -530,6 +530,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                                 $('#item' + menuItem).addClass('active');
                             }
                         });
+                        $scope.pattern = '';
                         break;
                     case "agregar":
                         if (tipo == 'bitacora') {
@@ -606,19 +607,6 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         }, function errorCallback(response) {
             alert(response.statusText);
         });
-    }
-    $scope.buscar = function (tipo) {
-        switch (tipo) {
-            case 'equipo':
-                getEquipos()
-                break;
-            case 'actividad':
-                getActividades()
-                break;
-
-            default:
-                break;
-        }
     }
     function httpMetodo(method, url, data, tipo) {
         $http({
