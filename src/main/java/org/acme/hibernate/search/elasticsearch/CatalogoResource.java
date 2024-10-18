@@ -257,15 +257,10 @@ public class CatalogoResource {
     public List<Bitacora> buscarBitacora(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
         int pageSize = size.orElse(25);
         int pageNumber = page.orElse(0);
-        LOG.info("pageSize : "+ pageSize);
-        LOG.info("pageNumber*pageSize : "+ pageNumber*pageSize);
-        
         var resultado = (searchSession.search(Bitacora.class)
         .where(f -> isEmptyPattern(pattern) ? f.matchAll()
-                : f.simpleQueryString().fields("id").matching(pattern))
+                : f.simpleQueryString().fields("frente.nombre","maquina.nombre","finca.nombre","fechaCreacion").matching(pattern))
         .fetchHits(pageNumber*pageSize, pageSize));
-        
-        LOG.info("lista : "+ resultado.size());
         return resultado;
     }
 

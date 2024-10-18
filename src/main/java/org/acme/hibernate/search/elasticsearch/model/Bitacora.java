@@ -11,7 +11,15 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+import org.hibernate.search.engine.backend.types.Projectable;
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
@@ -21,31 +29,37 @@ public class Bitacora extends PanacheEntity {
 
    
     @ManyToOne
+    @IndexedEmbedded
     public Operador operador;
 
     @ManyToOne
+    @IndexedEmbedded
     public Frente frente;
 
     @ManyToOne
+    @IndexedEmbedded
     public Maquina maquina;
     
     @ManyToOne
+    @IndexedEmbedded
     public Finca finca;
     
     
     public Long horometroInicio;
     public Long galones;
 
-    
+    @GenericField
     @Column(length = 4000)
     public String supervisor;
 
-    @Temporal(TemporalType.DATE)
-    public Date fechaCreacion;
+    @GenericField(projectable = Projectable.YES, sortable = Sortable.YES)
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-mm-dd HH:MM")
+    public LocalDateTime fechaCreacion;
 
     @PrePersist
     protected void onCreate() {
-        fechaCreacion = Date.valueOf(LocalDateTime.now().toLocalDate());
+        fechaCreacion = LocalDateTime.now();
     }
 
     @Override

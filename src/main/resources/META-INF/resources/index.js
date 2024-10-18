@@ -1,8 +1,11 @@
 var app = angular.module("InventarioManagement", []);
 $(document).ready(function() {
-$('#menuToggle').on('click', function() {
-    $('.ui.sidebar').sidebar('toggle');
-});
+    $('#menuToggle').on('click', function() {
+        $('.ui.sidebar').sidebar('toggle');
+    });
+    $('.ui.sidebar .item').on('click', function() {
+        $('.ui.sidebar').sidebar('hide');
+    });
 });
 app.controller("InventarioManagementController", ['$scope', '$http', '$httpParamSerializerJQLike', function ($scope, $http, $httpParamSerializerJQLike) {
     $scope.lista = [
@@ -35,429 +38,50 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             getLista(item.nombre.toLowerCase());
         });
         Highcharts.chart('grafica', {
-
-            title: {
-                text: 'Desperfectos por equipo',
-                align: 'left'
-            },
-
-            subtitle: {
-                text: 'Cantidad de desperfectos por mes y equipo',
-                align: 'left'
-            },
-
-            yAxis: {
-                title: {
-                    text: 'Desperfectos'
-                }
-            },
-
-            xAxis: {
-                accessibility: {
-                    rangeDescription: 'Range: 1 to 12'
-                }
-            },
-
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-
-            plotOptions: {
-                series: {
-                    label: {
-                        connectorAllowed: false
-                    },
-                    pointStart: 1
-                }
-            },
-            series: [{
-                name: 'ckl60-cm3',
-                data: [1, 2, 1, 3, 0, 0,
-                    1, 0, 0, 2, 4]
-            }, {
-                name: 'GS3BA-60CH',
-                data: [0, 0, 0, 0, 0, 0,
-                    2, 0, 0, 0, 1]
-            }, {
-                name: 'YAU-60CR',
-                data: [1, 2, 1, 1, 1, 1,
-                    0, 0, 1, 0, 1]
-            }, {
-                name: 'GS3BA-60CH',
-                data: [null, null, null, 3, 2, 1, 1,
-                    0, 0, 0, 0]
-            },],
-
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 50
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
-                    }
-                }]
-            }
-        });
-        Highcharts.chart('graficaEquiposEnMantenimiento', {
             chart: {
                 type: 'column'
             },
             title: {
-                align: 'left',
-                text: 'Cantidad de equipos en mantenimiento por mes'
+                text: 'Disponibilidad de maquinas',
+                align: 'left'
             },
             subtitle: {
-                align: 'left',
-                text: ''
-            },
-            accessibility: {
-                announceNewData: {
-                    enabled: true
-                }
+                text:
+                    '',
+                align: 'left'
             },
             xAxis: {
-                type: 'mes'
+                categories: ['5/01/2023','14/01/2023','9/01/2023','1/01/2023','2/01/2023','12/01/2023','7/01/2023','11/01/2023','13/01/2023','15/01/2023','10/01/2023','3/01/2023','6/01/2023','4/01/2023','13/10/2024','17/10/2024','8/01/2023'],
+                crosshair: true,
+                accessibility: {
+                    description: 'dias'
+                }
             },
             yAxis: {
+                min: 0,
                 title: {
-                    text: 'Equipos en mantenimiento'
+                    text: 'maquinas'
                 }
-
             },
-            legend: {
-                enabled: false
+            tooltip: {
+                valueSuffix: ' maquinas'
             },
             plotOptions: {
-                series: {
-                    borderWidth: 1,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.y:.1f}%'
-                    }
+                column: {
+                    pointPadding: 0.1,
+                    borderWidth: 0
                 }
             },
-
-            tooltip: {
-                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
-            },
-
             series: [
                 {
-                    name: 'Equipos',
-                    colorByPoint: true,
-                    data: [
-                        {
-                            name: 'Enero',
-                            y: 2,
-                            drilldown: 'Enero'
-                        },
-                        {
-                            name: 'Febrero',
-                            y: 3,
-                            drilldown: 'Febrero'
-                        },
-                        {
-                            name: 'Marzo',
-                            y: 1,
-                            drilldown: 'Marzo'
-                        },
-                        {
-                            name: 'Abril',
-                            y: 3,
-                            drilldown: 'Abril'
-                        },
-                        {
-                            name: 'Mayo',
-                            y: 2,
-                            drilldown: 'Mayo'
-                        },
-                        {
-                            name: 'Junio',
-                            y: 1,
-                            drilldown: 'Junio'
-                        },
-                        {
-                            name: 'Julio',
-                            y: 0,
-                            drilldown: 'Julio'
-                        }
-                    ]
-                }
-            ],
-            drilldown: {
-                breadcrumbs: {
-                    position: {
-                        align: 'right'
-                    }
+                    name: 'disponibles',
+                    data: [63,64,63,63,63,63,63,63,83,63,63,63,63,63,83,81,63]
                 },
-                series: [
-                    {
-                        name: 'Enero',
-                        id: 'Enero',
-                        data: [
-                            [
-                                'v65.0',
-                                0.1
-                            ],
-                            [
-                                'v64.0',
-                                1.3
-                            ],
-                            [
-                                'v63.0',
-                                53.02
-                            ],
-                            [
-                                'v62.0',
-                                1.4
-                            ],
-                            [
-                                'v61.0',
-                                0.88
-                            ],
-                            [
-                                'v60.0',
-                                0.56
-                            ],
-                            [
-                                'v59.0',
-                                0.45
-                            ],
-                            [
-                                'v58.0',
-                                0.49
-                            ],
-                            [
-                                'v57.0',
-                                0.32
-                            ],
-                            [
-                                'v56.0',
-                                0.29
-                            ],
-                            [
-                                'v55.0',
-                                0.79
-                            ],
-                            [
-                                'v54.0',
-                                0.18
-                            ],
-                            [
-                                'v51.0',
-                                0.13
-                            ],
-                            [
-                                'v49.0',
-                                2.16
-                            ],
-                            [
-                                'v48.0',
-                                0.13
-                            ],
-                            [
-                                'v47.0',
-                                0.11
-                            ],
-                            [
-                                'v43.0',
-                                0.17
-                            ],
-                            [
-                                'v29.0',
-                                0.26
-                            ]
-                        ]
-                    },
-                    {
-                        name: 'Febrero',
-                        id: 'Febrero',
-                        data: [
-                            [
-                                'v58.0',
-                                1.02
-                            ],
-                            [
-                                'v57.0',
-                                7.36
-                            ],
-                            [
-                                'v56.0',
-                                0.35
-                            ],
-                            [
-                                'v55.0',
-                                0.11
-                            ],
-                            [
-                                'v54.0',
-                                0.1
-                            ],
-                            [
-                                'v52.0',
-                                0.95
-                            ],
-                            [
-                                'v51.0',
-                                0.15
-                            ],
-                            [
-                                'v50.0',
-                                0.1
-                            ],
-                            [
-                                'v48.0',
-                                0.31
-                            ],
-                            [
-                                'v47.0',
-                                0.12
-                            ]
-                        ]
-                    },
-                    {
-                        name: 'Marzo',
-                        id: 'Marzo',
-                        data: [
-                            [
-                                'v11.0',
-                                6.2
-                            ],
-                            [
-                                'v10.0',
-                                0.29
-                            ],
-                            [
-                                'v9.0',
-                                0.27
-                            ],
-                            [
-                                'v8.0',
-                                0.47
-                            ]
-                        ]
-                    },
-                    {
-                        name: 'Abril',
-                        id: 'Abril',
-                        data: [
-                            [
-                                'v11.0',
-                                3.39
-                            ],
-                            [
-                                'v10.1',
-                                0.96
-                            ],
-                            [
-                                'v10.0',
-                                0.36
-                            ],
-                            [
-                                'v9.1',
-                                0.54
-                            ],
-                            [
-                                'v9.0',
-                                0.13
-                            ],
-                            [
-                                'v5.1',
-                                0.2
-                            ]
-                        ]
-                    },
-                    {
-                        name: 'Mayo',
-                        id: 'Mayo',
-                        data: [
-                            [
-                                'v16',
-                                2.6
-                            ],
-                            [
-                                'v15',
-                                0.92
-                            ],
-                            [
-                                'v14',
-                                0.4
-                            ],
-                            [
-                                'v13',
-                                0.1
-                            ]
-                        ]
-                    },
-                    {
-                        name: 'Junio',
-                        id: 'Junio',
-                        data: [
-                            [
-                                'v50.0',
-                                0.96
-                            ],
-                            [
-                                'v49.0',
-                                0.82
-                            ],
-                            [
-                                'v12.1',
-                                0.14
-                            ]
-                        ]
-                    }
-                ]
-            }
-        });
-        Highcharts.chart('graficaInidiceMantenimientoArea', {
-            chart: {
-                type: 'pie',
-                options3d: {
-                    enabled: true,
-                    alpha: 45
+                {
+                    name: 'en Uso',
+                    data: [21,20,21,21,21,21,21,21,1,21,21,21,21,21,1,3,21]
                 }
-            },
-            title: {
-                text: 'Indice de mantenimiento por area',
-                align: 'left'
-            },
-            subtitle: {
-                text: '',
-                align: 'left'
-            },
-            plotOptions: {
-                pie: {
-                    innerSize: 100,
-                    depth: 45
-                }
-            },
-            series: [{
-                name: 'Medals',
-                data: [
-                    ['ccm tachos bacht', 0]
-                    , ['ccm tachos 1ra cristal ', 1]
-                    , ['ccm continua 1ra crudo ', 2]
-                    , ['ccm continua 2da crudo', 0]
-                    , ['ccm clarificacion', 0]
-                    , ['ccm crudo lado A', 0]
-                    , ['ccm crudo lado B', 3]
-                    , ['ccm envasado del A', 0]
-                    , ['ccm continuas 2da crudo', 0]
-                    , ['ccm bba Cristal', 4]
-                    , ['ccm sala variadores cald#09', 0]
-                    , ['ccm sala variadores cald#10', 0]
-                    , ['ccm sala variadores cald#11', 0]
-                ]
-            }]
+            ]
         });
         var tokenDebugger = document.getElementById('token-debugger').innerText;
         var json = JSON.parse(tokenDebugger)
