@@ -73,16 +73,17 @@ public class CatalogoResource {
                         LocalDateTime fechaCreacion = null;
                         LocalDateTime fechaCreacionFin = null;
                         try {
-                            fechaCreacion = convertirFecha(pattern);
-                            fechaCreacionFin = convertirFecha(pattern+"T23:59:59");
+                            fechaCreacion = convertirFecha(pattern,"yyyy-MM-dd");
+                            fechaCreacionFin = convertirFecha(pattern+"T23:59:59","");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        if (fechaCreacion != null) {
+                        if (fechaCreacion != null && fechaCreacionFin != null) {
                             LOG.info("con fechaCreacion: "+fechaCreacion);
+                            LOG.info("fechaCreacionFin: "+fechaCreacionFin);
                             return f.range().field("fechaCreacion").between(fechaCreacion, fechaCreacionFin);
                         } else {
-                            LOG.info("fin fechaCreacion: "+fechaCreacion);
+                            LOG.info("sin fechaCreacion");
                             return f.match().fields("nombre").matching(pattern);
                         }
                     }
@@ -101,12 +102,16 @@ public class CatalogoResource {
         }
     }
 
-    public LocalDateTime convertirFecha(String pattern) throws Exception{
+    public LocalDateTime convertirFecha(String pattern, String formatoFecha) throws Exception{
         LOG.info("pattern: "+pattern);
         LocalDateTime fechaCreacion = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatoFecha);
         try {
-            fechaCreacion = LocalDateTime.parse(LocalDate.parse(pattern, formatter).atStartOfDay().toString());
+            if (formatoFecha.equals("")) {
+                fechaCreacion = LocalDateTime.parse(pattern);
+            }else{
+                fechaCreacion = LocalDateTime.parse(LocalDate.parse(pattern, formatter).atStartOfDay().toString());
+            }
             LOG.info("conversion de fecha correcta : "+pattern);
             return fechaCreacion;
         } catch (DateTimeParseException e) {
@@ -302,13 +307,15 @@ public class CatalogoResource {
             } else {
                 // Convertir el patrón a LocalDateTime si es posible
                 LocalDateTime fechaCreacion = null;
+                LocalDateTime fechaCreacionFin = null;
                 try {
-                    fechaCreacion = convertirFecha(pattern);
+                    fechaCreacion = convertirFecha(pattern,"yyyy-MM-dd");
+                    fechaCreacionFin = convertirFecha(pattern+"T23:59:59","");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (fechaCreacion != null) {
-                    return f.range().field("fechaCreacion").between(fechaCreacion,fechaCreacion.plusDays(1));
+                if (fechaCreacion != null && fechaCreacionFin != null) {
+                    return f.range().field("fechaCreacion").between(fechaCreacion,fechaCreacionFin);
                 } else {
                     return f.match().fields("frente.nombre", "maquina.nombre", "finca.nombre").matching(pattern);
                 }

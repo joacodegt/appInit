@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.jboss.logging.Logger;
+// import org.jboss.logging.Logger;
 
 import io.quarkus.security.identity.SecurityIdentity;
 
