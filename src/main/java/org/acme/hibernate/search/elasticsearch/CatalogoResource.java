@@ -85,6 +85,7 @@ public class CatalogoResource {
                         }
                     }
                 })
+                .sort(f -> f.field("fechaCreacion").desc())
                 .sort(f -> f.field("nombre_ordenado"))
                 .fetchHits(pageNumber * pageSize, pageSize));
         LOG.info(lista.size());
@@ -130,8 +131,7 @@ public class CatalogoResource {
         bitacora.finca = Finca.findById(Long.parseLong(finca));
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
         bitacora.galones = Long.parseLong(galones);
-        TokenDebugger tokenDebugger = new TokenDebugger();
-        bitacora.supervisor = tokenDebugger.decoded;
+        bitacora.supervisor = TokenDebugger.decoded;
         bitacora.persist();
 
     }

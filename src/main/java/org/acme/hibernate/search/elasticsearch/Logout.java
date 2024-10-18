@@ -16,7 +16,7 @@ import io.quarkus.security.identity.SecurityIdentity;
 
 @Path("/logout")
 public class Logout {
-    private static final Logger LOG = Logger.getLogger(Logout.class);
+    // private static final Logger LOG = Logger.getLogger(Logout.class);
     @ConfigProperty(name = "quarkus.oidc.logout.path")
     String logoutPath;
 

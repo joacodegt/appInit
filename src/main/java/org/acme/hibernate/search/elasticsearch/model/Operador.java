@@ -1,6 +1,5 @@
 package org.acme.hibernate.search.elasticsearch.model;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
