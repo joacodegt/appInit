@@ -71,14 +71,16 @@ public class CatalogoResource {
                     } else {
                         // Convertir el patrón a LocalDateTime si es posible
                         LocalDateTime fechaCreacion = null;
+                        LocalDateTime fechaCreacionFin = null;
                         try {
                             fechaCreacion = convertirFecha(pattern);
+                            fechaCreacionFin = convertirFecha(pattern+"T23:59:59");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                         if (fechaCreacion != null) {
                             LOG.info("con fechaCreacion: "+fechaCreacion);
-                            return f.range().field("fechaCreacion").between(fechaCreacion, fechaCreacion.plusDays(1));
+                            return f.range().field("fechaCreacion").between(fechaCreacion, fechaCreacionFin);
                         } else {
                             LOG.info("fin fechaCreacion: "+fechaCreacion);
                             return f.match().fields("nombre").matching(pattern);
