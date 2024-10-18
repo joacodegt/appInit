@@ -13,6 +13,7 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
+
 import org.acme.hibernate.search.elasticsearch.model.Maquina;
 import org.acme.hibernate.search.elasticsearch.model.Operador;
 import org.acme.hibernate.search.elasticsearch.model.Frente;
@@ -25,6 +26,10 @@ import org.jboss.resteasy.reactive.RestQuery;
 import org.jboss.logging.Logger;
 import io.quarkus.security.identity.SecurityIdentity;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import io.quarkus.runtime.StartupEvent;
@@ -60,8 +65,26 @@ public class CatalogoResource {
         int pageSize = size.orElse(20);
         int pageNumber = page.orElse(0);
         List<T> lista = (searchSession.search(entityClass)
-                .where(f -> isEmptyPattern(pattern) ? f.matchAll()
-                        : f.simpleQueryString().fields("nombre").matching(pattern))
+                .where(f -> {
+                    if (isEmptyPattern(pattern)) {
+                        return f.matchAll();
+                    } else {
+                        // Convertir el patrón a LocalDateTime si es posible
+                        LocalDateTime fechaCreacion = null;
+                        try {
+                            fechaCreacion = convertirFecha(pattern);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if (fechaCreacion != null) {
+                            LOG.info("con fechaCreacion: "+fechaCreacion);
+                            return f.range().field("fechaCreacion").between(fechaCreacion, fechaCreacion.plusDays(1));
+                        } else {
+                            LOG.info("fin fechaCreacion: "+fechaCreacion);
+                            return f.match().fields("nombre").matching(pattern);
+                        }
+                    }
+                })
                 .sort(f -> f.field("nombre_ordenado"))
                 .fetchHits(pageNumber * pageSize, pageSize));
         LOG.info(lista.size());
@@ -72,6 +95,19 @@ public class CatalogoResource {
         T entity = searchSession.toEntityManager().find(entityClass, id);
         if (entity != null && identity.hasRole("admin")) {
             searchSession.toEntityManager().remove(entity);
+        }
+    }
+
+    public LocalDateTime convertirFecha(String pattern) throws Exception{
+        LOG.info("pattern: "+pattern);
+        LocalDateTime fechaCreacion = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        try {
+            fechaCreacion = LocalDateTime.parse(LocalDate.parse(pattern, formatter).atStartOfDay().toString());
+            LOG.info("conversion de fecha correcta : "+pattern);
+            return fechaCreacion;
+        } catch (DateTimeParseException e) {
+            throw new Exception("Error al convertir la fecha");
         }
     }
 
@@ -258,8 +294,25 @@ public class CatalogoResource {
         int pageSize = size.orElse(25);
         int pageNumber = page.orElse(0);
         var resultado = (searchSession.search(Bitacora.class)
-        .where(f -> isEmptyPattern(pattern) ? f.matchAll()
-                : f.simpleQueryString().fields("frente.nombre","maquina.nombre","finca.nombre","fechaCreacion").matching(pattern))
+        .where(f -> {
+            if (isEmptyPattern(pattern)) {
+                return f.matchAll();
+            } else {
+                // Convertir el patrón a LocalDateTime si es posible
+                LocalDateTime fechaCreacion = null;
+                try {
+                    fechaCreacion = convertirFecha(pattern);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (fechaCreacion != null) {
+                    return f.range().field("fechaCreacion").between(fechaCreacion,fechaCreacion.plusDays(1));
+                } else {
+                    return f.match().fields("frente.nombre", "maquina.nombre", "finca.nombre").matching(pattern);
+                }
+            }
+        })
+        .sort(f -> f.field("fechaCreacion").desc())
         .fetchHits(pageNumber*pageSize, pageSize));
         return resultado;
     }

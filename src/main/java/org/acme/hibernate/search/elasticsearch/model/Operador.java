@@ -13,12 +13,15 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+import org.hibernate.search.engine.backend.types.Projectable;
+import org.hibernate.search.engine.backend.types.Searchable;
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -34,8 +37,10 @@ public class Operador extends PanacheEntity {
     @KeywordField(name = "codigo_ordenado", sortable = Sortable.YES, normalizer = "ordenar")
     public String codigoEmpleado;
 
-    @Temporal(TemporalType.DATE)
-    public Date fechaCreacion;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @GenericField(projectable = Projectable.YES, searchable = Searchable.YES, sortable = Sortable.YES)
+    @Temporal(TemporalType.TIMESTAMP)
+    public LocalDateTime fechaCreacion;
 
     @OneToMany(mappedBy = "operador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnore
@@ -43,7 +48,7 @@ public class Operador extends PanacheEntity {
 
     @PrePersist
     protected void onCreate() {
-        fechaCreacion = Date.valueOf(LocalDateTime.now().toLocalDate());
+        fechaCreacion = LocalDateTime.now();
     }
 
     @Override

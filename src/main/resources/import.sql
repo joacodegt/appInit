@@ -1,31 +1,31 @@
-INSERT INTO maquina(id, nombre,tipo,fechaCreacion) values (1,	'D02000',	'Alzadoras',CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (2, 'D02001', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (3, 'D02002', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (4, 'D02003', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (5, 'D02004', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (6, 'D02005', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (7, 'D02006', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (8, 'D02007', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (9, 'D02008', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (10, 'D02009', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (11, 'D02010', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (12, 'D02011', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (13, 'D02013', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (14, 'D02014', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (15, 'D02015', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (16, 'D02016', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (17, 'D02017', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (18, 'D02018', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (19, 'D02019', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (20, 'D02020', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (21, 'D02021', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (22, 'D02022', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (23, 'D02023', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (24, 'D02024', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (25, 'D02025', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (26, 'D02026', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (27, 'D02027', 'Alzadoras', CURRENT_TIMESTAMP);
-INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (28, 'D02028', 'Alzadoras', CURRENT_TIMESTAMP);
+INSERT INTO maquina(id, nombre,tipo,fechaCreacion) values (1,	'D02000',	'Alzadoras',CURRENT_TIMESTAMP - INTERVAL '7 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (2, 'D02001', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '7 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (3, 'D02002', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '7 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (4, 'D02003', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '7 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (5, 'D02004', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '7 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (6, 'D02005', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '7 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (7, 'D02006', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '7 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (8, 'D02007', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (9, 'D02008', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (10, 'D02009', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (11, 'D02010', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (12, 'D02011', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (13, 'D02013', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (14, 'D02014', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (15, 'D02015', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (16, 'D02016', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (17, 'D02017', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (18, 'D02018', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (19, 'D02019', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (20, 'D02020', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (21, 'D02021', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (22, 'D02022', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (23, 'D02023', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (24, 'D02024', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (25, 'D02025', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (26, 'D02026', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (27, 'D02027', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (28, 'D02028', 'Alzadoras', CURRENT_TIMESTAMP - INTERVAL '1 day');
 INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (29, 'D02029', 'Alzadoras', CURRENT_TIMESTAMP);
 INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (30, 'D02030', 'Alzadoras', CURRENT_TIMESTAMP);
 INSERT INTO maquina(id, nombre, tipo, fechaCreacion) values (31, 'D02031', 'Alzadoras', CURRENT_TIMESTAMP);
@@ -116,9 +116,9 @@ INSERT INTO Operador(id, nombre, codigoEmpleado, fechaCreacion) values (21, 'DOR
 ALTER SEQUENCE Operador_seq RESTART WITH 22;
 
 
-INSERT INTO Finca(id, nombre, fechaCreacion) values (1, 'Finca El Paraiso', CURRENT_TIMESTAMP);
-INSERT INTO Finca(id, nombre, fechaCreacion) values (2, 'Finca La Esperanza', CURRENT_TIMESTAMP);
-INSERT INTO Finca(id, nombre, fechaCreacion) values (3, 'Finca San Miguel', CURRENT_TIMESTAMP);
+INSERT INTO Finca(id, nombre, fechaCreacion) values (1, 'Finca El Paraiso', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO Finca(id, nombre, fechaCreacion) values (2, 'Finca La Esperanza', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO Finca(id, nombre, fechaCreacion) values (3, 'Finca San Miguel', CURRENT_TIMESTAMP - INTERVAL '1 day');
 INSERT INTO Finca(id, nombre, fechaCreacion) values (4, 'Finca Los Pinos', CURRENT_TIMESTAMP);
 INSERT INTO Finca(id, nombre, fechaCreacion) values (5, 'Finca Santa Maria', CURRENT_TIMESTAMP);
 INSERT INTO Finca(id, nombre, fechaCreacion) values (6, 'Finca El Roble', CURRENT_TIMESTAMP);
@@ -131,7 +131,7 @@ ALTER SEQUENCE Finca_seq RESTART WITH 11;
 INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
 VALUES (1, 1, 1, 2, 1, 100, 50, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', '2024-10-13');
 INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
-VALUES (2, 1, 1, 2, 1, 200, 50, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', CURRENT_DATE);
+VALUES (2, 1, 1, 2, 1, 200, 50, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', CURRENT_TIMESTAMP - INTERVAL '1 day');
 
 INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
 VALUES (3, 2, 3, 3, 2, 200, 60, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', CURRENT_DATE);

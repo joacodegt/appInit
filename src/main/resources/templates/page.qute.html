@@ -113,6 +113,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Fecha Creacion</th>
                                 <th>Nombre</th>
                                 <th>Tipo</th>
                                 <th>Acciones</th>
@@ -122,6 +123,9 @@
                             <tr ng-repeat="maquina in maquina track by $index">
                                 <td>
                                     <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{maquina.fechaCreacion}}</div>
                                 </td>
                                 <td>
                                     <div class="content">{{maquina.nombre}}</div>
@@ -147,6 +151,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Fecha Creacion</th>
                                 <th>Nombre</th>
                                 <th>Acciones</th>
                             </tr>
@@ -155,6 +160,9 @@
                             <tr ng-repeat="frente in frente track by $index">
                                 <td>
                                     <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{frente.fechaCreacion}}</div>
                                 </td>
                                 <td>
                                     <div class="content">{{frente.nombre}}</div>
@@ -177,6 +185,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Fecha Creacion</th>
                                 <th>Nombre</th>
                                 <th>Codigo Empleado</th>
                                 <th>Acciones</th>
@@ -186,6 +195,9 @@
                             <tr ng-repeat="operador in operador track by $index">
                                 <td>
                                     <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{operador.fechaCreacion}}</div>
                                 </td>
                                 <td>
                                     <div class="content">{{operador.nombre}}</div>
@@ -211,6 +223,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Fecha Creacion</th>
                                 <th>Nombre</th>
                                 <th>Acciones</th>
                             </tr>
@@ -219,6 +232,9 @@
                             <tr ng-repeat="finca in finca track by $index">
                                 <td>
                                     <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
+                                </td>
+                                <td>
+                                    <div class="content">{{finca.fechaCreacion}}</div>
                                 </td>
                                 <td>
                                     <div class="content">{{finca.nombre}}</div>
