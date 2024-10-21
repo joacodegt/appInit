@@ -55,11 +55,11 @@ public class Operador extends PanacheEntity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Maquina)) {
+        if (!(o instanceof Operador)) {
             return false;
         }
 
-        Maquina other = (Maquina) o;
+        Operador other = (Operador) o;
 
         return Objects.equals(id, other.id);
     }

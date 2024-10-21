@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>Control de Maquinaria</title>
-    <!-- Semantic UI -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
     <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <!-- Load AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
 </head>
-
 <body ng-app="InventarioManagement" ng-controller="InventarioManagementController">
     <div class="ui center aligned segment">
         {! MENU !}
@@ -68,7 +64,7 @@
                     <i class="sign-out icon"></i>
                     Salir
                 </button>
-                </div>
+            </div>
         </div>
         {! REPORTES !}
         <div id="contenidoReportes">
@@ -88,7 +84,8 @@
                 <div class="ui vertical menu left floated segment">
                     <div class="item">
                         <h1 class="ui header">
-                            <i class="book icon" style="font-size: 3vh; color: #4183c4;"></i>catalogos</h1>
+                            <i class="book icon" style="font-size: 3vh; color: #4183c4;"></i>catalogos
+                        </h1>
                         <div class="menu">
                             <a ng-repeat="catalogo in menu" id="item{{catalogo}}" class="item"
                                 ng-click="ver('',catalogo.toLowerCase(),'ver')">{{catalogo}}</a>
@@ -98,8 +95,9 @@
 
                 <div class="ui icon input right floated labeled">
                     <input type="text" placeholder="Buscar... (fecha = yyyy-MM-dd)" ng-model="pattern">
-                    <i class="circular search link icon"  ng-click="ver('',catalogoSeleccionado,'ver')"></i>
+                    <i class="circular search link icon" ng-click="ver('',catalogoSeleccionado,'ver')"></i>
                 </div>
+
                 <button class="ui right floated  segment labeled icon button"
                     ng-click="ver('agregar',catalogoSeleccionado,'agregar')"><i class="plus square icon"></i> Agrear
                 </button>
@@ -107,7 +105,7 @@
                 <h1 class="ui header">
                     {{catalogoSeleccionado}}
                 </h1>
-                
+
                 <div id="maquina" class="ui left floated segment tablaApp">
                     <table class="ui very basic collapsing celled table">
                         <thead>
@@ -241,11 +239,10 @@
                                 </td>
                                 <td>
                                     <button class="ui small basic green button"
-                                        ng-click="ver(finca,'finca','editar')"><i
-                                            class="pencil alternate icon"></i> Editar</button>
+                                        ng-click="ver(finca,'finca','editar')"><i class="pencil alternate icon"></i>
+                                        Editar</button>
                                     <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('finca', finca)"><i
-                                            class="trash alternate outline icon"></i>
+                                        ng-click="eliminar('finca', finca)"><i class="trash alternate outline icon"></i>
                                         Eliminar</button>
                                 </td>
                             </tr>
@@ -295,8 +292,11 @@
                                     <div class="content">{{bitacora.galones}}</div>
                                 </td>
                                 <td>
-                                    <div ng-if="{identity.roles.contains('admin')}" data-tooltip="{{bitacora.supervisor }}" data-position="top center" class="content">{{bitacora.supervisor.name}}</div>
-                                    <div ng-if="!{identity.roles.contains('admin')}" class="content">{{bitacora.supervisor.name}}</div>
+                                    <div ng-if="{identity.roles.contains('admin')}"
+                                        data-tooltip="{{bitacora.supervisor }}" data-position="top center"
+                                        class="content">{{bitacora.supervisor.name}}</div>
+                                    <div ng-if="!{identity.roles.contains('admin')}" class="content">
+                                        {{bitacora.supervisor.name}}</div>
                                 </td>
                                 <td>
                                     <button class="ui small basic green button"
@@ -311,10 +311,9 @@
                         </tbody>
                     </table>
                 </div>
-
-
-                <div class="ui pagination menu" >
-                    <a class="item" ng-click="ver('', catalogoSeleccionado, 'ver',pagina)" ng-repeat="pagina in paginas">{{pagina}}</a>
+                <div class="ui pagination menu">
+                    <a class="item" ng-click="ver('', catalogoSeleccionado, 'ver',pagina)"
+                        ng-repeat="pagina in paginas">{{pagina}}</a>
                 </div>
             </div>
         </div>
@@ -412,8 +411,8 @@
                     <tbody>
                         <tr>
                             <td class="four wide column"><b>Finca:</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.finca.nombre" required></td>
+                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.finca.nombre"
+                                    required></td>
                         </tr>
                     </tbody>
                 </table>
@@ -437,7 +436,7 @@
                             <td class="four wide column"><b>Operador:</b></td>
                             <td>
                                 <select class="ui dropdown" ng-model="formulario.bitacora.operador"
-                                    ng-options="operador as operador.nombre for operador in operador  track by operador.id">
+                                    ng-options="operador as operador.nombre for operador in operador track by operador.id">
                                     <option value="" selected>Selecciona un operador</option>
                                 </select>
                             </td>
@@ -446,7 +445,7 @@
                             <td class="four wide column"><b>Frente:</b></td>
                             <td>
                                 <select class="ui dropdown" ng-model="formulario.bitacora.frente"
-                                    ng-options="frente as frente.nombre for frente in frente  track by frente.id">
+                                    ng-options="frente as frente.nombre for frente in frente track by frente.id">
                                     <option value="" selected>Selecciona un frente</option>
                                 </select>
                             </td>
@@ -455,7 +454,7 @@
                             <td class="four wide column"><b>Finca:</b></td>
                             <td>
                                 <select class="ui dropdown" ng-model="formulario.bitacora.finca"
-                                    ng-options="finca as finca.nombre for finca in finca  track by finca.id">
+                                    ng-options="finca as finca.nombre for finca in finca track by finca.id">
                                     <option value="" selected>Selecciona un finca</option>
                                 </select>
                             </td>
@@ -464,7 +463,7 @@
                             <td class="four wide column"><b>Maquina:</b></td>
                             <td>
                                 <select class="ui dropdown" ng-model="formulario.bitacora.maquina"
-                                    ng-options="maquina as maquina.nombre for maquina in maquina  track by maquina.id">
+                                    ng-options="maquina as maquina.nombre for maquina in maquina track by maquina.id">
                                     <option value="" selected>Selecciona un maquina</option>
                                 </select>
                             </td>
@@ -490,6 +489,7 @@
                 </button>
             </div>
         </div>
-    </div>  
+    </div>
 </body>
+
 </html>
