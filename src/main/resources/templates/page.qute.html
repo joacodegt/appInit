@@ -116,6 +116,9 @@
                                             class="plus square icon"></i>
                                         Agrear
                                     </button>
+                                    <div class="ui pagination menu" >
+                                        <a class="item" ng-click="ver('', catalogoSeleccionado, 'ver',pagina)" ng-repeat="pagina in paginas">{{pagina}}</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +142,7 @@
                                                 <tbody>
                                                     <tr ng-repeat="maquina in maquina track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{maquina.fechaCreacion}}</div>
@@ -182,7 +185,7 @@
                                                 <tbody>
                                                     <tr ng-repeat="frente in frente track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{frente.fechaCreacion}}</div>
@@ -225,7 +228,7 @@
                                                 <tbody>
                                                     <tr ng-repeat="operador in operador track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{operador.fechaCreacion}}</div>
@@ -269,7 +272,7 @@
                                                 <tbody>
                                                     <tr ng-repeat="finca in finca track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{finca.fechaCreacion}}</div>
@@ -317,7 +320,7 @@
                                                 <tbody>
                                                     <tr ng-repeat="bitacora in bitacora track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{bitacora.fechaCreacion}}</div>
