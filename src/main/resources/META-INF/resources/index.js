@@ -34,6 +34,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             $('#contenido'+listaItemNombreMayus).hide();
         });
         desaparecer();
+        
         getLista('menu');
         $scope.menu.forEach(function(item) {
             getLista(item.nombre.toLowerCase());
