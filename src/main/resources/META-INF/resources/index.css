@@ -1,41 +1,44 @@
-.ui.menu .item {
-    font-size: 20px;
-}
-
-.contenido {
-    margin-top: 5em;
-    border-bottom: 1px solid #CCC;
-    border-top: 1px solid #CCC;
-    padding-top: 1em;
-    padding-bottom: 1em;
-}
-
-.buscar {
-    margin-top: 2em;
-}
-
-.contenido .meta {
-    margin-top: 5px;
-    margin-bottom: 15px;
-}
-.contenedorApp {
-    width: 100%;
-    height: 80vh;
-    overflow-y: auto;
-}
-.cartaApp {
-    width: 100%;
-    height: 96%;
-    overflow-y: auto;
-}
-.tablaApp {
-    width: 100%;
-    height: 95%;
-    overflow-y: auto;
-}
 #menuToggle {
     padding: 0%;
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+h1 {
+    font-size: 1em;
+}
+
+td {    font-size: 0.75em;
+}
+
+th {
+    font-size: 0.80em;
+}
+
+#contenidoCatalogos{
+    height: 83vh; 
+    width: 100%; 
+}
+
+
+.table-container {
+    width: 100%;
+    overflow: hidden; /* Oculta el desplazamiento del contenedor principal */
+}
+
+.table-container table {
+    width: 100%;
+    table-layout: fixed; /* Asegura que las columnas tengan el mismo ancho */
+}
+
+.table-body-container {
+    max-height: 50vh; /* Ajusta la altura máxima según tus necesidades */
+    overflow-y: auto; /* Habilita el desplazamiento vertical */
+    display: block;
+}
+
+.table-body-container table {
+    width: 100%;
+    table-layout: fixed; /* Asegura que las columnas tengan el mismo ancho */
 }
