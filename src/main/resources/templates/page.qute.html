@@ -31,12 +31,16 @@
                     <img class="logo" src="img/logo.png" alt="Quarkus logo">
                     Control de Maquinaria
                 </a>
+                
                 <div class="right menu">
                     <div class="item" ng-click="ver('configuracion','contenido','')">
                         <i class="user circle icon"></i>
                     </div>
                 </div>
             </div>
+        </div>
+        
+       
         </div>
         <div class="ui sidebar vertical menu" style="background-color: white;">
             <a class="item" ng-repeat="item in lista" ng-click="ver(item,'contenido','')">
@@ -491,5 +495,20 @@
             </div>
         </div>
     </div>  
+    <div style="position: relative; display: inline-block;">
+            <img src="img/cosecha.jpg" alt="Cosecha" style="width: 100%; filter: blur(1px);">
+            <div style="position: absolute; top: 130px; width: 100%; text-align: center; color: white; ">
+                    <div style="font-weight: bold;background-color: rgba(0, 0, 0, 0.5); padding: 20px;font-size: 50px;">Departamento de Cosecha</div>
+        
+       
+                    <div style="background-color: rgba(0, 0, 0, 0.5); padding: 20px;font-size: 40px;">Disponibilidad y Eficiencia</div>
+    
+                       
+                            {! Departamento de Cosecha<br /> <br /> Disponibilidad y Eficiencia !}
+                    
+                       
+                    
+            </div>
+        </div>
 </body>
 </html>
