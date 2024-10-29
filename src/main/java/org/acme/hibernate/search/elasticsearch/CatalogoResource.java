@@ -46,11 +46,8 @@ public class CatalogoResource {
 
     @Transactional
     void onStart(@Observes StartupEvent ev) throws InterruptedException {
-        // only reindex if we imported some content
-        if (Maquina.count() > 0) {
-            searchSession.massIndexer()
-                    .startAndWait();
-        }
+        searchSession.massIndexer()
+        .startAndWait();
     }
 
     private boolean isValidString(String str) {
@@ -62,8 +59,9 @@ public class CatalogoResource {
     }
 
     private <T> List<T> buscarEntidad(Class<T> entityClass, String pattern, Optional<Integer> size, Optional<Integer> page) {
-        int pageSize = size.orElse(20);
+        int pageSize = size.orElse(100);
         int pageNumber = page.orElse(0);
+        // String estadoPattern = estado.orElse("<>");
         List<T> lista = (searchSession.search(entityClass)
                 .where(f -> {
                     if (isEmptyPattern(pattern)) {
@@ -79,8 +77,6 @@ public class CatalogoResource {
                             e.printStackTrace();
                         }
                         if (fechaCreacion != null && fechaCreacionFin != null) {
-                            LOG.info("con fechaCreacion: "+fechaCreacion);
-                            LOG.info("fechaCreacionFin: "+fechaCreacionFin);
                             return f.range().field("fechaCreacion").between(fechaCreacion, fechaCreacionFin);
                         } else {
                             LOG.info("sin fechaCreacion");
@@ -91,7 +87,6 @@ public class CatalogoResource {
                 .sort(f -> f.field("fechaCreacion").desc())
                 .sort(f -> f.field("nombre_ordenado"))
                 .fetchHits(pageNumber * pageSize, pageSize));
-        LOG.info(lista.size());
         return lista;
     }
 
@@ -140,23 +135,7 @@ public class CatalogoResource {
         bitacora.galones = Long.parseLong(galones);
         bitacora.supervisor = TokenDebugger.decoded;
         bitacora.persist();
-
     }
-
-    @POST
-    @Path("maquina/{id}")
-    @Transactional
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void actualizarMaquina(Long id, @RestForm String nombre, @RestForm String tipo) {
-        Maquina maquina = Maquina.findById(id);
-        if (maquina == null) {
-            return;
-        }
-        maquina.nombre = nombre;
-        maquina.tipo = tipo;
-        maquina.persist();
-    }
-
 
     @PUT
     @Path("maquina")
@@ -206,6 +185,42 @@ public class CatalogoResource {
             operador.codigoEmpleado = codigoEmpleado;
             operador.persist();
         }
+    }
+
+    @POST
+    @Path("bitacora/{id}")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void editarBitacora(Long id,
+            @RestForm String operador,
+            @RestForm String frente,
+            @RestForm String maquina,
+            @RestForm String finca,
+            @RestForm String horometroInicio,
+            @RestForm String galones) {
+        Bitacora bitacora = Bitacora.findById(id);
+        bitacora.operador = Operador.findById(Long.parseLong(operador));
+        bitacora.frente = Frente.findById(Long.parseLong(frente));
+        bitacora.maquina = Maquina.findById(Long.parseLong(maquina));
+        bitacora.finca = Finca.findById(Long.parseLong(finca));
+        bitacora.horometroInicio = Long.parseLong(horometroInicio);
+        bitacora.galones = Long.parseLong(galones);
+        bitacora.supervisor = TokenDebugger.decoded;
+        bitacora.persist();
+    }
+
+    @POST
+    @Path("maquina/{id}")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void actualizarMaquina(Long id, @RestForm String nombre, @RestForm String tipo) {
+        Maquina maquina = Maquina.findById(id);
+        if (maquina == null) {
+            return;
+        }
+        maquina.nombre = nombre;
+        maquina.tipo = tipo;
+        maquina.persist();
     }
 
     @POST
@@ -263,6 +278,22 @@ public class CatalogoResource {
     }
 
     @DELETE
+    @Path("bitacora/{id}")
+    @Transactional
+    public void eliminarBitacora(Long id) {
+        Bitacora bitacora = Bitacora.findById(id);
+        Frente frente = bitacora.frente;
+        frente.bitacoras.remove(bitacora);
+        Operador operador = bitacora.operador;
+        operador.bitacoras.remove(bitacora);
+        Finca finca = bitacora.finca;
+        finca.bitacoras.remove(bitacora);
+        Maquina maquina = bitacora.maquina;
+        maquina.bitacoras.remove(bitacora);
+        eliminarEntidad(Bitacora.class, id);
+    }
+
+    @DELETE
     @Path("frente/{id}")
     @Transactional
     public void eliminarFrente(Long id) {
@@ -298,8 +329,15 @@ public class CatalogoResource {
     @Path("bitacora/buscar")
     @Transactional
     public List<Bitacora> buscarBitacora(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
-        int pageSize = size.orElse(25);
+        
+        int pageSize = size.orElse(100);
         int pageNumber = page.orElse(0);
+        if (pageNumber > 1){
+            pageNumber = pageNumber -1;
+        }
+        LOG.info("pageNumber: "+pageNumber*pageSize);
+        LOG.info("pageNumber: "+pageNumber);
+
         var resultado = (searchSession.search(Bitacora.class)
         .where(f -> {
             if (isEmptyPattern(pattern)) {
@@ -380,6 +418,6 @@ public class CatalogoResource {
                 .where(f -> f.matchAll())
                 .fetchTotalHitCount();
         }
-        return total/25;
+        return total;
     }
 }

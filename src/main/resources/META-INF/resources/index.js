@@ -28,11 +28,13 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
     $scope.catalogoSeleccionado = '';
     iniciar()
     function iniciar() {
+
         $scope.lista.forEach(function(listaItem) {
             listaItemNombreMayus = listaItem.nombre.charAt(0).toUpperCase() + listaItem.nombre.slice(1).toLowerCase();
             $('#contenido'+listaItemNombreMayus).hide();
         });
         desaparecer();
+        
         getLista('menu');
         $scope.menu.forEach(function(item) {
             getLista(item.nombre.toLowerCase());
@@ -173,6 +175,12 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                         $('#editar_agregar_'+tipo).modal('show');
                         break;
                     case "editar":
+                        if (tipo == 'bitacora') {
+                            getLista("operador");
+                            getLista("frente");
+                            getLista("maquina");
+                            getLista("finca");
+                        }
                         $scope.formulario[tipo] = item
                         $("#tituloModal_editar_agregar_"+tipo).text("Editar " + tipoMayus);
                         $('#editar_agregar_'+tipo).modal('show');
@@ -185,11 +193,9 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 break;
         }
     }
-
     $scope.logout = function (){
         window.location.href = '/logout';
     }
-
     function desaparecer(){
         $scope.menu.forEach(function(menuItem) {
             var menuItemLower = menuItem.toLowerCase();
@@ -199,13 +205,14 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         });
     }
     function getLista(tipo,page) {
-        var url = '/catalogo/' + tipo + '/buscar?pattern=' + $scope.pattern + '&size=' + 25;
+        var url = '/catalogo/' + tipo + '/buscar?pattern=' + $scope.pattern + '&size=' + 100;
         if (page !== null && page !== undefined) {
             url += '&page=' + page;
             $scope.pagina = page;
         }else{
             $scope.pagina = 1;
         }
+        // alert(url);
         $http({
             method: 'GET',
             url: url
@@ -220,13 +227,14 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             alert(response.statusText);
         });
     }
+
     function getPaginacion(tipo) {
         var url = '/catalogo/paginacion?modelo=' + tipo;
         $http({
             method: 'GET',
             url: url
         }).then(function successCallback(response) {
-            var cantidadElementos = Array.from({ length: response.data }, (_, i) => i + 1);
+            var cantidadElementos = Array.from({ length: Math.ceil(response.data / 100) }, (_, i) => i + 1);
             $scope.paginas = cantidadElementos;
         }, function errorCallback(response) {
             alert(response.statusText);

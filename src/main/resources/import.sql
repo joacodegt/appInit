@@ -128,60 +128,31 @@ INSERT INTO Finca(id, nombre, fechaCreacion) values (9, 'Finca El Eden', CURRENT
 INSERT INTO Finca(id, nombre, fechaCreacion) values (10, 'Finca San Jose', CURRENT_TIMESTAMP);
 ALTER SEQUENCE Finca_seq RESTART WITH 11;
 
-INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
-VALUES (1, 1, 1, 2, 1, 100, 50, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', '2024-10-13');
-INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
-VALUES (2, 1, 1, 2, 1, 200, 50, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', CURRENT_TIMESTAMP - INTERVAL '1 day');
-
-INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
-VALUES (3, 2, 3, 3, 2, 200, 60, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', CURRENT_DATE);
-
-INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) 
-VALUES (4, 3, 6, 4, 3, 300, 70, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', CURRENT_DATE);
-
-
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (5,1,3,1,1,125,10,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (6,2,3,3,1,132,17,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (7,3,3,5,1,200,21,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (8,4,3,7,1,250,22,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (9,5,7,8,3,225,15,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (10,6,7,10,3,243,16,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (11,7,7,11,3,300,11,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (12,8,7,12,3,188,15,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (13,9,1,14,4,400,17,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (14,10,1,15,4,322,20,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (15,11,1,17,4,255,18,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (16,12,1,18,4,192,19,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (17,13,8,27,7,2344,16,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (18,14,8,32,7,246,17,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (19,15,8,43,7,315,25,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (20,16,8,44,7,135,21,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (21,17,9,55,8,1564,20,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (22,18,9,56,8,135,17,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (23,19,6,57,9,1354,14,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (24,20,6,62,9,324,19,'{"name":"backup"}','2023-01-01');
-INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion)  
-VALUES (25,21,6,64,9,354,13,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (1, 1, 1, 2, 1, 100, 50, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', '2024-10-13');
+INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (2, 1, 1, 2, 1, 200, 50, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', CURRENT_TIMESTAMP - INTERVAL '1 day');
+INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (3, 2, 3, 3, 2, 200, 60, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', CURRENT_DATE);
+INSERT INTO Bitacora(id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (4, 3, 6, 4, 3, 300, 70, '{"aud":"4ecb0b45-ac11-40db-aecb-bac2c8eb5487","iss":"https://sts.windows.net/bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d/","iat":1728969227,"nbf":1728969227,"exp":1728973127,"amr":["pwd","mfa"],"email":"joaquinlinares19@icloud.com","family_name":"Gonzalez","given_name":"Joaquin","idp":"live.com","ipaddr":"190.106.222.88","name":"Joaquin Gonzalez","oid":"1df1de02-53f0-4bf0-8555-947909828702","rh":"0.AbcA8pptvQqOhE2qVTXenJ78XUULy04RrNtArsu6wsjrVIfJALI.","roles":["user","admin"],"sub":"K3DdSFFwk991fd9x9mqa_r8IoL530fUNwcBXbrYIM0I","tid":"bd6d9af2-8e0a-4d84-aa55-35de9c9efc5d","unique_name":"live.com#joaquinlinares19@icloud.com","uti":"h_4mQ192YkeQd4cya1AlAA","ver":"1.0"}', CURRENT_DATE);
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (5,1,3,1,1,125,10,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (6,2,3,3,1,132,17,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (7,3,3,5,1,200,21,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (8,4,3,7,1,250,22,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (9,5,7,8,3,225,15,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (10,6,7,10,3,243,16,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (11,7,7,11,3,300,11,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (12,8,7,12,3,188,15,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (13,9,1,14,4,400,17,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (14,10,1,15,4,322,20,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (15,11,1,17,4,255,18,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (16,12,1,18,4,192,19,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (17,13,8,27,7,2344,16,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (18,14,8,32,7,246,17,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (19,15,8,43,7,315,25,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (20,16,8,44,7,135,21,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (21,17,9,55,8,1564,20,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (22,18,9,56,8,135,17,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (23,19,6,57,9,1354,14,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (24,20,6,62,9,324,19,'{"name":"backup"}','2023-01-01');
+INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (25,21,6,64,9,354,13,'{"name":"backup"}','2023-01-01');
 INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (26,1,3,1,1,150,11,'{"name":"backup"}','2023-01-02');
 INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (27,2,3,3,1,157,15,'{"name":"backup"}','2023-01-02');
 INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (28,3,3,5,1,225,23,'{"name":"backup"}','2023-01-02');
@@ -455,3 +426,4 @@ INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometr
 INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (296,19,6,70,6,1659,22,'{"name":"backup"}','2023-01-15');
 INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (297,20,6,62,6,624,16,'{"name":"backup"}','2023-01-15');
 INSERT INTO Bitacora (id, operador_id, frente_id, maquina_id, finca_id, horometroInicio, galones, supervisor, fechaCreacion) VALUES (298,21,6,64,6,654,18,'{"name":"backup"}','2023-01-15');
+ALTER SEQUENCE Bitacora_seq RESTART WITH 299;

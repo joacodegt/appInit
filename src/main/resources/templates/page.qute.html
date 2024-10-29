@@ -4,23 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Control de Maquinaria</title>
-    <!-- Semantic UI -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
     <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <!-- Load AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
 </head>
 
 <body ng-app="InventarioManagement" ng-controller="InventarioManagementController">
-    <div class="ui center aligned segment">
+    <div>
         {! MENU !}
         <div class="ui top menu">
             <div class="ui container">
@@ -31,7 +29,6 @@
                     <img class="logo" src="img/logo.png" alt="Quarkus logo">
                     Control de Maquinaria
                 </a>
-                
                 <div class="right menu">
                     <div class="item" ng-click="ver('configuracion','contenido','')">
                         <i class="user circle icon"></i>
@@ -39,12 +36,9 @@
                 </div>
             </div>
         </div>
-        
-       
-        </div>
         <div class="ui sidebar vertical menu" style="background-color: white;">
             <a class="item" ng-repeat="item in lista" ng-click="ver(item,'contenido','')">
-                <i class="{{ item.icon }} icon" style="font-size: 5vh; color: #4183c4;"></i>
+                <i class="{{ item.icon }} icon"></i>
                 <div class="header">{{ item.nombre }}</div>
             </a>
         </div>
@@ -72,7 +66,7 @@
                     <i class="sign-out icon"></i>
                     Salir
                 </button>
-                </div>
+            </div>
         </div>
         {! REPORTES !}
         <div id="contenidoReportes">
@@ -86,239 +80,292 @@
                 </figure>
             </div>
         </div>
-        {! CATALOGOS !}
-        <div id="contenidoCatalogos">
-            <div class="ui segment contenedorApp">
-                <div class="ui vertical menu left floated segment">
-                    <div class="item">
-                        <h1 class="ui header">
-                            <i class="book icon" style="font-size: 3vh; color: #4183c4;"></i>catalogos</h1>
-                        <div class="menu">
-                            <a ng-repeat="catalogo in menu" id="item{{catalogo}}" class="item"
-                                ng-click="ver('',catalogo.toLowerCase(),'ver')">{{catalogo}}</a>
-                        </div>
+
+        <div id="contenidoCatalogos" class="ui celled grid">
+            <div class="row">
+                <div class="three wide column">
+                    <h1 class="header">
+                        <i class="book icon" style="color: #4183c4;"></i>
+                        catalogos
+                    </h1>
+                    <div class="ui vertical center menu">
+                        <a ng-repeat="catalogo in menu" id="item{{catalogo}}" class="item"
+                            ng-click="ver('',catalogo.toLowerCase(),'ver')">{{catalogo}}</a>
                     </div>
                 </div>
-
-                <div class="ui icon input right floated labeled">
-                    <input type="text" placeholder="Buscar... (fecha = yyyy-MM-dd)" ng-model="pattern">
-                    <i class="circular search link icon"  ng-click="ver('',catalogoSeleccionado,'ver')"></i>
-                </div>
-                <button class="ui right floated  segment labeled icon button"
-                    ng-click="ver('agregar',catalogoSeleccionado,'agregar')"><i class="plus square icon"></i> Agrear
-                </button>
-
-                <h1 class="ui header">
-                    {{catalogoSeleccionado}}
-                </h1>
-                
-                <div id="maquina" class="ui left floated segment tablaApp">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Fecha Creacion</th>
-                                <th>Nombre</th>
-                                <th>Tipo</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="maquina in maquina track by $index">
-                                <td>
-                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{maquina.fechaCreacion}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{maquina.nombre}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{maquina.tipo}}</div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(maquina,'maquina','editar')"><i class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('maquina', maquina)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="frente" class="ui left floated segment tablaApp">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Fecha Creacion</th>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="frente in frente track by $index">
-                                <td>
-                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{frente.fechaCreacion}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{frente.nombre}}</div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(frente,'frente','editar')"><i class="pencil alternate icon"></i>
-                                        Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('frente', frente)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="operador" class="ui left floated segment tablaApp">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Fecha Creacion</th>
-                                <th>Nombre</th>
-                                <th>Codigo Empleado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="operador in operador track by $index">
-                                <td>
-                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{operador.fechaCreacion}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{operador.nombre}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{operador.codigoEmpleado}}</div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(operador,'operador','editar')"><i
-                                            class="pencil alternate icon"></i> Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('operador', operador)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="finca" class="ui left floated segment tablaApp">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Fecha Creacion</th>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="finca in finca track by $index">
-                                <td>
-                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{finca.fechaCreacion}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{finca.nombre}}</div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(finca,'finca','editar')"><i
-                                            class="pencil alternate icon"></i> Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('finca', finca)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="bitacora" class="ui left floated segment tablaApp">
-                    <table class="ui very basic collapsing celled table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Fecha Creacion</th>
-                                <th>Operador</th>
-                                <th>Frente</th>
-                                <th>Maquina</th>
-                                <th>Finca</th>
-                                <th>Horometro Inicio</th>
-                                <th>Galones</th>
-                                <th>Supervisor</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="bitacora in bitacora track by $index">
-                                <td>
-                                    <div class="content">{{$index + 1 + (pagina - 1) * 25}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{bitacora.fechaCreacion}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{bitacora.operador.nombre}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{bitacora.frente.nombre}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{bitacora.maquina.nombre}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{bitacora.finca.nombre}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{bitacora.horometroInicio}}</div>
-                                </td>
-                                <td>
-                                    <div class="content">{{bitacora.galones}}</div>
-                                </td>
-                                <td>
-                                    <div ng-if="{identity.roles.contains('admin')}" data-tooltip="{{bitacora.supervisor }}" data-position="top center" class="content">{{bitacora.supervisor.name}}</div>
-                                    <div ng-if="!{identity.roles.contains('admin')}" class="content">{{bitacora.supervisor.name}}</div>
-                                </td>
-                                <td>
-                                    <button class="ui small basic green button"
-                                        ng-click="ver(bitacora,'bitacora','editar')"><i
-                                            class="pencil alternate icon"></i> Editar</button>
-                                    <button ng-if="{identity.roles.contains('admin')}" class="ui small basic red button"
-                                        ng-click="eliminar('bitacora', bitacora)"><i
-                                            class="trash alternate outline icon"></i>
-                                        Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-
-                <div class="ui pagination menu" >
-                    <a class="item" ng-click="ver('', catalogoSeleccionado, 'ver',pagina)" ng-repeat="pagina in paginas">{{pagina}}</a>
+                <div class="thirteen wide column">
+                    <div class="ui equal width grid">
+                        <div class="row">
+                            <div class="column">
+                                <div class="ui segment">
+                                    <h1 class="ui header">
+                                        {{catalogoSeleccionado}}
+                                    </h1>
+                                    <div class="ui icon input right floated labeled">
+                                        <input type="text" placeholder="Buscar... (fecha = yyyy-MM-dd)"
+                                            ng-model="pattern">
+                                        <i class="circular search link icon"
+                                            ng-click="ver('',catalogoSeleccionado,'ver')"></i>
+                                    </div>
+                                    <button class="ui basic button"
+                                        ng-click="ver('agregar',catalogoSeleccionado,'agregar')"><i
+                                            class="plus square icon"></i>
+                                        Agrear
+                                    </button>
+                                    <div class="ui pagination menu" >
+                                        <a class="item" ng-click="ver('', catalogoSeleccionado, 'ver',pagina)" ng-repeat="pagina in paginas">{{pagina}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column">
+                                <div id="maquina" class="ui segment">
+                                    <div class="table-container">
+                                        <table class="ui striped table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Fecha Creacion</th>
+                                                    <th>Nombre</th>
+                                                    <th>Tipo</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="table-body-container">
+                                            <table class="ui striped table">
+                                                <tbody>
+                                                    <tr ng-repeat="maquina in maquina track by $index">
+                                                        <td>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{maquina.fechaCreacion}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{maquina.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{maquina.tipo}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <button class="ui s basic green button" ng-click="ver(maquina,'maquina','editar')">
+                                                                <i class="pencil alternate icon"></i> Editar
+                                                            </button>
+                                                            <button ng-if="{identity.roles.contains('admin')}" class="ui s basic red button"
+                                                                ng-click="eliminar('maquina', maquina)">
+                                                                <i class="trash alternate outline icon"></i> Eliminar
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="frente" class="ui segment">
+                                    <div class="table-container">
+                                        <table class="ui striped table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Fecha Creacion</th>
+                                                    <th>Nombre</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="table-body-container">
+                                            <table class="ui striped table">
+                                                <tbody>
+                                                    <tr ng-repeat="frente in frente track by $index">
+                                                        <td>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{frente.fechaCreacion}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{frente.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <button class="ui small basic green button"
+                                                                ng-click="ver(frente,'frente','editar')"><i
+                                                                    class="pencil alternate icon"></i>
+                                                                Editar</button>
+                                                            <button ng-if="{identity.roles.contains('admin')}"
+                                                                class="ui small basic red button"
+                                                                ng-click="eliminar('frente', frente)"><i
+                                                                    class="trash alternate outline icon"></i>
+                                                                Eliminar</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="operador" class="ui segment">
+                                    <div class="table-container">
+                                        <table class="ui striped table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Fecha Creacion</th>
+                                                    <th>Nombre</th>
+                                                    <th>Codigo Empleado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="table-body-container">
+                                            <table class="ui striped table">
+                                                <tbody>
+                                                    <tr ng-repeat="operador in operador track by $index">
+                                                        <td>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{operador.fechaCreacion}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{operador.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{operador.codigoEmpleado}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <button class="ui small basic green button"
+                                                                ng-click="ver(operador,'operador','editar')"><i
+                                                                    class="pencil alternate icon"></i> Editar</button>
+                                                            <button ng-if="{identity.roles.contains('admin')}"
+                                                                class="ui small basic red button"
+                                                                ng-click="eliminar('operador', operador)"><i
+                                                                    class="trash alternate outline icon"></i>
+                                                                Eliminar</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="finca" class="ui segment">
+                                    <div class="table-container">
+                                        <table class="ui striped table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Fecha Creacion</th>
+                                                    <th>Nombre</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="table-body-container">
+                                            <table class="ui striped table">
+                                                <tbody>
+                                                    <tr ng-repeat="finca in finca track by $index">
+                                                        <td>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{finca.fechaCreacion}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{finca.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <button class="ui small basic green button"
+                                                                ng-click="ver(finca,'finca','editar')"><i
+                                                                    class="pencil alternate icon"></i>
+                                                                Editar</button>
+                                                            <button ng-if="{identity.roles.contains('admin')}"
+                                                                class="ui small basic red button"
+                                                                ng-click="eliminar('finca', finca)"><i
+                                                                    class="trash alternate outline icon"></i>
+                                                                Eliminar</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="bitacora" class="ui segment">
+                                    <div class="table-container">
+                                        <table class="ui striped table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Fecha Creacion</th>
+                                                    <th>Operador</th>
+                                                    <th>Frente</th>
+                                                    <th>Maquina</th>
+                                                    <th>Finca</th>
+                                                    <th>Horometro Inicio</th>
+                                                    <th>Galones</th>
+                                                    <th>Supervisor</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="table-body-container">
+                                            <table class="ui striped table">
+                                                <tbody>
+                                                    <tr ng-repeat="bitacora in bitacora track by $index">
+                                                        <td>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{bitacora.fechaCreacion}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{bitacora.operador.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{bitacora.frente.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{bitacora.maquina.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{bitacora.finca.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{bitacora.horometroInicio}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{bitacora.galones}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div ng-if="{identity.roles.contains('admin')}"
+                                                                data-tooltip="{{bitacora.supervisor}}"
+                                                                data-position="top center" class="content">
+                                                                {{bitacora.supervisor.name}}</div>
+                                                            <div ng-if="!{identity.roles.contains('admin')}" class="content">
+                                                                {{bitacora.supervisor.name}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <button class="ui small basic green button"
+                                                                ng-click="ver(bitacora,'bitacora','editar')"><i
+                                                                    class="pencil alternate icon"></i> Editar</button>
+                                                            <button ng-if="{identity.roles.contains('admin')}"
+                                                                class="ui small basic red button"
+                                                                ng-click="eliminar('bitacora', bitacora)"><i
+                                                                    class="trash alternate outline icon"></i>
+                                                                Eliminar</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -495,20 +542,6 @@
             </div>
         </div>
     </div>  
-    <div style="position: relative; display: inline-block;">
-            <img src="img/cosecha.jpg" alt="Cosecha" style="width: 100%; filter: blur(1px);">
-            <div style="position: absolute; top: 130px; width: 100%; text-align: center; color: white; ">
-                    <div style="font-weight: bold;background-color: rgba(0, 0, 0, 0.5); padding: 20px;font-size: 50px;">Departamento de Cosecha</div>
-        
-       
-                    <div style="background-color: rgba(0, 0, 0, 0.5); padding: 20px;font-size: 40px;">Disponibilidad y Eficiencia</div>
-    
-                       
-                            {! Departamento de Cosecha<br /> <br /> Disponibilidad y Eficiencia !}
-                    
-                       
-                    
-            </div>
-        </div>
 </body>
+
 </html>
