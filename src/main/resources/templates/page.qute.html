@@ -69,7 +69,7 @@
             </div>
         </div>
         {! REPORTES !}
-        <div id="contenidoReportes">
+        <!-- <div>
             <div class="ui segment contenedorApp">
                 <h2>Graficas:</h2>
                 <figure class="highcharts-figure">
@@ -78,6 +78,57 @@
                         Tendencia de cantidad de desperfectos por equipo
                     </p>
                 </figure>
+            </div>
+        </div> -->
+        <div id="contenidoReportes" class="ui celled grid">
+            <div class="row">
+                <div class="three wide column">
+                    <h1 class="header">
+                        <i class="chart bar icon" style="color: #4183c4;"></i>
+                        Reportes
+                    </h1>
+                    <div class="ui vertical center menu">
+                        <a ng-repeat="reporte in reportes"  id="item{{reporte.nombre}}" class="item"
+                            ng-click="ver(reporte.nombre,'contenido','')">{{reporte.nombre}}</a>
+                    </div>
+                </div>
+                <div class="thirteen wide column">
+                    <div class="ui equal width grid">
+                        <div class="row">
+                            <div class="column">
+                                <div class="ui segment">
+                                    <h1 class="ui header">
+                                        {{reporteSeleccionado}}
+                                    </h1>
+                                    <div class="ui icon input right floated labeled">
+                                        <input type="text" placeholder="Buscar... (fecha = yyyy-MM-dd)"
+                                            ng-model="pattern">
+                                        <i class="circular search link icon"
+                                            ng-click="ver('','Eficiencia','ver')"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column">
+                                <figure class="highcharts-figure">
+                                    <div id="grafica2"></div>
+                                    <p class="highcharts-description">
+                                        Tendencia de cantidad de desperfectos por equipo
+                                    </p>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="contenidoInicio" style="position: relative; display: inline-block;">
+            <img src="img/cosecha.jpg" alt="Cosecha" style="width: 100%; filter: blur(1px);">
+            <div style="position: absolute; top: 130px; width: 100%; text-align: center; color: white;">
+                <div style="font-weight: bold; background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 50px;">Departamento de Cosecha</div>
+                <div style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 40px;">Disponibilidad y Eficiencia</div>
             </div>
         </div>
 
@@ -542,15 +593,6 @@
             </div>
         </div>
     </div>
-
-    <div style="position: relative; display: inline-block;">
-            <img src="img/cosecha.jpg" alt="Cosecha" style="width: 100%; filter: blur(1px);">
-        <div style="position: absolute; top: 130px; width: 100%; text-align: center; color: white;">
-            <div style="font-weight: bold; background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 50px;">Departamento de Cosecha</div>
-            <div style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 40px;">Disponibilidad y Eficiencia</div>
-        </div>
-    </div>
-  
 </body>
 
 </html>

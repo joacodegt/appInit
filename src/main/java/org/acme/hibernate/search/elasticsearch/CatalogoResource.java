@@ -19,6 +19,7 @@ import org.acme.hibernate.search.elasticsearch.model.Operador;
 import org.acme.hibernate.search.elasticsearch.model.Frente;
 import org.acme.hibernate.search.elasticsearch.model.Finca;
 import org.acme.hibernate.search.elasticsearch.model.Bitacora;
+import org.acme.hibernate.search.elasticsearch.model.Eficiencia;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestQuery;
@@ -32,6 +33,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.runtime.StartupEvent;
 
 @Path("/catalogo")
@@ -318,6 +321,7 @@ public class CatalogoResource {
             return Arrays.stream(modelDirectory.listFiles())
                     .filter(file -> file.isFile() && file.getName().endsWith(".java"))
                     .map(file -> file.getName().replace(".java", ""))
+                    .filter(name -> !name.equalsIgnoreCase("Eficiencia"))
                     .collect(Collectors.toList());
         } else {
             LOG.error("Model directory does not exist: " + modelPath);
@@ -391,6 +395,39 @@ public class CatalogoResource {
     public List<Operador> buscarOperador(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
         return buscarEntidad(Operador.class, pattern, size, page);
     }
+
+    @GET
+    @Path("reporte/eficiencia")
+    public List<Eficiencia> reporteEficiencia() {
+        String consulta = """
+                SELECT  
+                    m.nombre,
+                    b.fechaCreacion,
+                    b.horometroInicio,
+                    b.galones,
+                    RANK() OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS ranking,
+                    LEAD(b.horometroInicio) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS horometroFinal,
+                    LEAD(b.fechaCreacion) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS siguientefecha,
+                    CASE WHEN b.galones > 0 THEN 
+                        ROUND(
+                            b.galones/ 
+                            NULLIF(b.horometroInicio - LEAD(b.horometroInicio) OVER (PARTITION BY maquina.nombre ORDER BY b.fechaCreacion DESC), 0)
+                        , 1) 
+                        ELSE NULL 
+                    END AS eficiencia
+                FROM
+                    Bitacora b
+                    LEFT JOIN Maquina m ON b.maquina.id = m.id
+                ORDER BY
+                    m.nombre,
+                    ranking
+                """;
+                
+            
+            List<Eficiencia> resultados = Bitacora.find(consulta).project(Eficiencia.class).list();
+            return resultados;
+    }
+
 
     @GET
     @Path("paginacion")

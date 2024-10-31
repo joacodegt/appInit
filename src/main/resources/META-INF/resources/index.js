@@ -14,77 +14,136 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         { "nombre": "catalogos", "icon": "book" },
         { "nombre": "reportes", "icon": "chart bar" }
     ];
+    $scope.reportes = [
+        { "nombre": "Eficiencia", "icon": "chart line" },
+        { "nombre": "Disponibilidad", "icon": "chart bar" }
+    ];
+    $scope.formulario = {};
+    $scope.reporteria = {};
     $scope.menu = [];
-    $scope.paginas = 0;
-    $scope.pagina = 1;
     $scope.maquina = [];
     $scope.frente = [];
     $scope.bitacora = [];
     $scope.operador = [];
     $scope.pattern = '';
     $scope.nuevoTipo = '';
-    $scope.formulario = {};
     $scope.metodo = '';
+    $scope.reporteSeleccionado = '';
     $scope.catalogoSeleccionado = '';
+    $scope.paginas = 0;
+    $scope.pagina = 1;
     iniciar()
-    function iniciar() {
+    function getGraficas(fechasUnicas,tipo) {
+        // Highcharts.chart('grafica', {
+        //     chart: {
+        //         type: 'column'
+        //     },
+        //     title: {
+        //         text: 'Disponibilidad de maquinas',
+        //         align: 'left'
+        //     },
+        //     subtitle: {
+        //         text:
+        //             '',
+        //         align: 'left'
+        //     },
+        //     xAxis: {
+        //         categories:  fechasUnicas,
+        //         crosshair: true,
+        //         accessibility: {
+        //             description: 'dias'
+        //         }
+        //     },
+        //     yAxis: {
+        //         min: 0,
+        //         title: {
+        //             text: 'maquinas'
+        //         }
+        //     },
+        //     tooltip: {
+        //         valueSuffix: ' maquinas'
+        //     },
+        //     plotOptions: {
+        //         column: {
+        //             pointPadding: 0.1,
+        //             borderWidth: 0
+        //         }
+        //     },
+        //     series: [
+        //         {
+        //             name: 'disponibles',
+        //             data: [63,64,63,63,63,63,63,63,83,63,63,63,63,63,83,81,63]
+        //         },
+        //         {
+        //             name: 'en Uso',
+        //             data: [21,20,21,21,21,21,21,21,1,21,21,21,21,21,1,3,21]
+        //         }
+        //     ]
+        // });
 
+        let maquinasUnicas = [...new Set($scope.reporteria[tipo].map(item => item.maquina))];
+        let seriesData = maquinasUnicas.map(maquina => {
+            return {
+            name: maquina,
+            data: $scope.reporteria[tipo]
+                .filter(item => item.maquina === maquina)
+                .sort((a, b) => new Date(a.fechaCreacion) - new Date(b.fechaCreacion))
+                .map(item => item.galones)
+            };
+        });
+
+        Highcharts.chart('grafica2', {
+            title: {
+            text: 'Eficiencia por maquina',
+            align: 'left'
+            },
+            yAxis: {
+            title: {
+                text: 'Galones'
+            }
+            },
+            xAxis: {
+            categories: fechasUnicas,
+            crosshair: true,
+            accessibility: {
+                description: 'dias'
+            }
+            },
+            legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+            },
+            series: seriesData,
+            responsive: {
+            rules: [{
+                condition: {
+                maxWidth: 500
+                },
+                chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+                }
+            }]
+            }
+        });
+    }
+    function iniciar() {
         $scope.lista.forEach(function(listaItem) {
             listaItemNombreMayus = listaItem.nombre.charAt(0).toUpperCase() + listaItem.nombre.slice(1).toLowerCase();
             $('#contenido'+listaItemNombreMayus).hide();
         });
         desaparecer();
-        
         getLista('menu');
         $scope.menu.forEach(function(item) {
             getLista(item.nombre.toLowerCase());
         });
-        Highcharts.chart('grafica', {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Disponibilidad de maquinas',
-                align: 'left'
-            },
-            subtitle: {
-                text:
-                    '',
-                align: 'left'
-            },
-            xAxis: {
-                categories: ['5/01/2023','14/01/2023','9/01/2023','1/01/2023','2/01/2023','12/01/2023','7/01/2023','11/01/2023','13/01/2023','15/01/2023','10/01/2023','3/01/2023','6/01/2023','4/01/2023','13/10/2024','17/10/2024','8/01/2023'],
-                crosshair: true,
-                accessibility: {
-                    description: 'dias'
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'maquinas'
-                }
-            },
-            tooltip: {
-                valueSuffix: ' maquinas'
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.1,
-                    borderWidth: 0
-                }
-            },
-            series: [
-                {
-                    name: 'disponibles',
-                    data: [63,64,63,63,63,63,63,63,83,63,63,63,63,63,83,81,63]
-                },
-                {
-                    name: 'en Uso',
-                    data: [21,20,21,21,21,21,21,21,1,21,21,21,21,21,1,3,21]
-                }
-            ]
-        });
+
+        
+                
         var tokenDebugger = document.getElementById('token-debugger').innerText;
         var json = JSON.parse(tokenDebugger)
 
@@ -133,8 +192,12 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                     case "notificaciones":
                         $('#contenidoNotificacion').modal('show');
                         break;
+                    case "Eficiencia":
+                        $scope.reporteSeleccionado = item;
+                        getReporteria(item);
                 }
                 break;
+            
             case "operador":
             case "frente":
             case "finca":
@@ -207,7 +270,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
     function getLista(tipo,page) {
         var url = '/catalogo/' + tipo + '/buscar?pattern=' + $scope.pattern + '&size=' + 100;
         if (page !== null && page !== undefined) {
-            url += '&page=' + page;
+            url += '&page=' + (page-1);
             $scope.pagina = page;
         }else{
             $scope.pagina = 1;
@@ -223,6 +286,27 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 item.supervisor = JSON.parse(item.supervisor);
             }); 
             }
+        }, function errorCallback(response) {
+            alert(response.statusText);
+        });
+    }
+
+    function getReporteria(tipo) {
+        var url = '/catalogo/reporte/'+tipo.toLowerCase();
+        $http({
+            method: 'GET',
+            url: url
+        }).then(function successCallback(response) {
+            $scope.reporteria[tipo] = response.data;
+
+            let fechasUnicas = [...new Set(response.data.map(item => {
+                let date = new Date(item.fechaCreacion);
+                let day = String(date.getDate()).padStart(2, '0');
+                let month = String(date.getMonth() + 1).padStart(2, '0');
+                let year = date.getFullYear();
+                return `${day}-${month}-${year}`;
+            }))].sort((a, b) => new Date(a.split('-').reverse().join('-')) - new Date(b.split('-').reverse().join('-')));
+            getGraficas(fechasUnicas,tipo);
         }, function errorCallback(response) {
             alert(response.statusText);
         });
