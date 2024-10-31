@@ -40,7 +40,7 @@ public class Frente extends PanacheEntity {
     
     @OneToMany(mappedBy = "frente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnore
-    public List<Bitacora> bitacoras;
+    public List<Maquina> maquinas;
 
     @PrePersist
     protected void onCreate() {

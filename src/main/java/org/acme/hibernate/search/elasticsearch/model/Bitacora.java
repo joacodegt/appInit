@@ -32,10 +32,6 @@ public class Bitacora extends PanacheEntity {
 
     @ManyToOne
     @IndexedEmbedded
-    public Frente frente;
-
-    @ManyToOne
-    @IndexedEmbedded
     public Maquina maquina;
     
     @ManyToOne

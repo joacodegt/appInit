@@ -120,7 +120,6 @@ public class CatalogoResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public void agregarBitacora(
             @RestForm String operador,
-            @RestForm String frente,
             @RestForm String maquina,
             @RestForm String finca,
             @RestForm String horometroInicio,
@@ -128,7 +127,6 @@ public class CatalogoResource {
         Bitacora bitacora = new Bitacora();
         LOG.info("nombre: " + operador);
         bitacora.operador = Operador.findById(Long.parseLong(operador));
-        bitacora.frente = Frente.findById(Long.parseLong(frente));
         bitacora.maquina = Maquina.findById(Long.parseLong(maquina));
         bitacora.finca = Finca.findById(Long.parseLong(finca));
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
@@ -141,10 +139,11 @@ public class CatalogoResource {
     @Path("maquina")
     @Transactional
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void agregarMaquina(@RestForm String nombre, @RestForm String tipo) {
+    public void agregarMaquina(@RestForm String nombre, @RestForm String tipo, @RestForm String frente) {
         if (isValidString(nombre) && isValidString(tipo)) {
             Maquina maquina = new Maquina();
             maquina.nombre = nombre;
+            maquina.frente = Frente.findById(Long.parseLong(frente));
             maquina.tipo = tipo;
             maquina.persist();
         }
@@ -193,14 +192,12 @@ public class CatalogoResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public void editarBitacora(Long id,
             @RestForm String operador,
-            @RestForm String frente,
             @RestForm String maquina,
             @RestForm String finca,
             @RestForm String horometroInicio,
             @RestForm String galones) {
         Bitacora bitacora = Bitacora.findById(id);
         bitacora.operador = Operador.findById(Long.parseLong(operador));
-        bitacora.frente = Frente.findById(Long.parseLong(frente));
         bitacora.maquina = Maquina.findById(Long.parseLong(maquina));
         bitacora.finca = Finca.findById(Long.parseLong(finca));
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
@@ -213,13 +210,15 @@ public class CatalogoResource {
     @Path("maquina/{id}")
     @Transactional
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void actualizarMaquina(Long id, @RestForm String nombre, @RestForm String tipo) {
+    public void actualizarMaquina(Long id, @RestForm String nombre, @RestForm String tipo, @RestForm String frente) {
+        LOG.info("Frenteid: " + frente);
         Maquina maquina = Maquina.findById(id);
         if (maquina == null) {
             return;
         }
         maquina.nombre = nombre;
         maquina.tipo = tipo;
+        maquina.frente = Frente.findById(Long.parseLong(frente));
         maquina.persist();
     }
 
@@ -282,8 +281,6 @@ public class CatalogoResource {
     @Transactional
     public void eliminarBitacora(Long id) {
         Bitacora bitacora = Bitacora.findById(id);
-        Frente frente = bitacora.frente;
-        frente.bitacoras.remove(bitacora);
         Operador operador = bitacora.operador;
         operador.bitacoras.remove(bitacora);
         Finca finca = bitacora.finca;

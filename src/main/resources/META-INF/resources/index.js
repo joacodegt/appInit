@@ -232,9 +232,11 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                     case "agregar":
                         if (tipo == 'bitacora') {
                             getLista("operador");
-                            getLista("frente");
                             getLista("maquina");
                             getLista("finca");
+                        }
+                        if(tipo == 'maquina'){
+                            getLista("frente");
                         }
                         $scope.metodo = metodo
                         if (item === 'agregar') {
@@ -248,9 +250,11 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                     case "editar":
                         if (tipo == 'bitacora') {
                             getLista("operador");
-                            getLista("frente");
                             getLista("maquina");
                             getLista("finca");
+                        }
+                        if(tipo == 'maquina'){
+                            getLista("frente");
                         }
                         $scope.formulario[tipo] = item
                         $("#tituloModal_editar_agregar_"+tipo).text("Editar " + tipoMayus);
@@ -352,10 +356,16 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             data = {
                 "operador": $scope.formulario[tipo].operador.id,
                 "maquina": $scope.formulario[tipo].maquina.id,
-                "frente": $scope.formulario[tipo].frente.id,
                 "finca": $scope.formulario[tipo].finca.id,
                 "horometroInicio": $scope.formulario[tipo].horometroInicio,
                 "galones": $scope.formulario[tipo].galones
+            }
+        }
+        if(tipo == 'maquina'){
+            data = {
+                "frente": $scope.formulario[tipo].frente.id,
+                "nombre": $scope.formulario[tipo].nombre,
+                "tipo": $scope.formulario[tipo].tipo
             }
         }
         httpMetodo(method, url, data, tipo)

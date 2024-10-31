@@ -19,7 +19,6 @@
 
 <body ng-app="InventarioManagement" ng-controller="InventarioManagementController">
     <div>
-        {! MENU !}
         <div class="ui top menu">
             <div class="ui container">
                 <button class="ui icon button" id="menuToggle">
@@ -42,7 +41,6 @@
                 <div class="header">{{ item.nombre }}</div>
             </a>
         </div>
-        {! configuraciones !}
         <div class="ui modal" id="contenidoConfiguracion">
             <i class="close icon"></i>
             <div class="header">
@@ -68,18 +66,6 @@
                 </button>
             </div>
         </div>
-        {! REPORTES !}
-        <!-- <div>
-            <div class="ui segment contenedorApp">
-                <h2>Graficas:</h2>
-                <figure class="highcharts-figure">
-                    <div id="grafica"></div>
-                    <p class="highcharts-description">
-                        Tendencia de cantidad de desperfectos por equipo
-                    </p>
-                </figure>
-            </div>
-        </div> -->
         <div id="contenidoReportes" class="ui celled grid">
             <div class="row">
                 <div class="three wide column">
@@ -106,6 +92,10 @@
                                         <i class="circular search link icon"
                                         ng-click="ver('Eficiencia','contenido','')"></i>
                                     </div>
+                                    <div class="ui icon input right floated labeled">
+                                        <input type="date" placeholder="Fecha" ng-model="filtros.fecha">
+                                        <i class="calendar icon"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +113,6 @@
                 </div>
             </div>
         </div>
-
         <div id="contenidoInicio" style="position: relative; display: inline-block;">
             <img src="img/cosecha.jpg" alt="Cosecha" style="width: 100%; filter: blur(1px);">
             <div style="position: absolute; top: 130px; width: 100%; text-align: center; color: white;">
@@ -131,7 +120,6 @@
                 <div style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 40px;">Disponibilidad y Eficiencia</div>
             </div>
         </div>
-
         <div id="contenidoCatalogos" class="ui celled grid">
             <div class="row">
                 <div class="three wide column">
@@ -179,6 +167,7 @@
                                                     <th>#</th>
                                                     <th>Fecha Creacion</th>
                                                     <th>Nombre</th>
+                                                    <th>Frente</th>
                                                     <th>Tipo</th>
                                                     <th>Acciones</th>
                                                 </tr>
@@ -196,6 +185,9 @@
                                                         </td>
                                                         <td>
                                                             <div class="content">{{maquina.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{maquina.frente.nombre}}</div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{maquina.tipo}}</div>
@@ -352,7 +344,6 @@
                                                     <th>#</th>
                                                     <th>Fecha Creacion</th>
                                                     <th>Operador</th>
-                                                    <th>Frente</th>
                                                     <th>Maquina</th>
                                                     <th>Finca</th>
                                                     <th>Horometro Inicio</th>
@@ -374,9 +365,6 @@
                                                         </td>
                                                         <td>
                                                             <div class="content">{{bitacora.operador.nombre}}</div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="content">{{bitacora.frente.nombre}}</div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{bitacora.maquina.nombre}}</div>
@@ -431,6 +419,15 @@
                             <td class="four wide column"><b>Maquina:</b></td>
                             <td><input type="text" name="nombre" placeholder="nombre"
                                     ng-model="formulario.maquina.nombre" required></td>
+                        </tr>
+                        <tr>
+                            <td class="four wide column"><b>Frente:</b></td>
+                            <td>
+                                <select class="ui dropdown" ng-model="formulario.maquina.frente"
+                                    ng-options="frente as frente.nombre for frente in frente  track by frente.id">
+                                    <option value="" selected>Selecciona un frente</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td class="four wide column"><b>Tipo:</b></td>
@@ -541,15 +538,6 @@
                                 <select class="ui dropdown" ng-model="formulario.bitacora.operador"
                                     ng-options="operador as operador.nombre for operador in operador  track by operador.id">
                                     <option value="" selected>Selecciona un operador</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="four wide column"><b>Frente:</b></td>
-                            <td>
-                                <select class="ui dropdown" ng-model="formulario.bitacora.frente"
-                                    ng-options="frente as frente.nombre for frente in frente  track by frente.id">
-                                    <option value="" selected>Selecciona un frente</option>
                                 </select>
                             </td>
                         </tr>
