@@ -51,6 +51,15 @@ public class Bitacora extends PanacheEntity {
     @Temporal(TemporalType.TIMESTAMP)
     public LocalDateTime fechaCreacion;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @GenericField(projectable = Projectable.YES, searchable = Searchable.YES, sortable = Sortable.YES)
+    @Temporal(TemporalType.TIMESTAMP)
+    public LocalDateTime fechaFin;
+
+    @GenericField
+    @Column(length = 4000)
+    public String estado;
+
     @PrePersist
     protected void onCreate() {
         fechaCreacion = LocalDateTime.now();

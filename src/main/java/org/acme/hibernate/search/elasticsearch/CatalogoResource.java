@@ -132,6 +132,7 @@ public class CatalogoResource {
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
         bitacora.galones = Long.parseLong(galones);
         bitacora.supervisor = TokenDebugger.decoded;
+        bitacora.estado = "Creado";
         bitacora.persist();
     }
 
@@ -203,6 +204,8 @@ public class CatalogoResource {
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
         bitacora.galones = Long.parseLong(galones);
         bitacora.supervisor = TokenDebugger.decoded;
+        bitacora.estado = "Finalizado";
+        bitacora.fechaFin = LocalDateTime.now();
         bitacora.persist();
     }
 

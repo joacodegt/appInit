@@ -343,6 +343,8 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Fecha Creacion</th>
+                                                    <th>Fecha Fin</th>
+                                                    <th>Estado</th>
                                                     <th>Operador</th>
                                                     <th>Maquina</th>
                                                     <th>Finca</th>
@@ -362,6 +364,12 @@
                                                         </td>
                                                         <td>
                                                             <div class="content">{{bitacora.fechaCreacion}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{bitacora.fechaFin}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{bitacora.estado}}</div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{bitacora.operador.nombre}}</div>
@@ -568,6 +576,15 @@
                             <td class="four wide column"><b>galones:</b></td>
                             <td><input type="text" name="galones" placeholder="galones"
                                     ng-model="formulario.bitacora.galones" required></td>
+                        </tr>
+                        <tr>
+                            <td class="four wide column"><b>Tipo:</b></td>
+                            <td>
+                                <select class="ui dropdown" name="tipo" ng-model="formulario.maquina.tipo" required>
+                                    <option value="" disabled selected>Creado</option>
+                                    <option value="Tractores">Finalizado</option>
+                                </select>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
