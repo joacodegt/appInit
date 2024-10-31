@@ -33,8 +33,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.runtime.StartupEvent;
 
 @Path("/catalogo")
@@ -64,7 +62,6 @@ public class CatalogoResource {
     private <T> List<T> buscarEntidad(Class<T> entityClass, String pattern, Optional<Integer> size, Optional<Integer> page) {
         int pageSize = size.orElse(100);
         int pageNumber = page.orElse(0);
-        // String estadoPattern = estado.orElse("<>");
         List<T> lista = (searchSession.search(entityClass)
                 .where(f -> {
                     if (isEmptyPattern(pattern)) {
@@ -398,7 +395,11 @@ public class CatalogoResource {
 
     @GET
     @Path("reporte/eficiencia")
-    public List<Eficiencia> reporteEficiencia() {
+    public List<Eficiencia> reporteEficiencia(@RestQuery String maquina) {
+        String where = "";
+        if (maquina != null && !maquina.trim().isEmpty() && !maquina.equals("undefined")) {
+            where = "where m.nombre like '%" + maquina + "%'";
+        }
         String consulta = """
                 SELECT  
                     m.nombre,
@@ -418,6 +419,7 @@ public class CatalogoResource {
                 FROM
                     Bitacora b
                     LEFT JOIN Maquina m ON b.maquina.id = m.id
+                """ + where + """
                 ORDER BY
                     m.nombre,
                     ranking

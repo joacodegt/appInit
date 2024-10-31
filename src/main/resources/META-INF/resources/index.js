@@ -26,6 +26,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
     $scope.bitacora = [];
     $scope.operador = [];
     $scope.pattern = '';
+    $scope.filtros = [];
     $scope.nuevoTipo = '';
     $scope.metodo = '';
     $scope.reporteSeleccionado = '';
@@ -82,13 +83,20 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         // });
 
         let maquinasUnicas = [...new Set($scope.reporteria[tipo].map(item => item.maquina))];
+        
         let seriesData = maquinasUnicas.map(maquina => {
             return {
-            name: maquina,
-            data: $scope.reporteria[tipo]
-                .filter(item => item.maquina === maquina)
-                .sort((a, b) => new Date(a.fechaCreacion) - new Date(b.fechaCreacion))
-                .map(item => item.galones)
+                name: maquina,
+                data: fechasUnicas.map(fecha => {
+                    let item = $scope.reporteria[tipo].find(item => {
+                        let date = new Date(item.fechaCreacion);
+                        let day = String(date.getDate()).padStart(2, '0');
+                        let month = String(date.getMonth() + 1).padStart(2, '0');
+                        let year = date.getFullYear();
+                        return `${day}-${month}-${year}` === fecha && item.maquina === maquina;
+                    });
+                    return item ? item.galones : 0;
+                })
             };
         });
 
@@ -290,9 +298,8 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             alert(response.statusText);
         });
     }
-
     function getReporteria(tipo) {
-        var url = '/catalogo/reporte/'+tipo.toLowerCase();
+        var url = '/catalogo/reporte/'+tipo.toLowerCase()+'?maquina='+$scope.filtros.maquina;
         $http({
             method: 'GET',
             url: url
@@ -311,7 +318,6 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             alert(response.statusText);
         });
     }
-
     function getPaginacion(tipo) {
         var url = '/catalogo/paginacion?modelo=' + tipo;
         $http({
