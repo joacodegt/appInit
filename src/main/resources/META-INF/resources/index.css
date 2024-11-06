@@ -4,6 +4,29 @@
     border: none;
     cursor: pointer;
 }
+#contenidoInicio {
+    position: relative; display: inline-block;
+}
+
+.icono {
+    color: #4183c4;
+}
+
+.menu{
+    background-color: white;
+}
+.titulo{
+    background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 40px;
+}
+.titulo1{
+    font-weight: bold; background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 50px;
+}
+.texto{
+    position: absolute; top: 130px; width: 100%; text-align: center; color: white;
+}
+.imagenCosecha{
+    width: 100%; filter: blur(1px);
+}
 
 h1 {
     font-size: 1em;

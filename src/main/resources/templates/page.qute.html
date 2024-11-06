@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Maquinaria</title>
-    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
 </head>
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="ui sidebar vertical menu" style="background-color: white;">
+        <div class="ui sidebar vertical menu">
             <a class="item" ng-repeat="item in lista" ng-click="ver(item,'contenido','')">
                 <i class="{{ item.icon }} icon"></i>
                 <div class="header">{{ item.nombre }}</div>
@@ -71,7 +71,7 @@
             <div class="row">
                 <div class="three wide column">
                     <h1 class="header">
-                        <i class="chart bar icon" style="color: #4183c4;"></i>
+                        <i class="chart bar icon icono"></i>
                         Reportes
                     </h1>
                     <div class="ui vertical center menu">
@@ -113,12 +113,12 @@
                 </div>
             </div>
         </div>
-        <div id="contenidoInicio" style="position: relative; display: inline-block;">
-            <img src="img/cosecha.jpg" alt="Cosecha" style="width: 100%; filter: blur(1px);">
-            <div style="position: absolute; top: 130px; width: 100%; text-align: center; color: white;">
-                <div style="font-weight: bold; background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 50px;">
+        <div id="contenidoInicio">
+            <img src="img/cosecha.jpg" alt="Cosecha" class="imagenCosecha">
+            <div class="texto">
+                <div class="titulo1">
                     Departamento de Cosecha</div>
-                <div style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 40px;">Disponibilidad y
+                <div class="titulo">Disponibilidad y
                     Eficiencia</div>
             </div>
         </div>
@@ -126,7 +126,7 @@
             <div class="row">
                 <div class="three wide column">
                     <h1 class="header">
-                        <i class="book icon" style="color: #4183c4;"></i>
+                        <i class="book icon icono"></i>
                         catalogos
                     </h1>
                     <div class="ui vertical center menu">
@@ -663,7 +663,7 @@
                             <td>
                                 <select class="ui dropdown" name="estado" ng-model="formulario.bitacora.estado" title="Estados"
                                     required
-                                    <option value="Creado" ng-selected="formulario.bitacora.estado === undefined">Creado</option>
+                                    <option value="Creado" ng-selected="formulario.bitacora.estado.length === 0">Creado</option>
                                     <option value="Finalizado"  ng-selected="formulario.bitacora.estado === 'Finalizado'">Finalizado</option>
                                 </select>
                             </td>
@@ -671,7 +671,7 @@
                         <tr>
                             <td class="four wide column"><b>Motivo:</b></td>
                             <td>
-                                <select class="ui search dropdown" ng-model="formulario.bitacora.motivo"
+                                <select class="ui search dropdown" ng-model="formulario.bitacora.motivo" title="Motivos"
                                     ng-options="motivo as motivo.nombre for motivo in motivo  track by motivo.id">
                                     <option value="" selected>Selecciona un motivo</option>
                                 </select>

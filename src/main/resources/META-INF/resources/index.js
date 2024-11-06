@@ -167,7 +167,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         }
         document.getElementById('token-debugger').innerHTML = html;
     }
-    $scope.ver = function (item, tipo, metodo,page) {
+    $scope.ver = async function (item, tipo, metodo,page) {
         switch (tipo) {
             case "contenido":
                 switch (item.nombre) {
@@ -208,15 +208,14 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                         getReporteria(item);
                 }
                 break;
-            
             case "operador":
             case "frente":
             case "finca":
             case "motivo":
             case "bitacora":
             case "maquina":
-                getPaginacion(tipo);
-                getLista(tipo,page);
+                await getPaginacion(tipo);
+                await getLista(tipo,page);
                 tipoMayus = tipo.charAt(0).toUpperCase() + tipo.slice(1).toLowerCase();
                 switch (metodo) {
                     case "ver":
@@ -234,30 +233,38 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                         $scope.pattern = '';
                         break;
                     case "agregar":
+                        $scope.formulario = undefined;
                         if (tipo == 'bitacora') {
-                            getLista("operador");
-                            getLista("maquina");
-                            getLista("finca");
-                            getLista("motivo");
+                            await getLista("operador");
+                            await getLista("maquina");
+                            await getLista("finca");
+                            await getLista("motivo");
                         }
                         if(tipo == 'maquina'){
-                            getLista("frente");
+                            await getLista("frente");
                         }
                         $scope.metodo = metodo
                         $("#tituloModal_editar_agregar_"+tipo).text("Agregar " + tipoMayus);
                         $('#editar_agregar_'+tipo).modal('show');
                         break;
                     case "editar":
+                        if ($scope.formulario === undefined){
+                            $scope.formulario = {};
+                            $scope.formulario[tipo] = item;
+                        }else{
+                            $scope.formulario[tipo] = item;
+                        }
+                        
                         if (tipo == 'bitacora') {
-                            getLista("operador");
-                            getLista("maquina");
-                            getLista("finca");
-                            getLista("motivo");
+                            await getLista("operador");
+                            await getLista("maquina");
+                            await getLista("finca");
+                            await getLista("motivo");
                         }
                         if(tipo == 'maquina'){
-                            getLista("frente");
+                            await getLista("frente");
                         }
-                        $scope.formulario[tipo] = item
+
                         $("#tituloModal_editar_agregar_"+tipo).text("Editar " + tipoMayus);
                         $('#editar_agregar_'+tipo).modal('show');
                         break;
@@ -384,5 +391,6 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         $scope.pattern = '';
         alert(JSON.stringify(response));
         getLista(tipo);
+        $scope.formulario = undefined;
     }
 }]);
