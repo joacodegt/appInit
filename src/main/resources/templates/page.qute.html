@@ -662,8 +662,8 @@
                             <td class="four wide column"><b>estado:</b></td>
                             <td>
                                 <select class="ui dropdown" name="estado" ng-model="formulario.bitacora.estado" title="Estados"
-                                    required
-                                    <option value="Creado" ng-selected="formulario.bitacora.estado.length === 0">Creado</option>
+                                    required>
+                                    <option value="Creado" disabled ng-selected="formulario.bitacora.estado === undefined">Creado</option>
                                     <option value="Finalizado"  ng-selected="formulario.bitacora.estado === 'Finalizado'">Finalizado</option>
                                 </select>
                             </td>
