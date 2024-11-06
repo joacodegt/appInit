@@ -244,7 +244,6 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                             getLista("frente");
                         }
                         $scope.metodo = metodo
-                        $scope.formulario[tipo] = []
                         $("#tituloModal_editar_agregar_"+tipo).text("Agregar " + tipoMayus);
                         $('#editar_agregar_'+tipo).modal('show');
                         break;
@@ -349,7 +348,6 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         }, $scope._error);
     }
     $scope.guardar = function (tipo, formulario) {
-        data = {};
         validacion = ($scope.formulario[tipo].id == -1 || $scope.formulario[tipo].id === undefined)
         method = validacion ? 'PUT' : 'POST';
         url = validacion ? '/catalogo/' + tipo : '/catalogo/' + tipo + '/' + formulario[tipo].id;
