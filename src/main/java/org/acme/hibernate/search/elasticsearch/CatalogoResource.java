@@ -15,6 +15,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 
 import org.acme.hibernate.search.elasticsearch.model.Maquina;
+import org.acme.hibernate.search.elasticsearch.model.Motivo;
 import org.acme.hibernate.search.elasticsearch.model.Operador;
 import org.acme.hibernate.search.elasticsearch.model.Frente;
 import org.acme.hibernate.search.elasticsearch.model.Finca;
@@ -123,12 +124,14 @@ public class CatalogoResource {
             @RestForm String maquina,
             @RestForm String finca,
             @RestForm String horometroInicio,
+            @RestForm String motivo,
             @RestForm String galones) {
         Bitacora bitacora = new Bitacora();
         LOG.info("nombre: " + operador);
         bitacora.operador = Operador.findById(Long.parseLong(operador));
         bitacora.maquina = Maquina.findById(Long.parseLong(maquina));
         bitacora.finca = Finca.findById(Long.parseLong(finca));
+        bitacora.motivo = Motivo.findById(Long.parseLong(motivo));;
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
         bitacora.galones = Long.parseLong(galones);
         bitacora.supervisor = TokenDebugger.decoded;
@@ -159,6 +162,18 @@ public class CatalogoResource {
             Finca finca = new Finca();
             finca.nombre = nombre;
             finca.persist();
+        }
+    }
+
+    @PUT
+    @Path("motivo")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void agregarMotivo(@RestForm String nombre) {
+        if (isValidString(nombre)) {
+            Motivo motivo = new Motivo();
+            motivo.nombre = nombre;
+            motivo.persist();
         }
     }
 
@@ -196,11 +211,13 @@ public class CatalogoResource {
             @RestForm String maquina,
             @RestForm String finca,
             @RestForm String horometroInicio,
+            @RestForm String motivo,
             @RestForm String galones) {
         Bitacora bitacora = Bitacora.findById(id);
         bitacora.operador = Operador.findById(Long.parseLong(operador));
         bitacora.maquina = Maquina.findById(Long.parseLong(maquina));
         bitacora.finca = Finca.findById(Long.parseLong(finca));
+        bitacora.motivo =Motivo.findById(Long.parseLong(motivo));
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
         bitacora.galones = Long.parseLong(galones);
         bitacora.supervisor = TokenDebugger.decoded;
@@ -236,6 +253,19 @@ public class CatalogoResource {
         }
         finca.nombre = nombre;
         finca.persist();
+    }
+
+    @POST
+    @Path("motivo/{id}")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void actualizarMotivo(Long id, @RestForm String nombre) {
+        Motivo motivo = Motivo.findById(id);
+        if (motivo == null) {
+            return;
+        }
+        motivo.nombre = nombre;
+        motivo.persist();
     }
 
     @POST
@@ -277,6 +307,13 @@ public class CatalogoResource {
     @Transactional
     public void eliminarFinca(Long id) {
         eliminarEntidad(Finca.class, id);
+    }
+
+    @DELETE
+    @Path("motivo/{id}")
+    @Transactional
+    public void eliminarMotivo(Long id) {
+        eliminarEntidad(Motivo.class, id);
     }
 
     @DELETE
@@ -384,6 +421,13 @@ public class CatalogoResource {
     @Transactional
     public List<Finca> buscarFinca(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
         return buscarEntidad(Finca.class, pattern, size, page);
+    }
+
+    @GET
+    @Path("motivo/buscar")
+    @Transactional
+    public List<Motivo> buscarMotivo(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+        return buscarEntidad(Motivo.class, pattern, size, page);
     }
 
     @GET

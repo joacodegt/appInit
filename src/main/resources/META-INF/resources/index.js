@@ -6,7 +6,9 @@ $(document).ready(function() {
     $('.ui.sidebar .item').on('click', function() {
         $('.ui.sidebar').sidebar('hide');
     });
-});
+    $('select.dropdown').dropdown();
+    $('#search-select').dropdown();
+    });
 app.controller("InventarioManagementController", ['$scope', '$http', '$httpParamSerializerJQLike', function ($scope, $http, $httpParamSerializerJQLike) {
     $scope.lista = [
         // { "nombre": "Nueva Bitacora", "icon": "edit" },
@@ -23,6 +25,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
     $scope.menu = [];
     $scope.maquina = [];
     $scope.frente = [];
+    $scope.motivo = [];
     $scope.bitacora = [];
     $scope.operador = [];
     $scope.pattern = '';
@@ -209,6 +212,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
             case "operador":
             case "frente":
             case "finca":
+            case "motivo":
             case "bitacora":
             case "maquina":
                 getPaginacion(tipo);
@@ -234,16 +238,13 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                             getLista("operador");
                             getLista("maquina");
                             getLista("finca");
+                            getLista("motivo");
                         }
                         if(tipo == 'maquina'){
                             getLista("frente");
                         }
                         $scope.metodo = metodo
-                        if (item === 'agregar') {
-                            $scope.formulario = {}
-                        } else {
-                            $scope.formulario = item
-                        }
+                        $scope.formulario[tipo] = []
                         $("#tituloModal_editar_agregar_"+tipo).text("Agregar " + tipoMayus);
                         $('#editar_agregar_'+tipo).modal('show');
                         break;
@@ -252,6 +253,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                             getLista("operador");
                             getLista("maquina");
                             getLista("finca");
+                            getLista("motivo");
                         }
                         if(tipo == 'maquina'){
                             getLista("frente");
@@ -358,7 +360,8 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 "maquina": $scope.formulario[tipo].maquina.id,
                 "finca": $scope.formulario[tipo].finca.id,
                 "horometroInicio": $scope.formulario[tipo].horometroInicio,
-                "galones": $scope.formulario[tipo].galones
+                "galones": $scope.formulario[tipo].galones,
+                "motivo": $scope.formulario[tipo].motivo.id
             }
         }
         if(tipo == 'maquina'){

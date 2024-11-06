@@ -37,7 +37,10 @@ public class Bitacora extends PanacheEntity {
     @ManyToOne
     @IndexedEmbedded
     public Finca finca;
-    
+
+    @ManyToOne
+    @IndexedEmbedded
+    public Motivo motivo;
     
     public Long horometroInicio;
     public Long galones;
@@ -59,6 +62,9 @@ public class Bitacora extends PanacheEntity {
     @GenericField
     @Column(length = 4000)
     public String estado;
+    
+
+
 
     @PrePersist
     protected void onCreate() {

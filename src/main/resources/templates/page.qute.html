@@ -74,7 +74,7 @@
                         Reportes
                     </h1>
                     <div class="ui vertical center menu">
-                        <a ng-repeat="reporte in reportes"  id="item{{reporte.nombre}}" class="item"
+                        <a ng-repeat="reporte in reportes" id="item{{reporte.nombre}}" class="item"
                             ng-click="ver(reporte.nombre,'contenido','')">{{reporte.nombre}}</a>
                     </div>
                 </div>
@@ -87,10 +87,9 @@
                                         {{reporteSeleccionado}}
                                     </h1>
                                     <div class="ui icon input right floated labeled">
-                                        <input type="text" placeholder="maquina"
-                                            ng-model="filtros.maquina">
+                                        <input type="text" placeholder="maquina" ng-model="filtros.maquina">
                                         <i class="circular search link icon"
-                                        ng-click="ver('Eficiencia','contenido','')"></i>
+                                            ng-click="ver('Eficiencia','contenido','')"></i>
                                     </div>
                                     <div class="ui icon input right floated labeled">
                                         <input type="date" placeholder="Fecha" ng-model="filtros.fecha">
@@ -116,8 +115,10 @@
         <div id="contenidoInicio" style="position: relative; display: inline-block;">
             <img src="img/cosecha.jpg" alt="Cosecha" style="width: 100%; filter: blur(1px);">
             <div style="position: absolute; top: 130px; width: 100%; text-align: center; color: white;">
-                <div style="font-weight: bold; background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 50px;">Departamento de Cosecha</div>
-                <div style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 40px;">Disponibilidad y Eficiencia</div>
+                <div style="font-weight: bold; background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 50px;">
+                    Departamento de Cosecha</div>
+                <div style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; font-size: 40px;">Disponibilidad y
+                    Eficiencia</div>
             </div>
         </div>
         <div id="contenidoCatalogos" class="ui celled grid">
@@ -151,8 +152,9 @@
                                             class="plus square icon"></i>
                                         Agrear
                                     </button>
-                                    <div class="ui pagination menu" >
-                                        <a class="item" ng-click="ver('', catalogoSeleccionado, 'ver',pagina)" ng-repeat="pagina in paginas">{{pagina}}</a>
+                                    <div class="ui pagination menu">
+                                        <a class="item" ng-click="ver('', catalogoSeleccionado, 'ver',pagina)"
+                                            ng-repeat="pagina in paginas">{{pagina}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +180,8 @@
                                                 <tbody>
                                                     <tr ng-repeat="maquina in maquina track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{maquina.fechaCreacion}}</div>
@@ -193,10 +196,12 @@
                                                             <div class="content">{{maquina.tipo}}</div>
                                                         </td>
                                                         <td>
-                                                            <button class="ui s basic green button" ng-click="ver(maquina,'maquina','editar')">
+                                                            <button class="ui s basic green button"
+                                                                ng-click="ver(maquina,'maquina','editar')">
                                                                 <i class="pencil alternate icon"></i> Editar
                                                             </button>
-                                                            <button ng-if="{identity.roles.contains('admin')}" class="ui s basic red button"
+                                                            <button ng-if="{identity.roles.contains('admin')}"
+                                                                class="ui s basic red button"
                                                                 ng-click="eliminar('maquina', maquina)">
                                                                 <i class="trash alternate outline icon"></i> Eliminar
                                                             </button>
@@ -224,7 +229,8 @@
                                                 <tbody>
                                                     <tr ng-repeat="frente in frente track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{frente.fechaCreacion}}</div>
@@ -267,7 +273,8 @@
                                                 <tbody>
                                                     <tr ng-repeat="operador in operador track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{operador.fechaCreacion}}</div>
@@ -294,6 +301,49 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div id="motivo" class="ui segment">
+                                    <div class="table-container">
+                                        <table class="ui striped table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Fecha Creacion</th>
+                                                    <th>Nombre</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="table-body-container">
+                                            <table class="ui striped table">
+                                                <tbody>
+                                                    <tr ng-repeat="motivo in motivo track by $index">
+                                                        <td>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{motivo.fechaCreacion}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="content">{{motivo.nombre}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <button class="ui small basic green button"
+                                                                ng-click="ver(motivo,'motivo','editar')"><i
+                                                                    class="pencil alternate icon"></i>
+                                                                Editar</button>
+                                                            <button ng-if="{identity.roles.contains('admin')}"
+                                                                class="ui small basic red button"
+                                                                ng-click="eliminar('motivo', motivo)"><i
+                                                                    class="trash alternate outline icon"></i>
+                                                                Eliminar</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="finca" class="ui segment">
                                     <div class="table-container">
                                         <table class="ui striped table">
@@ -311,7 +361,8 @@
                                                 <tbody>
                                                     <tr ng-repeat="finca in finca track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{finca.fechaCreacion}}</div>
@@ -348,6 +399,7 @@
                                                     <th>Operador</th>
                                                     <th>Maquina</th>
                                                     <th>Finca</th>
+                                                    <th>Motivo</th>
                                                     <th>Horometro Inicio</th>
                                                     <th>Galones</th>
                                                     <th>Supervisor</th>
@@ -360,7 +412,8 @@
                                                 <tbody>
                                                     <tr ng-repeat="bitacora in bitacora track by $index">
                                                         <td>
-                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}</div>
+                                                            <div class="content">{{$index + 1 + (pagina - 1) * 100}}
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <div class="content">{{bitacora.fechaCreacion}}</div>
@@ -381,6 +434,9 @@
                                                             <div class="content">{{bitacora.finca.nombre}}</div>
                                                         </td>
                                                         <td>
+                                                            <div class="content">{{bitacora.motivo.nombre}}</div>
+                                                        </td>
+                                                        <td>
                                                             <div class="content">{{bitacora.horometroInicio}}</div>
                                                         </td>
                                                         <td>
@@ -391,7 +447,8 @@
                                                                 data-tooltip="{{bitacora.supervisor}}"
                                                                 data-position="top center" class="content">
                                                                 {{bitacora.supervisor.name}}</div>
-                                                            <div ng-if="!{identity.roles.contains('admin')}" class="content">
+                                                            <div ng-if="!{identity.roles.contains('admin')}"
+                                                                class="content">
                                                                 {{bitacora.supervisor.name}}</div>
                                                         </td>
                                                         <td>
@@ -431,7 +488,7 @@
                         <tr>
                             <td class="four wide column"><b>Frente:</b></td>
                             <td>
-                                <select class="ui dropdown" ng-model="formulario.maquina.frente"
+                                <select class="ui search dropdown" ng-model="formulario.maquina.frente"
                                     ng-options="frente as frente.nombre for frente in frente  track by frente.id">
                                     <option value="" selected>Selecciona un frente</option>
                                 </select>
@@ -440,11 +497,11 @@
                         <tr>
                             <td class="four wide column"><b>Tipo:</b></td>
                             <td>
-                                <select class="ui dropdown" name="tipo" ng-model="formulario.maquina.tipo" required>
-                                    <option value="" disabled selected>Selecciona un tipo</option>
-                                    <option value="Tractores">Tractores</option>
-                                    <option value="Alzadoras">Alzadoras</option>
-                                    <option value="Palangana">Palangana</option>
+                                <select class="ui search dropdown" ng-model="formulario.maquina.tipo">
+                                    <option value="" ng-selected="formulario.maquina.tipo === undefined">Selecciona un tipo</option>
+                                    <option value="Tractores" ng-selected="formulario.maquina.tipo === 'Tractores'">Tractores</option>
+                                    <option value="Alzadoras" ng-selected="formulario.maquina.tipo === 'Alzadoras'">Alzadoras</option>
+                                    <option value="Palangana" ng-selected="formulario.maquina.tipo === 'Palangana'">Palangana</option>
                                 </select>
                             </td>
                         </tr>
@@ -510,6 +567,29 @@
                 </button>
             </div>
         </div>
+        <div class="ui modal" id="editar_agregar_motivo">
+            <h4 id="tituloModal_editar_agregar_motivo" class="ui horizontal divider header"><i
+                    class="bar chart icon"></i>
+            </h4>
+            <form class="ui form" id="motivo-formulario-ver">
+                <table class="ui definition table">
+                    <tbody>
+                        <tr>
+                            <td class="four wide column"><b>Motivo:</b></td>
+                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.motivo.nombre"
+                                    required></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div class="actions">
+                <button type="submit" class="ui positive right labeled icon button" form="author-form"
+                    ng-click="guardar('motivo',formulario)">
+                    <i class="checkmark icon"></i>
+                    Guardar
+                </button>
+            </div>
+        </div>
         <div class="ui modal" id="editar_agregar_finca">
             <h4 id="tituloModal_editar_agregar_finca" class="ui horizontal divider header"><i
                     class="bar chart icon"></i>
@@ -519,8 +599,8 @@
                     <tbody>
                         <tr>
                             <td class="four wide column"><b>Finca:</b></td>
-                            <td><input type="text" name="nombre" placeholder="nombre"
-                                    ng-model="formulario.finca.nombre" required></td>
+                            <td><input type="text" name="nombre" placeholder="nombre" ng-model="formulario.finca.nombre"
+                                    required></td>
                         </tr>
                     </tbody>
                 </table>
@@ -543,7 +623,7 @@
                         <tr>
                             <td class="four wide column"><b>Operador:</b></td>
                             <td>
-                                <select class="ui dropdown" ng-model="formulario.bitacora.operador"
+                                <select class="ui search dropdown" ng-model="formulario.bitacora.operador"
                                     ng-options="operador as operador.nombre for operador in operador  track by operador.id">
                                     <option value="" selected>Selecciona un operador</option>
                                 </select>
@@ -552,7 +632,7 @@
                         <tr>
                             <td class="four wide column"><b>Finca:</b></td>
                             <td>
-                                <select class="ui dropdown" ng-model="formulario.bitacora.finca"
+                                <select class="ui search dropdown" ng-model="formulario.bitacora.finca"
                                     ng-options="finca as finca.nombre for finca in finca  track by finca.id">
                                     <option value="" selected>Selecciona un finca</option>
                                 </select>
@@ -561,7 +641,7 @@
                         <tr>
                             <td class="four wide column"><b>Maquina:</b></td>
                             <td>
-                                <select class="ui dropdown" ng-model="formulario.bitacora.maquina"
+                                <select class="ui search dropdown" ng-model="formulario.bitacora.maquina"
                                     ng-options="maquina as maquina.nombre for maquina in maquina  track by maquina.id">
                                     <option value="" selected>Selecciona un maquina</option>
                                 </select>
@@ -578,11 +658,21 @@
                                     ng-model="formulario.bitacora.galones" required></td>
                         </tr>
                         <tr>
-                            <td class="four wide column"><b>Tipo:</b></td>
+                            <td class="four wide column"><b>estado:</b></td>
                             <td>
-                                <select class="ui dropdown" name="tipo" ng-model="formulario.maquina.tipo" required>
-                                    <option value="" disabled selected>Creado</option>
-                                    <option value="Tractores">Finalizado</option>
+                                <select class="ui dropdown" name="estado" ng-model="formulario.bitacora.estado"
+                                    required>
+                                    <option value="Creado" ng-selected="formulario.bitacora.estado === undefined">Creado</option>
+                                    <option value="Finalizado"  ng-selected="formulario.bitacora.estado === 'Finalizado'">Finalizado</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="four wide column"><b>Motivo:</b></td>
+                            <td>
+                                <select class="ui search dropdown" ng-model="formulario.bitacora.motivo"
+                                    ng-options="motivo as motivo.nombre for motivo in motivo  track by motivo.id">
+                                    <option value="" selected>Selecciona un motivo</option>
                                 </select>
                             </td>
                         </tr>
