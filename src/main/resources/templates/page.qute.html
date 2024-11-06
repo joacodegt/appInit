@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Maquinaria</title>
     <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
@@ -21,7 +22,7 @@
     <div>
         <div class="ui top menu">
             <div class="ui container">
-                <button class="ui icon button" id="menuToggle">
+                <button class="ui icon button" id="menuToggle" title="Toggle Menu">
                     <i class="bars icon"></i>
                 </button>
                 <a class="header item" ng-click="ver('inicio','contenido','')">
@@ -488,7 +489,7 @@
                         <tr>
                             <td class="four wide column"><b>Frente:</b></td>
                             <td>
-                                <select class="ui search dropdown" ng-model="formulario.maquina.frente"
+                                <select class="ui search dropdown" ng-model="formulario.maquina.frente" title="Frentes"
                                     ng-options="frente as frente.nombre for frente in frente  track by frente.id">
                                     <option value="" selected>Selecciona un frente</option>
                                 </select>
@@ -497,7 +498,7 @@
                         <tr>
                             <td class="four wide column"><b>Tipo:</b></td>
                             <td>
-                                <select class="ui search dropdown" ng-model="formulario.maquina.tipo">
+                                <select class="ui search dropdown" ng-model="formulario.maquina.tipo" title="Tipos">
                                     <option value="" ng-selected="formulario.maquina.tipo === undefined">Selecciona un tipo</option>
                                     <option value="Tractores" ng-selected="formulario.maquina.tipo === 'Tractores'">Tractores</option>
                                     <option value="Alzadoras" ng-selected="formulario.maquina.tipo === 'Alzadoras'">Alzadoras</option>
@@ -623,7 +624,7 @@
                         <tr>
                             <td class="four wide column"><b>Operador:</b></td>
                             <td>
-                                <select class="ui search dropdown" ng-model="formulario.bitacora.operador"
+                                <select class="ui search dropdown" ng-model="formulario.bitacora.operador" title="Operadores"
                                     ng-options="operador as operador.nombre for operador in operador  track by operador.id">
                                     <option value="" selected>Selecciona un operador</option>
                                 </select>
@@ -632,7 +633,7 @@
                         <tr>
                             <td class="four wide column"><b>Finca:</b></td>
                             <td>
-                                <select class="ui search dropdown" ng-model="formulario.bitacora.finca"
+                                <select class="ui search dropdown" ng-model="formulario.bitacora.finca" title="Fincas"
                                     ng-options="finca as finca.nombre for finca in finca  track by finca.id">
                                     <option value="" selected>Selecciona un finca</option>
                                 </select>
@@ -641,7 +642,7 @@
                         <tr>
                             <td class="four wide column"><b>Maquina:</b></td>
                             <td>
-                                <select class="ui search dropdown" ng-model="formulario.bitacora.maquina"
+                                <select class="ui search dropdown" ng-model="formulario.bitacora.maquina" title="Maquinas"
                                     ng-options="maquina as maquina.nombre for maquina in maquina  track by maquina.id">
                                     <option value="" selected>Selecciona un maquina</option>
                                 </select>
@@ -660,8 +661,8 @@
                         <tr>
                             <td class="four wide column"><b>estado:</b></td>
                             <td>
-                                <select class="ui dropdown" name="estado" ng-model="formulario.bitacora.estado"
-                                    required>
+                                <select class="ui dropdown" name="estado" ng-model="formulario.bitacora.estado" title="Estados"
+                                    required
                                     <option value="Creado" ng-selected="formulario.bitacora.estado === undefined">Creado</option>
                                     <option value="Finalizado"  ng-selected="formulario.bitacora.estado === 'Finalizado'">Finalizado</option>
                                 </select>
@@ -689,5 +690,4 @@
         </div>
     </div>
 </body>
-
 </html>
