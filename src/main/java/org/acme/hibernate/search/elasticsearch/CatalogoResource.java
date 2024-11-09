@@ -21,6 +21,7 @@ import org.acme.hibernate.search.elasticsearch.model.Frente;
 import org.acme.hibernate.search.elasticsearch.model.Finca;
 import org.acme.hibernate.search.elasticsearch.model.Bitacora;
 import org.acme.hibernate.search.elasticsearch.model.Eficiencia;
+import org.acme.hibernate.search.elasticsearch.model.Disponibilidad;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestQuery;
@@ -474,6 +475,43 @@ public class CatalogoResource {
             return resultados;
     }
 
+
+    @GET
+    @Path("reporte/disponibilidad")
+    public List<Disponibilidad> reporteDisponibilidad(@RestQuery String maquina) {
+        String where = "";
+        if (maquina != null && !maquina.trim().isEmpty() && !maquina.equals("undefined")) {
+            where = "where m.nombre like '%" + maquina + "%'";
+        }
+        String consulta = """
+                SELECT  
+                    m.nombre,
+                    b.fechaCreacion,
+                    b.horometroInicio,
+                    b.galones,
+                    RANK() OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS ranking,
+                    LEAD(b.horometroInicio) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS horometroFinal,
+                    LEAD(b.fechaCreacion) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS siguientefecha,
+                    CASE WHEN b.galones > 0 THEN 
+                        ROUND(
+                            b.galones/ 
+                            NULLIF(b.horometroInicio - LEAD(b.horometroInicio) OVER (PARTITION BY maquina.nombre ORDER BY b.fechaCreacion DESC), 0)
+                        , 1) 
+                        ELSE NULL 
+                    END AS eficiencia
+                FROM
+                    Bitacora b
+                    LEFT JOIN Maquina m ON b.maquina.id = m.id
+                """ + where + """
+                ORDER BY
+                    m.nombre,
+                    ranking
+                """;
+                
+            
+            List<Disponibilidad> resultados = Bitacora.find(consulta).project(Disponibilidad.class).list();
+            return resultados;
+    }
 
     @GET
     @Path("paginacion")

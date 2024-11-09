@@ -38,109 +38,117 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
     $scope.pagina = 1;
     iniciar()
     function getGraficas(fechasUnicas,tipo) {
-        // Highcharts.chart('grafica', {
-        //     chart: {
-        //         type: 'column'
-        //     },
-        //     title: {
-        //         text: 'Disponibilidad de maquinas',
-        //         align: 'left'
-        //     },
-        //     subtitle: {
-        //         text:
-        //             '',
-        //         align: 'left'
-        //     },
-        //     xAxis: {
-        //         categories:  fechasUnicas,
-        //         crosshair: true,
-        //         accessibility: {
-        //             description: 'dias'
-        //         }
-        //     },
-        //     yAxis: {
-        //         min: 0,
-        //         title: {
-        //             text: 'maquinas'
-        //         }
-        //     },
-        //     tooltip: {
-        //         valueSuffix: ' maquinas'
-        //     },
-        //     plotOptions: {
-        //         column: {
-        //             pointPadding: 0.1,
-        //             borderWidth: 0
-        //         }
-        //     },
-        //     series: [
-        //         {
-        //             name: 'disponibles',
-        //             data: [63,64,63,63,63,63,63,63,83,63,63,63,63,63,83,81,63]
-        //         },
-        //         {
-        //             name: 'en Uso',
-        //             data: [21,20,21,21,21,21,21,21,1,21,21,21,21,21,1,3,21]
-        //         }
-        //     ]
-        // });
+        switch (tipo) {
+            case "Eficiencia":
+                let maquinasUnicas = [...new Set($scope.reporteria[tipo].map(item => item.maquina))];
+                
+                let seriesData = maquinasUnicas.map(maquina => {
+                    return {
+                        name: maquina,
+                        data: fechasUnicas.map(fecha => {
+                            let item = $scope.reporteria[tipo].find(item => {
+                                let date = new Date(item.fechaCreacion);
+                                let day = String(date.getDate()).padStart(2, '0');
+                                let month = String(date.getMonth() + 1).padStart(2, '0');
+                                let year = date.getFullYear();
+                                return `${day}-${month}-${year}` === fecha && item.maquina === maquina;
+                            });
+                            return item ? item.galones : 0;
+                        })
+                    };
+                });
 
-        let maquinasUnicas = [...new Set($scope.reporteria[tipo].map(item => item.maquina))];
-        
-        let seriesData = maquinasUnicas.map(maquina => {
-            return {
-                name: maquina,
-                data: fechasUnicas.map(fecha => {
-                    let item = $scope.reporteria[tipo].find(item => {
-                        let date = new Date(item.fechaCreacion);
-                        let day = String(date.getDate()).padStart(2, '0');
-                        let month = String(date.getMonth() + 1).padStart(2, '0');
-                        let year = date.getFullYear();
-                        return `${day}-${month}-${year}` === fecha && item.maquina === maquina;
+                Highcharts.chart('grafica2', {
+                    title: {
+                    text: 'Eficiencia por maquina',
+                    align: 'left'
+                    },
+                    yAxis: {
+                    title: {
+                        text: 'Galones'
+                    }
+                    },
+                    xAxis: {
+                    categories: fechasUnicas,
+                    crosshair: true,
+                    accessibility: {
+                        description: 'dias'
+                    }
+                    },
+                    legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                    },
+                    series: seriesData,
+                    responsive: {
+                    rules: [{
+                        condition: {
+                        maxWidth: 500
+                        },
+                        chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                        }
+                    }]
+                    }
+                });
+                break;
+            case "Disponibilidad":
+                    Highcharts.chart('grafica2', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Disponibilidad de maquinas',
+                            align: 'left'
+                        },
+                        subtitle: {
+                            text:
+                                '',
+                            align: 'left'
+                        },
+                        xAxis: {
+                            categories:  fechasUnicas,
+                            crosshair: true,
+                            accessibility: {
+                                description: 'dias'
+                            }
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'maquinas'
+                            }
+                        },
+                        tooltip: {
+                            valueSuffix: ' maquinas'
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.1,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [
+                            {
+                                name: 'disponibles',
+                                data: [63]
+                            },
+                            {
+                                name: 'en Uso',
+                                data: [21]
+                            }
+                        ]
                     });
-                    return item ? item.galones : 0;
-                })
-            };
-        });
-
-        Highcharts.chart('grafica2', {
-            title: {
-            text: 'Eficiencia por maquina',
-            align: 'left'
-            },
-            yAxis: {
-            title: {
-                text: 'Galones'
-            }
-            },
-            xAxis: {
-            categories: fechasUnicas,
-            crosshair: true,
-            accessibility: {
-                description: 'dias'
-            }
-            },
-            legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-            },
-            series: seriesData,
-            responsive: {
-            rules: [{
-                condition: {
-                maxWidth: 500
-                },
-                chartOptions: {
-                legend: {
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom'
-                }
-                }
-            }]
-            }
-        });
+                break;
+        
+            default:
+                break;
+        }
     }
     function iniciar() {
         $scope.lista.forEach(function(listaItem) {
@@ -206,7 +214,9 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                     case "Eficiencia":
                         $scope.reporteSeleccionado = item;
                         getReporteria(item);
-                        getLista('maquina')
+                    case "Disponibilidad":
+                        $scope.reporteSeleccionado = item;
+                        getReporteria(item);
                 }
                 break;
             case "operador":
@@ -312,24 +322,51 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
         });
     }
     function getReporteria(tipo) {
-        var url = '/catalogo/reporte/'+tipo.toLowerCase()+'?maquina='+$scope.filtros.maquina;
-        $http({
-            method: 'GET',
-            url: url
-        }).then(function successCallback(response) {
-            $scope.reporteria[tipo] = response.data;
+        switch (tipo) {
+            case "Eficiencia":
+                var url = '/catalogo/reporte/'+tipo.toLowerCase()+'?maquina='+$scope.filtros.maquina;
+                $http({
+                    method: 'GET',
+                    url: url
+                }).then(function successCallback(response) {
+                    $scope.reporteria[tipo] = response.data;
 
-            let fechasUnicas = [...new Set(response.data.map(item => {
-                let date = new Date(item.fechaCreacion);
-                let day = String(date.getDate()).padStart(2, '0');
-                let month = String(date.getMonth() + 1).padStart(2, '0');
-                let year = date.getFullYear();
-                return `${day}-${month}-${year}`;
-            }))].sort((a, b) => new Date(a.split('-').reverse().join('-')) - new Date(b.split('-').reverse().join('-')));
-            getGraficas(fechasUnicas,tipo);
-        }, function errorCallback(response) {
-            alert(response.statusText);
-        });
+                    let fechasUnicas = [...new Set(response.data.map(item => {
+                        let date = new Date(item.fechaCreacion);
+                        let day = String(date.getDate()).padStart(2, '0');
+                        let month = String(date.getMonth() + 1).padStart(2, '0');
+                        let year = date.getFullYear();
+                        return `${day}-${month}-${year}`;
+                    }))].sort((a, b) => new Date(a.split('-').reverse().join('-')) - new Date(b.split('-').reverse().join('-')));
+                    getGraficas(fechasUnicas,tipo);
+                }, function errorCallback(response) {
+                    alert(response.statusText);
+                });
+                break;
+            case "Disponibilidad":
+                var url = '/catalogo/reporte/'+tipo.toLowerCase()+'?maquina='+$scope.filtros.maquina;
+                $http({
+                    method: 'GET',
+                    url: url
+                }).then(function successCallback(response) {
+                    $scope.reporteria[tipo] = response.data;
+
+                    let fechasUnicas = [...new Set(response.data.map(item => {
+                        let date = new Date(item.fechaCreacion);
+                        let day = String(date.getDate()).padStart(2, '0');
+                        let month = String(date.getMonth() + 1).padStart(2, '0');
+                        let year = date.getFullYear();
+                        return `${day}-${month}-${year}`;
+                    }))].sort((a, b) => new Date(a.split('-').reverse().join('-')) - new Date(b.split('-').reverse().join('-')));
+                    getGraficas(fechasUnicas,tipo);
+                }, function errorCallback(response) {
+                    alert(response.statusText);
+                });
+                break;
+        
+            default:
+                break;
+        }
     }
     function getPaginacion(tipo) {
         var url = '/catalogo/paginacion?modelo=' + tipo;
