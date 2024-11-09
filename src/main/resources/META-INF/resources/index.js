@@ -206,6 +206,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                     case "Eficiencia":
                         $scope.reporteSeleccionado = item;
                         getReporteria(item);
+                        getLista('maquina')
                 }
                 break;
             case "operador":
