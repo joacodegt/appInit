@@ -444,30 +444,7 @@ public class CatalogoResource {
         if (maquina != null && !maquina.trim().isEmpty() && !maquina.equals("undefined")) {
             where = "where m.nombre like '%" + maquina + "%'";
         }
-        String consulta = """
-                SELECT  
-                    m.nombre,
-                    b.fechaCreacion,
-                    b.horometroInicio,
-                    b.galones,
-                    RANK() OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS ranking,
-                    LEAD(b.horometroInicio) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS horometroFinal,
-                    LEAD(b.fechaCreacion) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS siguientefecha,
-                    CASE WHEN b.galones > 0 THEN 
-                        ROUND(
-                            b.galones/ 
-                            NULLIF(b.horometroInicio - LEAD(b.horometroInicio) OVER (PARTITION BY maquina.nombre ORDER BY b.fechaCreacion DESC), 0)
-                        , 1) 
-                        ELSE NULL 
-                    END AS eficiencia
-                FROM
-                    Bitacora b
-                    LEFT JOIN Maquina m ON b.maquina.id = m.id
-                """ + where + """
-                ORDER BY
-                    m.nombre,
-                    ranking
-                """;
+        String consulta = "SELECT  m.nombre, b.fechaCreacion, b.horometroInicio, b.galones, RANK() OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS ranking, LEAD(b.horometroInicio) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS horometroFinal, LEAD(b.fechaCreacion) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS siguientefecha, CASE WHEN b.galones > 0 THEN  ROUND( b.galones/  NULLIF(b.horometroInicio - LEAD(b.horometroInicio) OVER (PARTITION BY maquina.nombre ORDER BY b.fechaCreacion DESC), 0) , 1)  ELSE NULL  END AS eficiencia FROM Bitacora b    LEFT JOIN Maquina m ON b.maquina.id = m.id" + where + "ORDER BY    m.nombre,    ranking";
                 
             
             List<Eficiencia> resultados = Bitacora.find(consulta).project(Eficiencia.class).list();
