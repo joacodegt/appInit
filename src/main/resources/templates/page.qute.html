@@ -89,10 +89,9 @@
                                     </h1>
                                     <div class="ui icon input right floated labeled">
                                         <p>maquina</p>
-                                        <select class="ui search dropdown" ng-model="filtros.maquina" title="Maquinas"
-                                            ng-options="maquina as maquina.nombre for maquina in maquina  track by maquina.id">
-                                            <option value="" selected>Selecciona un maquina</option>
-                                        </select>
+                                        <input type="text" placeholder="maquina" ng-model="filtros.maquina">
+                                        <i class="circular search link icon"
+                                        ng-click="ver('Eficiencia','contenido','')"></i>
                                     </div>
                                     <div class="ui icon input right floated labeled">
                                         <p>Fecha Inicio</p>
@@ -104,8 +103,6 @@
                                         <input type="date" placeholder="Fecha Fin" ng-model="filtros.fechaFin">
                                         <i class="calendar icon"></i>
                                     </div>
-                                    <i class="circular search link icon"
-                                        ng-click="ver('Eficiencia','contenido','')"></i>
                                 </div>
                             </div>
                         </div>
