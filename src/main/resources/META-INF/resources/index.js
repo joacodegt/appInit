@@ -98,9 +98,11 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 });
                 break;
             case "Disponibilidad":
-                    let disponibles = [...new Set($scope.reporteria[tipo].map(item => item.disponibles))]
-                    let en_servicio = [...new Set($scope.reporteria[tipo].map(item => item.en_servicio))]
-                    
+                    // let disponibles = [$scope.reporteria[tipo].map(item => item.disponibles)]
+                    // let en_servicio = [$scope.reporteria[tipo].map(item => item.en_servicio)]
+                    // alert(fechasUnicas)
+                    // alert(disponibles)
+                    // alert(en_servicio)
                     Highcharts.chart('grafica2', {
                         chart: {
                             type: 'column'
@@ -139,11 +141,11 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                         series: [
                             {
                                 name: 'disponibles',
-                                data: disponibles
+                                data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                             },
                             {
                                 name: 'en Uso',
-                                data: en_servicio
+                                data: [64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64]
                             }
                         ]
                     });
