@@ -2,6 +2,7 @@ package org.acme.hibernate.search.elasticsearch;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
@@ -33,7 +34,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 import io.quarkus.runtime.StartupEvent;
 
@@ -50,7 +53,7 @@ public class CatalogoResource {
     @Transactional
     void onStart(@Observes StartupEvent ev) throws InterruptedException {
         searchSession.massIndexer()
-        .startAndWait();
+                .startAndWait();
     }
 
     private boolean isValidString(String str) {
@@ -61,7 +64,8 @@ public class CatalogoResource {
         return pattern == null || pattern.trim().isEmpty();
     }
 
-    private <T> List<T> buscarEntidad(Class<T> entityClass, String pattern, Optional<Integer> size, Optional<Integer> page) {
+    private <T> List<T> buscarEntidad(Class<T> entityClass, String pattern, Optional<Integer> size,
+            Optional<Integer> page) {
         int pageSize = size.orElse(100);
         int pageNumber = page.orElse(0);
         List<T> lista = (searchSession.search(entityClass)
@@ -73,8 +77,8 @@ public class CatalogoResource {
                         LocalDateTime fechaCreacion = null;
                         LocalDateTime fechaCreacionFin = null;
                         try {
-                            fechaCreacion = convertirFecha(pattern,"yyyy-MM-dd");
-                            fechaCreacionFin = convertirFecha(pattern+"T23:59:59","");
+                            fechaCreacion = convertirFecha(pattern, "yyyy-MM-dd");
+                            fechaCreacionFin = convertirFecha(pattern + "T23:59:59", "");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -99,17 +103,17 @@ public class CatalogoResource {
         }
     }
 
-    public LocalDateTime convertirFecha(String pattern, String formatoFecha) throws Exception{
-        LOG.info("pattern: "+pattern);
+    public LocalDateTime convertirFecha(String pattern, String formatoFecha) throws Exception {
+        LOG.info("pattern: " + pattern);
         LocalDateTime fechaCreacion = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatoFecha);
         try {
             if (formatoFecha.equals("")) {
                 fechaCreacion = LocalDateTime.parse(pattern);
-            }else{
+            } else {
                 fechaCreacion = LocalDateTime.parse(LocalDate.parse(pattern, formatter).atStartOfDay().toString());
             }
-            LOG.info("conversion de fecha correcta : "+pattern);
+            LOG.info("conversion de fecha correcta : " + pattern);
             return fechaCreacion;
         } catch (DateTimeParseException e) {
             throw new Exception("Error al convertir la fecha");
@@ -132,7 +136,8 @@ public class CatalogoResource {
         bitacora.operador = Operador.findById(Long.parseLong(operador));
         bitacora.maquina = Maquina.findById(Long.parseLong(maquina));
         bitacora.finca = Finca.findById(Long.parseLong(finca));
-        bitacora.motivo = Motivo.findById(Long.parseLong(motivo));;
+        bitacora.motivo = Motivo.findById(Long.parseLong(motivo));
+        ;
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
         bitacora.galones = Long.parseLong(galones);
         bitacora.supervisor = TokenDebugger.decoded;
@@ -218,7 +223,7 @@ public class CatalogoResource {
         bitacora.operador = Operador.findById(Long.parseLong(operador));
         bitacora.maquina = Maquina.findById(Long.parseLong(maquina));
         bitacora.finca = Finca.findById(Long.parseLong(finca));
-        bitacora.motivo =Motivo.findById(Long.parseLong(motivo));
+        bitacora.motivo = Motivo.findById(Long.parseLong(motivo));
         bitacora.horometroInicio = Long.parseLong(horometroInicio);
         bitacora.galones = Long.parseLong(galones);
         bitacora.supervisor = TokenDebugger.decoded;
@@ -368,100 +373,126 @@ public class CatalogoResource {
     @GET
     @Path("bitacora/buscar")
     @Transactional
-    public List<Bitacora> buscarBitacora(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
-        
+    public List<Bitacora> buscarBitacora(@RestQuery String pattern, @RestQuery Optional<Integer> size,
+            @RestQuery Optional<Integer> page) {
+
         int pageSize = size.orElse(100);
         int pageNumber = page.orElse(0);
-        if (pageNumber > 1){
-            pageNumber = pageNumber -1;
+        if (pageNumber > 1) {
+            pageNumber = pageNumber - 1;
         }
-        LOG.info("pageNumber: "+pageNumber*pageSize);
-        LOG.info("pageNumber: "+pageNumber);
+        LOG.info("pageNumber: " + pageNumber * pageSize);
+        LOG.info("pageNumber: " + pageNumber);
 
         var resultado = (searchSession.search(Bitacora.class)
-        .where(f -> {
-            if (isEmptyPattern(pattern)) {
-                return f.matchAll();
-            } else {
-                // Convertir el patrón a LocalDateTime si es posible
-                LocalDateTime fechaCreacion = null;
-                LocalDateTime fechaCreacionFin = null;
-                try {
-                    fechaCreacion = convertirFecha(pattern,"yyyy-MM-dd");
-                    fechaCreacionFin = convertirFecha(pattern+"T23:59:59","");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (fechaCreacion != null && fechaCreacionFin != null) {
-                    return f.range().field("fechaCreacion").between(fechaCreacion,fechaCreacionFin);
-                } else {
-                    return f.match().fields("frente.nombre", "maquina.nombre", "finca.nombre").matching(pattern);
-                }
-            }
-        })
-        .sort(f -> f.field("fechaCreacion").desc())
-        .fetchHits(pageNumber*pageSize, pageSize));
+                .where(f -> {
+                    if (isEmptyPattern(pattern)) {
+                        return f.matchAll();
+                    } else {
+                        // Convertir el patrón a LocalDateTime si es posible
+                        LocalDateTime fechaCreacion = null;
+                        LocalDateTime fechaCreacionFin = null;
+                        try {
+                            fechaCreacion = convertirFecha(pattern, "yyyy-MM-dd");
+                            fechaCreacionFin = convertirFecha(pattern + "T23:59:59", "");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if (fechaCreacion != null && fechaCreacionFin != null) {
+                            return f.range().field("fechaCreacion").between(fechaCreacion, fechaCreacionFin);
+                        } else {
+                            return f.match().fields("frente.nombre", "maquina.nombre", "finca.nombre")
+                                    .matching(pattern);
+                        }
+                    }
+                })
+                .sort(f -> f.field("fechaCreacion").desc())
+                .fetchHits(pageNumber * pageSize, pageSize));
         return resultado;
     }
 
     @GET
     @Path("maquina/buscar")
     @Transactional
-    public List<Maquina> buscarMaquinas(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+    public List<Maquina> buscarMaquinas(@RestQuery String pattern, @RestQuery Optional<Integer> size,
+            @RestQuery Optional<Integer> page) {
         return buscarEntidad(Maquina.class, pattern, size, page);
     }
 
     @GET
     @Path("frente/buscar")
     @Transactional
-    public List<Frente> buscarFrente(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+    public List<Frente> buscarFrente(@RestQuery String pattern, @RestQuery Optional<Integer> size,
+            @RestQuery Optional<Integer> page) {
         return buscarEntidad(Frente.class, pattern, size, page);
     }
 
     @GET
     @Path("finca/buscar")
     @Transactional
-    public List<Finca> buscarFinca(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+    public List<Finca> buscarFinca(@RestQuery String pattern, @RestQuery Optional<Integer> size,
+            @RestQuery Optional<Integer> page) {
         return buscarEntidad(Finca.class, pattern, size, page);
     }
 
     @GET
     @Path("motivo/buscar")
     @Transactional
-    public List<Motivo> buscarMotivo(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+    public List<Motivo> buscarMotivo(@RestQuery String pattern, @RestQuery Optional<Integer> size,
+            @RestQuery Optional<Integer> page) {
         return buscarEntidad(Motivo.class, pattern, size, page);
     }
 
     @GET
     @Path("operador/buscar")
     @Transactional
-    public List<Operador> buscarOperador(@RestQuery String pattern, @RestQuery Optional<Integer> size, @RestQuery Optional<Integer> page) {
+    public List<Operador> buscarOperador(@RestQuery String pattern, @RestQuery Optional<Integer> size,
+            @RestQuery Optional<Integer> page) {
         return buscarEntidad(Operador.class, pattern, size, page);
+    }
+
+    private String getFecha(String fecha, String tipo) {
+        switch (tipo) {
+            case "inicio":
+                if (fecha == null || fecha.trim().isEmpty() || fecha.equals("undefined")) {
+                    return "1998-01-01";
+                } else {
+                    fecha = fecha.substring(1, 11);
+                }
+                break;
+            case "fin":
+                if (fecha == null || fecha.trim().isEmpty() || fecha.equals("undefined")) {
+                    fecha = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                } else {
+                    fecha = fecha.substring(1, 11);
+                    fecha = LocalDate.parse(fecha).plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                }
+                break;
+
+            default:
+                break;
+        }
+        return fecha;
     }
 
     @GET
     @Path("reporte/eficiencia")
-    public List<Eficiencia> reporteEficiencia(@RestQuery String maquina , @RestQuery String fechaInicio,@RestQuery String fechaFin) {
+    public List<Eficiencia> reporteEficiencia(@RestQuery String maquina, @RestQuery String fechaInicio,
+            @RestQuery String fechaFin) {
         String where = "";
-        if (fechaInicio == null || fechaInicio.trim().isEmpty() || fechaInicio.equals("undefined")) {
-            fechaInicio = "1998-01-01";
-        }else{
-            fechaInicio = fechaInicio.substring(1,11);
-        }
-        if (fechaFin == null || fechaFin.trim().isEmpty() || fechaFin.equals("undefined")) {
-            fechaFin = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        }else{
-            fechaFin = fechaFin.substring(1,11);
-        }
+
+        fechaInicio = getFecha(fechaInicio, "inicio");
+        fechaFin = getFecha(fechaFin, "fin");
+
         if (maquina != null && !maquina.trim().isEmpty() && !maquina.equals("undefined")) {
             where = "where m.nombre like '%" + maquina + "%'";
-            where = where + "and b.fechaCreacion between '" + fechaInicio+"' and '"+fechaFin+"' ";
-        }else{
-            where = "where b.fechaCreacion between '" + fechaInicio+"' and '"+fechaFin+"' ";
+            where = where + "and b.fechaCreacion between '" + fechaInicio + "' and '" + fechaFin + "' ";
+        } else {
+            where = "where b.fechaCreacion between '" + fechaInicio + "' and '" + fechaFin + "' ";
         }
 
         String consulta = """
-                SELECT  
+                SELECT
                     m.nombre,
                     b.fechaCreacion,
                     b.horometroInicio,
@@ -469,63 +500,55 @@ public class CatalogoResource {
                     RANK() OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS ranking,
                     LEAD(b.horometroInicio) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS horometroFinal,
                     LEAD(b.fechaCreacion) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS siguientefecha,
-                    CASE WHEN b.galones > 0 THEN 
+                    CASE WHEN b.galones > 0 THEN
                         ROUND(
-                            b.galones/ 
+                            b.galones/
                             NULLIF(b.horometroInicio - LEAD(b.horometroInicio) OVER (PARTITION BY maquina.nombre ORDER BY b.fechaCreacion DESC), 0)
-                        , 1) 
-                        ELSE NULL 
+                        , 1)
+                        ELSE NULL
                     END AS eficiencia
                 FROM
                     Bitacora b
                     LEFT JOIN Maquina m ON b.maquina.id = m.id
-                """ + where + """
-                ORDER BY
-                    m.nombre,
-                    ranking
-                """;
-                
-            
-            List<Eficiencia> resultados = Bitacora.find(consulta).project(Eficiencia.class).list();
-            return resultados;
-    }
+                """
+                + where + """
+                        ORDER BY
+                            m.nombre,
+                            ranking
+                        """;
 
+        List<Eficiencia> resultados = Bitacora.find(consulta).project(Eficiencia.class).list();
+        return resultados;
+    }
 
     @GET
     @Path("reporte/disponibilidad")
-    public List<Disponibilidad> reporteDisponibilidad(@RestQuery String maquina) {
+    public List<Disponibilidad> reporteDisponibilidad(@RestQuery String fechaInicio, @RestQuery String fechaFin) {
         String where = "";
-        if (maquina != null && !maquina.trim().isEmpty() && !maquina.equals("undefined")) {
-            where = "where m.nombre like '%" + maquina + "%'";
-        }
+
+        fechaInicio = getFecha(fechaInicio, "inicio");
+        fechaFin = getFecha(fechaFin, "fin");
+
+        where = "where fechas.fechaCreacion between '" + fechaInicio + "' and '" + fechaFin + "' ";
+
         String consulta = """
-                SELECT  
-                    m.nombre,
+                SELECT
                     b.fechaCreacion,
-                    b.horometroInicio,
-                    b.galones,
-                    RANK() OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS ranking,
-                    LEAD(b.horometroInicio) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS horometroFinal,
-                    LEAD(b.fechaCreacion) OVER ( PARTITION BY m.nombre ORDER BY b.fechaCreacion DESC ) AS siguientefecha,
-                    CASE WHEN b.galones > 0 THEN 
-                        ROUND(
-                            b.galones/ 
-                            NULLIF(b.horometroInicio - LEAD(b.horometroInicio) OVER (PARTITION BY maquina.nombre ORDER BY b.fechaCreacion DESC), 0)
-                        , 1) 
-                        ELSE NULL 
-                    END AS eficiencia
+                    COUNT(DISTINCT CASE WHEN b.maquina.id IS NULL THEN m.id END) AS disponibles,
+                    COUNT(DISTINCT CASE WHEN b.maquina.id IS NOT NULL THEN m.id END) AS en_servicio
                 FROM
-                    Bitacora b
-                    LEFT JOIN Maquina m ON b.maquina.id = m.id
+                    (SELECT DISTINCT DATE(bb.fechaCreacion) AS fechaCreacion FROM Bitacora bb) AS fechas
+                    CROSS JOIN Maquina m
+                    LEFT JOIN Bitacora b ON DATE(b.fechaCreacion) = fechas.fechaCreacion
                 """ + where + """
+                GROUP BY
+                    b.fechaCreacion
                 ORDER BY
-                    m.nombre,
-                    ranking
+                    b.fechaCreacion
                 """;
-                
-            
-            List<Disponibilidad> resultados = Bitacora.find(consulta).project(Disponibilidad.class).list();
-            return resultados;
+
+        List<Disponibilidad> resultados = Bitacora.find(consulta).project(Disponibilidad.class).list();
+        return resultados;
     }
 
     @GET
@@ -535,24 +558,24 @@ public class CatalogoResource {
         long total = 0;
         if ("operador".equalsIgnoreCase(modelo)) {
             total = searchSession.search(Operador.class)
-                .where(f -> f.matchAll())
-                .fetchTotalHitCount();
+                    .where(f -> f.matchAll())
+                    .fetchTotalHitCount();
         } else if ("maquina".equalsIgnoreCase(modelo)) {
             total = searchSession.search(Maquina.class)
-                .where(f -> f.matchAll())
-                .fetchTotalHitCount();
-        }else if ("frente".equalsIgnoreCase(modelo)) {
+                    .where(f -> f.matchAll())
+                    .fetchTotalHitCount();
+        } else if ("frente".equalsIgnoreCase(modelo)) {
             total = searchSession.search(Frente.class)
-                .where(f -> f.matchAll())
-                .fetchTotalHitCount();
-        }else if ("finca".equalsIgnoreCase(modelo)) {
+                    .where(f -> f.matchAll())
+                    .fetchTotalHitCount();
+        } else if ("finca".equalsIgnoreCase(modelo)) {
             total = searchSession.search(Finca.class)
-                .where(f -> f.matchAll())
-                .fetchTotalHitCount();
-        }else if ("bitacora".equalsIgnoreCase(modelo)) {
+                    .where(f -> f.matchAll())
+                    .fetchTotalHitCount();
+        } else if ("bitacora".equalsIgnoreCase(modelo)) {
             total = searchSession.search(Bitacora.class)
-                .where(f -> f.matchAll())
-                .fetchTotalHitCount();
+                    .where(f -> f.matchAll())
+                    .fetchTotalHitCount();
         }
         return total;
     }

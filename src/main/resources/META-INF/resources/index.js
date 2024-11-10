@@ -98,6 +98,9 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                 });
                 break;
             case "Disponibilidad":
+                    let disponibles = [...new Set($scope.reporteria[tipo].map(item => item.disponibles))]
+                    let en_servicio = [...new Set($scope.reporteria[tipo].map(item => item.en_servicio))]
+                    
                     Highcharts.chart('grafica2', {
                         chart: {
                             type: 'column'
@@ -136,11 +139,11 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                         series: [
                             {
                                 name: 'disponibles',
-                                data: [63]
+                                data: disponibles
                             },
                             {
                                 name: 'en Uso',
-                                data: [21]
+                                data: en_servicio
                             }
                         ]
                     });
@@ -350,7 +353,6 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                     url: url
                 }).then(function successCallback(response) {
                     $scope.reporteria[tipo] = response.data;
-
                     let fechasUnicas = [...new Set(response.data.map(item => {
                         let date = new Date(item.fechaCreacion);
                         let day = String(date.getDate()).padStart(2, '0');
@@ -358,6 +360,11 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
                         let year = date.getFullYear();
                         return `${day}-${month}-${year}`;
                     }))].sort((a, b) => new Date(a.split('-').reverse().join('-')) - new Date(b.split('-').reverse().join('-')));
+                    
+                    $scope.reporteria[tipo] = $scope.reporteria[tipo].filter((value, index, self) =>
+                        index === self.findIndex((t) => t.fechaCreacion === value.fechaCreacion)
+                      );
+
                     getGraficas(fechasUnicas,tipo);
                 }, function errorCallback(response) {
                     alert(response.statusText);

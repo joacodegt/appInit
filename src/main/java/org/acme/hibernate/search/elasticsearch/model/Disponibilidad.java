@@ -1,28 +1,36 @@
 package org.acme.hibernate.search.elasticsearch.model;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
 public class Disponibilidad {
 
-    public final String maquina;
-    public final LocalDateTime fechaCreacion;
-    public final Long horometroInicio;
-    public final Long galones;
-    public final Long ranking;
-    public final Long horometroFinal;
-    public final LocalDateTime siguientefecha;
-    public final Long eficiencia;
+    // SELECT 
+    //     fecha.dia,
+    //     COUNT(DISTINCT CASE WHEN bitacora.maquina_id IS NULL THEN maquina.id END) AS maquinas_disponibles_por_dia,
+    //     COUNT(DISTINCT CASE WHEN bitacora.maquina_id IS NOT NULL THEN maquina.id END) AS maquinas_con_bitacora_por_dia
+    // FROM 
+    //     (SELECT DISTINCT DATE(fechacreacion) AS dia FROM bitacora) AS fecha
+    // CROSS JOIN 
+    //     maquina
+    // LEFT JOIN 
+    //     bitacora ON maquina.id = bitacora.maquina_id 
+    //             AND DATE(bitacora.fechacreacion) = fecha.dia
+    // GROUP BY 
+    //     fecha.dia
+    // ORDER BY 
+    //     fecha.dia;
 
-    public Disponibilidad(String maquina, LocalDateTime fechaCreacion, Long horometroInicio, Long galones, Long ranking, Long horometroFinal, LocalDateTime siguientefecha, Long eficiencia) {
-        this.maquina = maquina;
-        this.fechaCreacion = fechaCreacion;
-        this.horometroInicio = horometroInicio;
-        this.galones = galones;
-        this.ranking = ranking;
-        this.horometroFinal = horometroFinal;
-        this.siguientefecha = siguientefecha;
-        this.eficiencia = eficiencia;
+    public final LocalDate fechaCreacion;
+    public final Long disponibles;
+    public final Long en_servicio;
+
+    public Disponibilidad(LocalDateTime fechaCreacion, Long disponibles, Long en_servicio) {
+        this.fechaCreacion = (fechaCreacion.toLocalDate());
+        this.disponibles = disponibles;
+        this.en_servicio = en_servicio;
     }
 
 }
