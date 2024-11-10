@@ -357,6 +357,7 @@ public class CatalogoResource {
                     .filter(file -> file.isFile() && file.getName().endsWith(".java"))
                     .map(file -> file.getName().replace(".java", ""))
                     .filter(name -> !name.equalsIgnoreCase("Eficiencia"))
+                    .filter(name -> !name.equalsIgnoreCase("Disponibilidad"))
                     .collect(Collectors.toList());
         } else {
             LOG.error("Model directory does not exist: " + modelPath);
