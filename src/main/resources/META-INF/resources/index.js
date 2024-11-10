@@ -324,7 +324,7 @@ app.controller("InventarioManagementController", ['$scope', '$http', '$httpParam
     function getReporteria(tipo) {
         switch (tipo) {
             case "Eficiencia":
-                var url = '/catalogo/reporte/'+tipo.toLowerCase()+'?maquina='+$scope.filtros.maquina;
+                var url = '/catalogo/reporte/'+tipo.toLowerCase()+'?maquina='+$scope.filtros.maquina+'&fechaInicio='+JSON.stringify($scope.filtros.fechaInicio)+'&fechaFin='+JSON.stringify($scope.filtros.fechaFin);
                 $http({
                     method: 'GET',
                     url: url

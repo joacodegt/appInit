@@ -440,11 +440,25 @@ public class CatalogoResource {
 
     @GET
     @Path("reporte/eficiencia")
-    public List<Eficiencia> reporteEficiencia(@RestQuery String maquina) {
+    public List<Eficiencia> reporteEficiencia(@RestQuery String maquina , @RestQuery String fechaInicio,@RestQuery String fechaFin) {
         String where = "";
+        if (fechaInicio == null || fechaInicio.trim().isEmpty() || fechaInicio.equals("undefined")) {
+            fechaInicio = "1998-01-01";
+        }else{
+            fechaInicio = fechaInicio.substring(1,11);
+        }
+        if (fechaFin == null || fechaFin.trim().isEmpty() || fechaFin.equals("undefined")) {
+            fechaFin = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }else{
+            fechaFin = fechaFin.substring(1,11);
+        }
         if (maquina != null && !maquina.trim().isEmpty() && !maquina.equals("undefined")) {
             where = "where m.nombre like '%" + maquina + "%'";
+            where = where + "and b.fechaCreacion between '" + fechaInicio+"' and '"+fechaFin+"' ";
+        }else{
+            where = "where b.fechaCreacion between '" + fechaInicio+"' and '"+fechaFin+"' ";
         }
+
         String consulta = """
                 SELECT  
                     m.nombre,
